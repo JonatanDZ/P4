@@ -1,0 +1,47 @@
+Program = {Stmt}
+
+Definition = 'board' '(' NUM ',' NUM ')' ';'
+           | 'piece' IDENT ';'
+           | 'dice' NUM ';'
+
+Rule    = 'player' '(' IDENT ')' 'has' '(' NUM ')' 'piece' '(' IDENT ')' ';'
+        | 'win' 'when' 'positions' '{' {Expr} '}' ';'
+        | 'win' 'when' 'global' '{' {Expr} '}' ';'
+        | 'draw' 'when' 'positions' '{' {Expr} '}' ';'
+        | 'draw' 'when' 'global' '{' {Expr} '}' ';'
+        | 'gamerules' '{' {Stmt} '}' ';'
+
+Stmt    = 'when' '(' Expr ')' 'then' '{' {Stmt} '}' [ 'else' '{' {Stmt} '}'] ';'
+        | 'while' '(' Expr ')' 'do' '{' {Stmt} '}' ';'
+        | 'place' ' piece' '(' IDENT ')' at '(' POS ')' ';'
+        | 'remove' 'piece' '(' IDENT ')' at '(' POS ')' ';'
+        | 'capture' 'piece' '(' IDENT ')' at '(' POS ')' ';' 
+        | IDENT '=' Expr ';'
+        | Rule .
+
+Direction = 'left' 
+          | 'right' 
+          | 'up' 
+          | 'down' 
+          | 'horizontal' 
+          | 'diagonal' 
+          | 'vertical' .
+
+        
+Expr =  OrExpr {'occupied' '(' POS ')' 
+     | 'piece' '(' POS ')' 
+     | 'count' '(' IDENT ')'
+     | 'offset' '(' POS ',' Direction ',' NUM ')' 
+     | 'turn'} .
+OrExpr = AndExpr { 'or' AndExpr } .
+AndExpr = EqExpr { 'and' EqExpr } .
+EqExpr = RelExpr { '==' RelExpr } .
+RelExpr = PlusExpr { ( ' < ' | ' <= ') PlusExpr } .
+PlusExpr = MultExpr { ( '+' | '-') MultExpr } .
+MultExpr = NotExpr { '*' NotExpr } .
+NotExpr = { '!' | '-'} Term .
+Term = IDENT | NUM | POS | 'true' | 'false' | '(' Expr ')' .
+
+
+// bør vi repræsentere pos in (n,). som type? Vi vil gerne kunne passe et koordinat som argument i 
+// nogl af vores constructs vil vi gerne forsikre os i at der bliver passet et koordinat af formen (n,n).)
