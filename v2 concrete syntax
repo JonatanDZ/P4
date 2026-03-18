@@ -2,7 +2,7 @@ Program = {Stmt}
 
 Definition = 'board' POS ';'
            | 'piece' IDENT ';'
-           | 'dice' NUM ';'
+           | 'players' NUM ';'
 
 Rule    = 'player' '(' IDENT ')' 'has' '(' NUM ')' 'piece' '(' IDENT ')' ';'
         | 'piece' IDENT 'has' 'rules' '{' {Stmt} '}' ';'
