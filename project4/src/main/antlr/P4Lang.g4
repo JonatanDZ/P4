@@ -1,3 +1,4 @@
+//
 grammar P4Lang;
 
 program : def* stmt* EOF ;
