@@ -1,0 +1,5 @@
+board(8, 8)
+piece Knight
+
+place piece Knight at (3, 4)
+assert(occupied((3, 4)))
