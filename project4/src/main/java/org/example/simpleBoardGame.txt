@@ -1,0 +1,5 @@
+board(3,3);
+player red has 5 piece X;
+
+place piece X at (1,1);
+assert test1 (occupied((1,1)));
