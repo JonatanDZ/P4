@@ -1,12 +1,20 @@
 grammar P4Lang;
 
-definition : board ;
+program : def* stmt* EOF ;
 
-board : grid ;
+def    : 'board' '(' NUM ',' NUM ')'
+        | 'piece' ID
+        ;
 
-grid : '(' value ',' value ')' ;
+stmt    : stmt ';' stmt
+        | 'place' 'piece' ID 'at' pos
+        | 'assert' '(' expr ')'
+        ;
 
-value : NUM ;
+expr    : 'occupied' '(' pos ')' ;
 
-NUM : [0-9]+ ;
-SPACES : [ \t] -> skip ;
+pos     : '(' NUM ',' NUM ')' ;
+
+NUM     : [0-9]+ ;
+ID      : [a-zA-Z][a-zA-Z0-9_]* ;
+WS      : [ \t\r\n]+ -> skip ;
