@@ -1,58 +1,61 @@
 grammar BoardGameLang;
 
-program : def* stmt EOF;
+program : def comp* EOF;
 
 def : def SEMI
     | BOARD LPAR NUM COMMA NUM RPAR
     ;
 
-stmt : singleStmt (SEMI singleStmt)* SEMI?
+gameRule :  PLAYER IDENT HAS NUM PIECE IDENT
+        ;
+
+comp : stmt (SEMI stmt)* SEMI
      ;
 
-singleStmt : PLACE PIECE IDENT AT pos
+stmt : PLACE PIECE IDENT AT pos
            | ASSERT IDENT LPAR bexp RPAR
-           | PLAYER IDENT HAS NUM PIECE IDENT
-           | bexp
+           | gameRule
            ;
 
-bexp : OCCUPIED LPAR pos RPAR
-     | expr
+bexp : OCCUPIED pos
      ;
 
 pos : LPAR NUM COMMA NUM RPAR
     ;
 
-expr : orExpr
+/*aexp : orExp
      ;
 
-orExpr : andExpr ('or' andExpr)*
+orExp : andExp ('or' andExp)*
        ;
 
-andExpr : eqExpr ('and' eqExpr)*
+andExp : eqExp ('and' eqExp)*
         ;
 
-eqExpr : relExpr ('==' relExpr)*
+eqExp : relExp ('==' relExp)*
        ;
 
-relExpr : plusExpr (('<' | '<=') plusExpr)*
+relExp : plusExp (('<' | '<=') plusExp)*
         ;
 
-plusExpr : multExpr (('+' | '-') multExpr)*
+plusExp : multExp (('+' | '-') multExp)*
          ;
 
-multExpr : notExpr ('*' notExpr)*
+multExp : notExp ('*' notExp)*
          ;
 
-notExpr : ('!' | '-')* term
-        ;
+notExp : ('!' | '-')* term
+        ;*/
 
-term : IDENT
+/*term : IDENT
      | NUM
      | pos
      | 'true'
      | 'false'
-     | LPAR expr RPAR
-     ;
+*//*
+     | LPAR aexp RPAR
+*//*
+     ;*/
 
 
 PLACE : 'place' ;
