@@ -3,7 +3,7 @@ package com.boardgamelang;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
- * This class provides an empty implementation of {@link BoardGameLangVisitor},
+ * This class provides an empty implementation of {@link P4LangVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  *
@@ -11,40 +11,40 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 @SuppressWarnings("CheckReturnValue")
-public class BoardGameLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements BoardGameLangVisitor<T> {
+public class P4LangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements P4LangVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProgram(BoardGameLangParser.ProgramContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProgram(P4LangParser.ProgramContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDef_(BoardGameLangParser.Def_Context ctx) { return visitChildren(ctx); }
+	@Override public T visitDef(P4LangParser.DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStmt(BoardGameLangParser.StmtContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStmt(P4LangParser.StmtContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpr(BoardGameLangParser.ExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBexp(P4LangParser.BexpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPos(BoardGameLangParser.PosContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPos(P4LangParser.PosContext ctx) { return visitChildren(ctx); }
 }

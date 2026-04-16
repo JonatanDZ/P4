@@ -10,16 +10,16 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
-            System.err.println("Usage: boardgamelang <source-file>");
+            System.err.println("Usage: P4Lang <source-file>");
             System.exit(1);
         }
 
         String source = Files.readString(Path.of(args[0]));
         CharStream input = CharStreams.fromString(source);
 
-        BoardGameLangLexer lexer = new BoardGameLangLexer(input);
+        P4LangLexer lexer = new P4LangLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        BoardGameLangParser parser = new BoardGameLangParser(tokens);
+        P4LangParser parser = new P4LangParser(tokens);
 
         ParseTree tree = parser.program();
         System.out.println(tree.toStringTree(parser));
