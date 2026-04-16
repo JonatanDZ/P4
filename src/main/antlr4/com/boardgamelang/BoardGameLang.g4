@@ -1,20 +1,39 @@
 grammar BoardGameLang;
 
-program : def_* stmt* EOF ;
+program : def* stmt EOF;
 
-def_    : 'board' '(' NUM ',' NUM ')'
-        | 'piece' ID
-        ;
+def : def SEMI
+    | BOARD LPAR NUM COMMA NUM RPAR SEMI
+    ;
 
-stmt    : stmt ';' stmt
-        | 'place' 'piece' ID 'at' pos
-        | 'assert' '(' expr ')'
-        ;
+stmt : stmt SEMI stmt
+     | PLACE PIECE IDENT AT pos
+     | ASSERT IDENT LPAR bexp RPAR
+     | PLAYER IDENT HAS NUM PIECE IDENT
+     | bexp
+     ;
 
-expr    : 'occupied' '(' pos ')' ;
+bexp :
+     | OCCUPIED LPAR pos RPAR
+     ;
 
-pos     : '(' NUM ',' NUM ')' ;
+pos : LPAR NUM COMMA NUM RPAR
+    ;
 
-NUM     : [0-9]+ ;
-ID      : [a-zA-Z][a-zA-Z0-9_]* ;
+
+PLACE : 'place' ;
+BOARD : 'board' ;
+PIECE : 'piece' ;
+AT    : 'at'    ;
+SEMI  : ';'     ;
+LPAR  : '('     ;
+RPAR  : ')'     ;
+COMMA : ','     ;
+OCCUPIED : 'occupied' ;
+ASSERT : 'assert' ;
+PLAYER : 'player' ;
+HAS : 'has';
+
+NUM : [0-9]+ ;
+IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
 WS      : [ \t\r\n]+ -> skip ;

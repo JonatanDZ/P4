@@ -18,15 +18,15 @@ public interface BoardGameLangListener extends ParseTreeListener {
 	 */
 	void exitProgram(BoardGameLangParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BoardGameLangParser#def_}.
+	 * Enter a parse tree produced by {@link BoardGameLangParser#def}.
 	 * @param ctx the parse tree
 	 */
-	void enterDef_(BoardGameLangParser.Def_Context ctx);
+	void enterDef(BoardGameLangParser.DefContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link BoardGameLangParser#def_}.
+	 * Exit a parse tree produced by {@link BoardGameLangParser#def}.
 	 * @param ctx the parse tree
 	 */
-	void exitDef_(BoardGameLangParser.Def_Context ctx);
+	void exitDef(BoardGameLangParser.DefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BoardGameLangParser#stmt}.
 	 * @param ctx the parse tree
@@ -38,15 +38,15 @@ public interface BoardGameLangListener extends ParseTreeListener {
 	 */
 	void exitStmt(BoardGameLangParser.StmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BoardGameLangParser#expr}.
+	 * Enter a parse tree produced by {@link BoardGameLangParser#bexp}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr(BoardGameLangParser.ExprContext ctx);
+	void enterBexp(BoardGameLangParser.BexpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link BoardGameLangParser#expr}.
+	 * Exit a parse tree produced by {@link BoardGameLangParser#bexp}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr(BoardGameLangParser.ExprContext ctx);
+	void exitBexp(BoardGameLangParser.BexpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BoardGameLangParser#pos}.
 	 * @param ctx the parse tree

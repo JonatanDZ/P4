@@ -29,13 +29,13 @@ public class BoardGameLangBaseListener implements BoardGameLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDef_(BoardGameLangParser.Def_Context ctx) { }
+	@Override public void enterDef(BoardGameLangParser.DefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDef_(BoardGameLangParser.Def_Context ctx) { }
+	@Override public void exitDef(BoardGameLangParser.DefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -53,13 +53,13 @@ public class BoardGameLangBaseListener implements BoardGameLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr(BoardGameLangParser.ExprContext ctx) { }
+	@Override public void enterBexp(BoardGameLangParser.BexpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr(BoardGameLangParser.ExprContext ctx) { }
+	@Override public void exitBexp(BoardGameLangParser.BexpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

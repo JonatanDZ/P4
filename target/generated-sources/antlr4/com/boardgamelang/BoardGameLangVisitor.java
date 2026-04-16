@@ -17,11 +17,11 @@ public interface BoardGameLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(BoardGameLangParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BoardGameLangParser#def_}.
+	 * Visit a parse tree produced by {@link BoardGameLangParser#def}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDef_(BoardGameLangParser.Def_Context ctx);
+	T visitDef(BoardGameLangParser.DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BoardGameLangParser#stmt}.
 	 * @param ctx the parse tree
@@ -29,11 +29,11 @@ public interface BoardGameLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStmt(BoardGameLangParser.StmtContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BoardGameLangParser#expr}.
+	 * Visit a parse tree produced by {@link BoardGameLangParser#bexp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpr(BoardGameLangParser.ExprContext ctx);
+	T visitBexp(BoardGameLangParser.BexpContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BoardGameLangParser#pos}.
 	 * @param ctx the parse tree

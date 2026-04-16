@@ -25,7 +25,7 @@ public class BoardGameLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDef_(BoardGameLangParser.Def_Context ctx) { return visitChildren(ctx); }
+	@Override public T visitDef(BoardGameLangParser.DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -39,7 +39,7 @@ public class BoardGameLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpr(BoardGameLangParser.ExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBexp(BoardGameLangParser.BexpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

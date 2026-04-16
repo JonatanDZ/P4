@@ -17,28 +17,28 @@ public class BoardGameLangParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, NUM=11, ID=12, WS=13;
+		PLACE=1, BOARD=2, PIECE=3, AT=4, SEMI=5, LPAR=6, RPAR=7, COMMA=8, OCCUPIED=9, 
+		ASSERT=10, PLAYER=11, HAS=12, NUM=13, IDENT=14, WS=15;
 	public static final int
-		RULE_program = 0, RULE_def_ = 1, RULE_stmt = 2, RULE_expr = 3, RULE_pos = 4;
+		RULE_program = 0, RULE_def = 1, RULE_stmt = 2, RULE_bexp = 3, RULE_pos = 4;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "def_", "stmt", "expr", "pos"
+			"program", "def", "stmt", "bexp", "pos"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'board'", "'('", "','", "')'", "'piece'", "';'", "'place'", "'at'", 
-			"'assert'", "'occupied'"
+			null, "'place'", "'board'", "'piece'", "'at'", "';'", "'('", "')'", "','", 
+			"'occupied'", "'assert'", "'player'", "'has'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, "NUM", 
-			"ID", "WS"
+			null, "PLACE", "BOARD", "PIECE", "AT", "SEMI", "LPAR", "RPAR", "COMMA", 
+			"OCCUPIED", "ASSERT", "PLAYER", "HAS", "NUM", "IDENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -94,18 +94,15 @@ public class BoardGameLangParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgramContext extends ParserRuleContext {
+		public StmtContext stmt() {
+			return getRuleContext(StmtContext.class,0);
+		}
 		public TerminalNode EOF() { return getToken(BoardGameLangParser.EOF, 0); }
-		public List<Def_Context> def_() {
-			return getRuleContexts(Def_Context.class);
+		public List<DefContext> def() {
+			return getRuleContexts(DefContext.class);
 		}
-		public Def_Context def_(int i) {
-			return getRuleContext(Def_Context.class,i);
-		}
-		public List<StmtContext> stmt() {
-			return getRuleContexts(StmtContext.class);
-		}
-		public StmtContext stmt(int i) {
-			return getRuleContext(StmtContext.class,i);
+		public DefContext def(int i) {
+			return getRuleContext(DefContext.class,i);
 		}
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -129,39 +126,29 @@ public class BoardGameLangParser extends Parser {
 	public final ProgramContext program() throws RecognitionException {
 		ProgramContext _localctx = new ProgramContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_program);
-		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(13);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==T__0 || _la==T__4) {
-				{
-				{
-				setState(10);
-				def_();
-				}
+			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(10);
+					def(0);
+					}
+					} 
 				}
 				setState(15);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
+				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			}
-			setState(19);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==T__6 || _la==T__8) {
-				{
-				{
-				setState(16);
-				stmt(0);
-				}
-				}
-				setState(21);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(22);
+			setState(16);
+			stmt(0);
+			setState(17);
 			match(EOF);
 			}
 		}
@@ -177,66 +164,92 @@ public class BoardGameLangParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Def_Context extends ParserRuleContext {
+	public static class DefContext extends ParserRuleContext {
+		public TerminalNode BOARD() { return getToken(BoardGameLangParser.BOARD, 0); }
+		public TerminalNode LPAR() { return getToken(BoardGameLangParser.LPAR, 0); }
 		public List<TerminalNode> NUM() { return getTokens(BoardGameLangParser.NUM); }
 		public TerminalNode NUM(int i) {
 			return getToken(BoardGameLangParser.NUM, i);
 		}
-		public TerminalNode ID() { return getToken(BoardGameLangParser.ID, 0); }
-		public Def_Context(ParserRuleContext parent, int invokingState) {
+		public TerminalNode COMMA() { return getToken(BoardGameLangParser.COMMA, 0); }
+		public TerminalNode RPAR() { return getToken(BoardGameLangParser.RPAR, 0); }
+		public TerminalNode SEMI() { return getToken(BoardGameLangParser.SEMI, 0); }
+		public DefContext def() {
+			return getRuleContext(DefContext.class,0);
+		}
+		public DefContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_def_; }
+		@Override public int getRuleIndex() { return RULE_def; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardGameLangListener ) ((BoardGameLangListener)listener).enterDef_(this);
+			if ( listener instanceof BoardGameLangListener ) ((BoardGameLangListener)listener).enterDef(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardGameLangListener ) ((BoardGameLangListener)listener).exitDef_(this);
+			if ( listener instanceof BoardGameLangListener ) ((BoardGameLangListener)listener).exitDef(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardGameLangVisitor ) return ((BoardGameLangVisitor<? extends T>)visitor).visitDef_(this);
+			if ( visitor instanceof BoardGameLangVisitor ) return ((BoardGameLangVisitor<? extends T>)visitor).visitDef(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Def_Context def_() throws RecognitionException {
-		Def_Context _localctx = new Def_Context(_ctx, getState());
-		enterRule(_localctx, 2, RULE_def_);
+	public final DefContext def() throws RecognitionException {
+		return def(0);
+	}
+
+	private DefContext def(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		DefContext _localctx = new DefContext(_ctx, _parentState);
+		DefContext _prevctx = _localctx;
+		int _startState = 2;
+		enterRecursionRule(_localctx, 2, RULE_def, _p);
 		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(20);
+			match(BOARD);
+			setState(21);
+			match(LPAR);
+			setState(22);
+			match(NUM);
+			setState(23);
+			match(COMMA);
+			setState(24);
+			match(NUM);
+			setState(25);
+			match(RPAR);
+			setState(26);
+			match(SEMI);
+			}
+			_ctx.stop = _input.LT(-1);
 			setState(32);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__0:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(24);
-				match(T__0);
-				setState(25);
-				match(T__1);
-				setState(26);
-				match(NUM);
-				setState(27);
-				match(T__2);
-				setState(28);
-				match(NUM);
-				setState(29);
-				match(T__3);
+			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new DefContext(_parentctx, _parentState);
+					pushNewRecursionContext(_localctx, _startState, RULE_def);
+					setState(28);
+					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+					setState(29);
+					match(SEMI);
+					}
+					} 
 				}
-				break;
-			case T__4:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(30);
-				match(T__4);
-				setState(31);
-				match(ID);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
+				setState(34);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -245,26 +258,39 @@ public class BoardGameLangParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			exitRule();
+			unrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class StmtContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(BoardGameLangParser.ID, 0); }
+		public TerminalNode PLACE() { return getToken(BoardGameLangParser.PLACE, 0); }
+		public TerminalNode PIECE() { return getToken(BoardGameLangParser.PIECE, 0); }
+		public List<TerminalNode> IDENT() { return getTokens(BoardGameLangParser.IDENT); }
+		public TerminalNode IDENT(int i) {
+			return getToken(BoardGameLangParser.IDENT, i);
+		}
+		public TerminalNode AT() { return getToken(BoardGameLangParser.AT, 0); }
 		public PosContext pos() {
 			return getRuleContext(PosContext.class,0);
 		}
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public TerminalNode ASSERT() { return getToken(BoardGameLangParser.ASSERT, 0); }
+		public TerminalNode LPAR() { return getToken(BoardGameLangParser.LPAR, 0); }
+		public BexpContext bexp() {
+			return getRuleContext(BexpContext.class,0);
 		}
+		public TerminalNode RPAR() { return getToken(BoardGameLangParser.RPAR, 0); }
+		public TerminalNode PLAYER() { return getToken(BoardGameLangParser.PLAYER, 0); }
+		public TerminalNode HAS() { return getToken(BoardGameLangParser.HAS, 0); }
+		public TerminalNode NUM() { return getToken(BoardGameLangParser.NUM, 0); }
 		public List<StmtContext> stmt() {
 			return getRuleContexts(StmtContext.class);
 		}
 		public StmtContext stmt(int i) {
 			return getRuleContext(StmtContext.class,i);
 		}
+		public TerminalNode SEMI() { return getToken(BoardGameLangParser.SEMI, 0); }
 		public StmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -299,42 +325,64 @@ public class BoardGameLangParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(45);
+			setState(54);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__6:
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			case 1:
 				{
-				setState(35);
-				match(T__6);
 				setState(36);
-				match(T__4);
+				match(PLACE);
 				setState(37);
-				match(ID);
+				match(PIECE);
 				setState(38);
-				match(T__7);
+				match(IDENT);
 				setState(39);
+				match(AT);
+				setState(40);
 				pos();
 				}
 				break;
-			case T__8:
+			case 2:
 				{
-				setState(40);
-				match(T__8);
 				setState(41);
-				match(T__1);
+				match(ASSERT);
 				setState(42);
-				expr();
+				match(IDENT);
 				setState(43);
-				match(T__3);
+				match(LPAR);
+				setState(44);
+				bexp();
+				setState(45);
+				match(RPAR);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+			case 3:
+				{
+				setState(47);
+				match(PLAYER);
+				setState(48);
+				match(IDENT);
+				setState(49);
+				match(HAS);
+				setState(50);
+				match(NUM);
+				setState(51);
+				match(PIECE);
+				setState(52);
+				match(IDENT);
+				}
+				break;
+			case 4:
+				{
+				setState(53);
+				bexp();
+				}
+				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(52);
+			setState(61);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -343,18 +391,18 @@ public class BoardGameLangParser extends Parser {
 					{
 					_localctx = new StmtContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_stmt);
-					setState(47);
-					if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-					setState(48);
-					match(T__5);
-					setState(49);
-					stmt(4);
+					setState(56);
+					if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+					setState(57);
+					match(SEMI);
+					setState(58);
+					stmt(6);
 					}
 					} 
 				}
-				setState(54);
+				setState(63);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			}
 			}
 		}
@@ -370,43 +418,57 @@ public class BoardGameLangParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class ExprContext extends ParserRuleContext {
+	public static class BexpContext extends ParserRuleContext {
+		public TerminalNode OCCUPIED() { return getToken(BoardGameLangParser.OCCUPIED, 0); }
+		public TerminalNode LPAR() { return getToken(BoardGameLangParser.LPAR, 0); }
 		public PosContext pos() {
 			return getRuleContext(PosContext.class,0);
 		}
-		public ExprContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode RPAR() { return getToken(BoardGameLangParser.RPAR, 0); }
+		public BexpContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_expr; }
+		@Override public int getRuleIndex() { return RULE_bexp; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardGameLangListener ) ((BoardGameLangListener)listener).enterExpr(this);
+			if ( listener instanceof BoardGameLangListener ) ((BoardGameLangListener)listener).enterBexp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardGameLangListener ) ((BoardGameLangListener)listener).exitExpr(this);
+			if ( listener instanceof BoardGameLangListener ) ((BoardGameLangListener)listener).exitBexp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardGameLangVisitor ) return ((BoardGameLangVisitor<? extends T>)visitor).visitExpr(this);
+			if ( visitor instanceof BoardGameLangVisitor ) return ((BoardGameLangVisitor<? extends T>)visitor).visitBexp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ExprContext expr() throws RecognitionException {
-		ExprContext _localctx = new ExprContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_expr);
+	public final BexpContext bexp() throws RecognitionException {
+		BexpContext _localctx = new BexpContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_bexp);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(55);
-			match(T__9);
-			setState(56);
-			match(T__1);
-			setState(57);
-			pos();
-			setState(58);
-			match(T__3);
+			setState(70);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(65);
+				match(OCCUPIED);
+				setState(66);
+				match(LPAR);
+				setState(67);
+				pos();
+				setState(68);
+				match(RPAR);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -422,10 +484,13 @@ public class BoardGameLangParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class PosContext extends ParserRuleContext {
+		public TerminalNode LPAR() { return getToken(BoardGameLangParser.LPAR, 0); }
 		public List<TerminalNode> NUM() { return getTokens(BoardGameLangParser.NUM); }
 		public TerminalNode NUM(int i) {
 			return getToken(BoardGameLangParser.NUM, i);
 		}
+		public TerminalNode COMMA() { return getToken(BoardGameLangParser.COMMA, 0); }
+		public TerminalNode RPAR() { return getToken(BoardGameLangParser.RPAR, 0); }
 		public PosContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -451,16 +516,16 @@ public class BoardGameLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
-			match(T__1);
-			setState(61);
+			setState(72);
+			match(LPAR);
+			setState(73);
 			match(NUM);
-			setState(62);
-			match(T__2);
-			setState(63);
+			setState(74);
+			match(COMMA);
+			setState(75);
 			match(NUM);
-			setState(64);
-			match(T__3);
+			setState(76);
+			match(RPAR);
 			}
 		}
 		catch (RecognitionException re) {
@@ -476,60 +541,75 @@ public class BoardGameLangParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
+		case 1:
+			return def_sempred((DefContext)_localctx, predIndex);
 		case 2:
 			return stmt_sempred((StmtContext)_localctx, predIndex);
 		}
 		return true;
 	}
-	private boolean stmt_sempred(StmtContext _localctx, int predIndex) {
+	private boolean def_sempred(DefContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 2);
+		}
+		return true;
+	}
+	private boolean stmt_sempred(StmtContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 1:
+			return precpred(_ctx, 5);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\rC\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u000fO\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0001"+
 		"\u0000\u0005\u0000\f\b\u0000\n\u0000\f\u0000\u000f\t\u0000\u0001\u0000"+
-		"\u0005\u0000\u0012\b\u0000\n\u0000\f\u0000\u0015\t\u0000\u0001\u0000\u0001"+
-		"\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
-		"\u0001\u0001\u0001\u0001\u0001\u0003\u0001!\b\u0001\u0001\u0002\u0001"+
+		"\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0005\u0001\u001f\b\u0001\n\u0001\f\u0001\"\t\u0001\u0001"+
 		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
-		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002.\b\u0002\u0001"+
-		"\u0002\u0001\u0002\u0001\u0002\u0005\u00023\b\u0002\n\u0002\f\u00026\t"+
-		"\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0003\u00027\b\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0005"+
+		"\u0002<\b\u0002\n\u0002\f\u0002?\t\u0002\u0001\u0003\u0001\u0003\u0001"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0003\u0003G\b\u0003\u0001"+
 		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0000\u0001\u0004\u0005\u0000\u0002\u0004\u0006\b\u0000\u0000B"+
-		"\u0000\r\u0001\u0000\u0000\u0000\u0002 \u0001\u0000\u0000\u0000\u0004"+
-		"-\u0001\u0000\u0000\u0000\u00067\u0001\u0000\u0000\u0000\b<\u0001\u0000"+
-		"\u0000\u0000\n\f\u0003\u0002\u0001\u0000\u000b\n\u0001\u0000\u0000\u0000"+
-		"\f\u000f\u0001\u0000\u0000\u0000\r\u000b\u0001\u0000\u0000\u0000\r\u000e"+
-		"\u0001\u0000\u0000\u0000\u000e\u0013\u0001\u0000\u0000\u0000\u000f\r\u0001"+
-		"\u0000\u0000\u0000\u0010\u0012\u0003\u0004\u0002\u0000\u0011\u0010\u0001"+
-		"\u0000\u0000\u0000\u0012\u0015\u0001\u0000\u0000\u0000\u0013\u0011\u0001"+
-		"\u0000\u0000\u0000\u0013\u0014\u0001\u0000\u0000\u0000\u0014\u0016\u0001"+
-		"\u0000\u0000\u0000\u0015\u0013\u0001\u0000\u0000\u0000\u0016\u0017\u0005"+
-		"\u0000\u0000\u0001\u0017\u0001\u0001\u0000\u0000\u0000\u0018\u0019\u0005"+
-		"\u0001\u0000\u0000\u0019\u001a\u0005\u0002\u0000\u0000\u001a\u001b\u0005"+
-		"\u000b\u0000\u0000\u001b\u001c\u0005\u0003\u0000\u0000\u001c\u001d\u0005"+
-		"\u000b\u0000\u0000\u001d!\u0005\u0004\u0000\u0000\u001e\u001f\u0005\u0005"+
-		"\u0000\u0000\u001f!\u0005\f\u0000\u0000 \u0018\u0001\u0000\u0000\u0000"+
-		" \u001e\u0001\u0000\u0000\u0000!\u0003\u0001\u0000\u0000\u0000\"#\u0006"+
-		"\u0002\uffff\uffff\u0000#$\u0005\u0007\u0000\u0000$%\u0005\u0005\u0000"+
-		"\u0000%&\u0005\f\u0000\u0000&\'\u0005\b\u0000\u0000\'.\u0003\b\u0004\u0000"+
-		"()\u0005\t\u0000\u0000)*\u0005\u0002\u0000\u0000*+\u0003\u0006\u0003\u0000"+
-		"+,\u0005\u0004\u0000\u0000,.\u0001\u0000\u0000\u0000-\"\u0001\u0000\u0000"+
-		"\u0000-(\u0001\u0000\u0000\u0000.4\u0001\u0000\u0000\u0000/0\n\u0003\u0000"+
-		"\u000001\u0005\u0006\u0000\u000013\u0003\u0004\u0002\u00042/\u0001\u0000"+
-		"\u0000\u000036\u0001\u0000\u0000\u000042\u0001\u0000\u0000\u000045\u0001"+
-		"\u0000\u0000\u00005\u0005\u0001\u0000\u0000\u000064\u0001\u0000\u0000"+
-		"\u000078\u0005\n\u0000\u000089\u0005\u0002\u0000\u00009:\u0003\b\u0004"+
-		"\u0000:;\u0005\u0004\u0000\u0000;\u0007\u0001\u0000\u0000\u0000<=\u0005"+
-		"\u0002\u0000\u0000=>\u0005\u000b\u0000\u0000>?\u0005\u0003\u0000\u0000"+
-		"?@\u0005\u000b\u0000\u0000@A\u0005\u0004\u0000\u0000A\t\u0001\u0000\u0000"+
-		"\u0000\u0005\r\u0013 -4";
+		"\u0004\u0000\u0002\u0002\u0004\u0005\u0000\u0002\u0004\u0006\b\u0000\u0000"+
+		"P\u0000\r\u0001\u0000\u0000\u0000\u0002\u0013\u0001\u0000\u0000\u0000"+
+		"\u00046\u0001\u0000\u0000\u0000\u0006F\u0001\u0000\u0000\u0000\bH\u0001"+
+		"\u0000\u0000\u0000\n\f\u0003\u0002\u0001\u0000\u000b\n\u0001\u0000\u0000"+
+		"\u0000\f\u000f\u0001\u0000\u0000\u0000\r\u000b\u0001\u0000\u0000\u0000"+
+		"\r\u000e\u0001\u0000\u0000\u0000\u000e\u0010\u0001\u0000\u0000\u0000\u000f"+
+		"\r\u0001\u0000\u0000\u0000\u0010\u0011\u0003\u0004\u0002\u0000\u0011\u0012"+
+		"\u0005\u0000\u0000\u0001\u0012\u0001\u0001\u0000\u0000\u0000\u0013\u0014"+
+		"\u0006\u0001\uffff\uffff\u0000\u0014\u0015\u0005\u0002\u0000\u0000\u0015"+
+		"\u0016\u0005\u0006\u0000\u0000\u0016\u0017\u0005\r\u0000\u0000\u0017\u0018"+
+		"\u0005\b\u0000\u0000\u0018\u0019\u0005\r\u0000\u0000\u0019\u001a\u0005"+
+		"\u0007\u0000\u0000\u001a\u001b\u0005\u0005\u0000\u0000\u001b \u0001\u0000"+
+		"\u0000\u0000\u001c\u001d\n\u0002\u0000\u0000\u001d\u001f\u0005\u0005\u0000"+
+		"\u0000\u001e\u001c\u0001\u0000\u0000\u0000\u001f\"\u0001\u0000\u0000\u0000"+
+		" \u001e\u0001\u0000\u0000\u0000 !\u0001\u0000\u0000\u0000!\u0003\u0001"+
+		"\u0000\u0000\u0000\" \u0001\u0000\u0000\u0000#$\u0006\u0002\uffff\uffff"+
+		"\u0000$%\u0005\u0001\u0000\u0000%&\u0005\u0003\u0000\u0000&\'\u0005\u000e"+
+		"\u0000\u0000\'(\u0005\u0004\u0000\u0000(7\u0003\b\u0004\u0000)*\u0005"+
+		"\n\u0000\u0000*+\u0005\u000e\u0000\u0000+,\u0005\u0006\u0000\u0000,-\u0003"+
+		"\u0006\u0003\u0000-.\u0005\u0007\u0000\u0000.7\u0001\u0000\u0000\u0000"+
+		"/0\u0005\u000b\u0000\u000001\u0005\u000e\u0000\u000012\u0005\f\u0000\u0000"+
+		"23\u0005\r\u0000\u000034\u0005\u0003\u0000\u000047\u0005\u000e\u0000\u0000"+
+		"57\u0003\u0006\u0003\u00006#\u0001\u0000\u0000\u00006)\u0001\u0000\u0000"+
+		"\u00006/\u0001\u0000\u0000\u000065\u0001\u0000\u0000\u00007=\u0001\u0000"+
+		"\u0000\u000089\n\u0005\u0000\u00009:\u0005\u0005\u0000\u0000:<\u0003\u0004"+
+		"\u0002\u0006;8\u0001\u0000\u0000\u0000<?\u0001\u0000\u0000\u0000=;\u0001"+
+		"\u0000\u0000\u0000=>\u0001\u0000\u0000\u0000>\u0005\u0001\u0000\u0000"+
+		"\u0000?=\u0001\u0000\u0000\u0000@G\u0001\u0000\u0000\u0000AB\u0005\t\u0000"+
+		"\u0000BC\u0005\u0006\u0000\u0000CD\u0003\b\u0004\u0000DE\u0005\u0007\u0000"+
+		"\u0000EG\u0001\u0000\u0000\u0000F@\u0001\u0000\u0000\u0000FA\u0001\u0000"+
+		"\u0000\u0000G\u0007\u0001\u0000\u0000\u0000HI\u0005\u0006\u0000\u0000"+
+		"IJ\u0005\r\u0000\u0000JK\u0005\b\u0000\u0000KL\u0005\r\u0000\u0000LM\u0005"+
+		"\u0007\u0000\u0000M\t\u0001\u0000\u0000\u0000\u0005\r 6=F";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

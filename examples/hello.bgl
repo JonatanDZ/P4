@@ -1,5 +1,5 @@
-board(8, 8)
-piece Knight
+board(3,3);
+player red has 5 piece X;
 
-place piece Knight at (3, 4)
-assert(occupied((3, 4)))
+place piece X at (1,1);
+assert test1 (occupied((1,1)));
