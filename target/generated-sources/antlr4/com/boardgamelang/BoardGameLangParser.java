@@ -1,4 +1,4 @@
-// Generated from com/boardgamelang/BoardGameLang.g4 by ANTLR 4.13.2
+// Generated from com/boardgamelang/P4Lang.g4 by ANTLR 4.13.2
 package com.boardgamelang;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -76,7 +76,7 @@ public class BoardGameLangParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "BoardGameLang.g4"; }
+	public String getGrammarFileName() { return "P4Lang.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
