@@ -1,4 +1,4 @@
-// Generated from com/boardgamelang/BoardGameLang.g4 by ANTLR 4.13.2
+// Generated from com/boardgamelang/P4Lang.g4 by ANTLR 4.13.2
 package com.boardgamelang;
 
 import org.antlr.v4.runtime.ParserRuleContext;
