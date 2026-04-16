@@ -3,7 +3,7 @@ grammar BoardGameLang;
 program : def* stmt EOF;
 
 def : def SEMI
-    | BOARD LPAR NUM COMMA NUM RPAR SEMI
+    | BOARD LPAR NUM COMMA NUM RPAR
     ;
 
 stmt : stmt SEMI stmt
