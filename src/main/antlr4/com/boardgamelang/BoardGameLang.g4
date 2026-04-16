@@ -6,19 +6,53 @@ def : def SEMI
     | BOARD LPAR NUM COMMA NUM RPAR
     ;
 
-stmt : stmt SEMI stmt
-     | PLACE PIECE IDENT AT pos
-     | ASSERT IDENT LPAR bexp RPAR
-     | PLAYER IDENT HAS NUM PIECE IDENT
-     | bexp
+stmt : singleStmt (SEMI singleStmt)* SEMI?
      ;
 
-bexp :
-     | OCCUPIED LPAR pos RPAR
+singleStmt : PLACE PIECE IDENT AT pos
+           | ASSERT IDENT LPAR bexp RPAR
+           | PLAYER IDENT HAS NUM PIECE IDENT
+           | bexp
+           ;
+
+bexp : OCCUPIED LPAR pos RPAR
+     | expr
      ;
 
 pos : LPAR NUM COMMA NUM RPAR
     ;
+
+expr : orExpr
+     ;
+
+orExpr : andExpr ('or' andExpr)*
+       ;
+
+andExpr : eqExpr ('and' eqExpr)*
+        ;
+
+eqExpr : relExpr ('==' relExpr)*
+       ;
+
+relExpr : plusExpr (('<' | '<=') plusExpr)*
+        ;
+
+plusExpr : multExpr (('+' | '-') multExpr)*
+         ;
+
+multExpr : notExpr ('*' notExpr)*
+         ;
+
+notExpr : ('!' | '-')* term
+        ;
+
+term : IDENT
+     | NUM
+     | pos
+     | 'true'
+     | 'false'
+     | LPAR expr RPAR
+     ;
 
 
 PLACE : 'place' ;
