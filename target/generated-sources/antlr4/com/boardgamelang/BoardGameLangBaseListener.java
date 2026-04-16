@@ -6,72 +6,72 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link P4LangListener},
+ * This class provides an empty implementation of {@link BoardGameLangListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
 @SuppressWarnings("CheckReturnValue")
-public class P4LangBaseListener implements P4LangListener {
+public class BoardGameLangBaseListener implements BoardGameLangListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(P4LangParser.ProgramContext ctx) { }
+	@Override public void enterProgram(BoardGameLangParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(P4LangParser.ProgramContext ctx) { }
+	@Override public void exitProgram(BoardGameLangParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDef(P4LangParser.DefContext ctx) { }
+	@Override public void enterDef_(BoardGameLangParser.Def_Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDef(P4LangParser.DefContext ctx) { }
+	@Override public void exitDef_(BoardGameLangParser.Def_Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStmt(P4LangParser.StmtContext ctx) { }
+	@Override public void enterStmt(BoardGameLangParser.StmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStmt(P4LangParser.StmtContext ctx) { }
+	@Override public void exitStmt(BoardGameLangParser.StmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBexp(P4LangParser.BexpContext ctx) { }
+	@Override public void enterExpr(BoardGameLangParser.ExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBexp(P4LangParser.BexpContext ctx) { }
+	@Override public void exitExpr(BoardGameLangParser.ExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPos(P4LangParser.PosContext ctx) { }
+	@Override public void enterPos(BoardGameLangParser.PosContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPos(P4LangParser.PosContext ctx) { }
+	@Override public void exitPos(BoardGameLangParser.PosContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
