@@ -44,7 +44,9 @@ class ParserTest {
             "board(10,10);",
             "board(3,3); place piece X at (1,1);",
             "board(3,3); player red has 5 piece X;",
-            "board(3,3); assert test (occupied(1,1));"
+            "board(3,3); assert test (occupied(1,1));",
+            "board \n (3,3);",                              // Newline is skipped = passing
+            "board(3,3); assert test (occupied(3,3));",
     })
     void parseValidInputs(String input) {
         BoardGameLangParser parser = createParser(input);
