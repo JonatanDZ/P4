@@ -19,7 +19,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitPosLit(BoardGameLangParser.PosLitContext ctx) {
+    public Node visitPosition(BoardGameLangParser.PositionContext ctx) {
         int x = Integer.parseInt(ctx.NUM(0).getText());
         int y = Integer.parseInt(ctx.NUM(1).getText());
         return new PosNode(x, y);

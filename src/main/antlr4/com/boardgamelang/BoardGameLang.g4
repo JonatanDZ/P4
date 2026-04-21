@@ -18,7 +18,7 @@ stmt : PLACE PIECE IDENT AT pos              # PlaceStmt
 bexp : OCCUPIED pos                           # OccupiedBexp
      ;
 
-pos : LPAR NUM COMMA NUM RPAR                 # PosLit
+pos : LPAR NUM COMMA NUM RPAR                 # Position
     ;
 
 /*aexp : orExp

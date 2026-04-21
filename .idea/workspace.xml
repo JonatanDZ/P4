@@ -45,6 +45,7 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "JUnit.All in boardgamelang.executor": "Run",
+    "JUnit.AstTest in boardgamelang.executor": "Run",
     "Maven.boardgamelang [clean].executor": "Run",
     "Maven.boardgamelang [compile].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -66,7 +67,7 @@
       <recent name="com.boardgamelang" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.AstTest in boardgamelang">
     <configuration name="All in boardgamelang" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="boardgamelang" />
       <option name="PACKAGE_NAME" value="" />
@@ -75,8 +76,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AstTest in boardgamelang" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="boardgamelang" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java/com/boardgamelang/AstTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AstTest in boardgamelang" />
         <item itemvalue="JUnit.All in boardgamelang" />
       </list>
     </recent_temporary>
