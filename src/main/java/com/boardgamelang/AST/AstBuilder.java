@@ -1,6 +1,7 @@
 package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.def.BoardNode;
+import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 
@@ -16,4 +17,10 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         return new BoardNode(width, height);
     }
 
+    @Override
+    public Node visitAssertStmt(BoardGameLangParser.AssertStmtContext ctx) {
+        String ident = ctx.IDENT().getText();
+        Node bexp = visit(ctx.bexp()); // Visits node child bexp
+        return new AssertNode(ident, bexp);
+    }
 }
