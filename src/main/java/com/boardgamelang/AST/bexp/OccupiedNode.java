@@ -8,9 +8,4 @@ public final class OccupiedNode extends Bexp {
     public OccupiedNode(PosNode pos) {
         this.pos = pos;
     }
-
-    @Override
-    public String toString() {
-        return "occupied(" + pos.x + "," + pos.y + ")";
-    }
 }
