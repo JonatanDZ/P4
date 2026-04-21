@@ -1,25 +1,24 @@
 grammar BoardGameLang;
 
-program : def comp* EOF;
+program : def comp* EOF ;
 
-def : BOARD LPAR NUM COMMA NUM RPAR SEMI
+def : BOARD LPAR NUM COMMA NUM RPAR SEMI     # BoardDef
     ;
 
-gameRule :  PLAYER IDENT HAS NUM PIECE IDENT
-        ;
+gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasRule
+         ;
 
-comp : stmt (SEMI stmt)* SEMI
+comp : stmt (SEMI stmt)* SEMI ;
+
+stmt : PLACE PIECE IDENT AT pos              # PlaceStmt
+     | ASSERT IDENT LPAR bexp RPAR           # AssertStmt
+     | gameRule                               # GameRuleStmt
      ;
 
-stmt : PLACE PIECE IDENT AT pos
-           | ASSERT IDENT LPAR bexp RPAR
-           | gameRule
-           ;
-
-bexp : OCCUPIED pos
+bexp : OCCUPIED pos                           # OccupiedBexp
      ;
 
-pos : LPAR NUM COMMA NUM RPAR
+pos : LPAR NUM COMMA NUM RPAR                 # PosLit
     ;
 
 /*aexp : orExp
