@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49735f5a-f440-449a-be2e-bd5e3a6c3841" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Place.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Pos.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/PosLit.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Program.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Stmt.java" beforeDir="false" />
-    </list>
+    <list default="true" id="49735f5a-f440-449a-be2e-bd5e3a6c3841" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,6 +52,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "AST",
     "kotlin-language-version-configured": "true",
+    "last_directory_selection": "/Users/jonatanz/Documents/GitHub/P4/src/test/java",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -68,6 +61,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.boardgamelang" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="All in boardgamelang" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="boardgamelang" />
@@ -101,6 +99,7 @@
       <workItem from="1776345834966" duration="1050000" />
       <workItem from="1776681168950" duration="5291000" />
       <workItem from="1776756379332" duration="4001000" />
+      <workItem from="1776762247093" duration="1250000" />
     </task>
     <servers />
   </component>
