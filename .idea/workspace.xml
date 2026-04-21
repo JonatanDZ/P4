@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49735f5a-f440-449a-be2e-bd5e3a6c3841" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilderVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstNodeClasses.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Def.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Node.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Program.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Stmt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/antlr4/com/boardgamelang/BoardGameLang.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/antlr4/com/boardgamelang/BoardGameLang.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilderVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstNodeClasses.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,18 +29,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Nicolai-Schultz"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Nicolai-Schultz&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/JonatanDZ/P4.git",
-    "accountId": "290b930c-d450-471c-9139-41f3ff840b10"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/JonatanDZ/P4.git&quot;,
+    &quot;accountId&quot;: &quot;290b930c-d450-471c-9139-41f3ff840b10&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 5
@@ -54,7 +58,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "AST",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -96,6 +100,7 @@
       <updated>1776345833672</updated>
       <workItem from="1776345834966" duration="1050000" />
       <workItem from="1776681168950" duration="5291000" />
+      <workItem from="1776756379332" duration="3051000" />
     </task>
     <servers />
   </component>
