@@ -1,6 +1,6 @@
 grammar BoardGameLang;
 
-program : def comp* EOF ;
+program : def comp* EOF;
 
 def : BOARD LPAR NUM COMMA NUM RPAR SEMI     # BoardDef
     ;

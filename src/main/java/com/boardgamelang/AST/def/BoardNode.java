@@ -1,6 +1,6 @@
 package com.boardgamelang.AST.def;
 
-public final class BoardNode extends Def {
+public final class BoardNode extends DefNode {
     public final int width;
     public final int height;
 

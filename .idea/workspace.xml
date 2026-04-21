@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49735f5a-f440-449a-be2e-bd5e3a6c3841" name="Changes" comment="" />
+    <list default="true" id="49735f5a-f440-449a-be2e-bd5e3a6c3841" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/program/ProgramNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/program/ProgramNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/boardgamelang/AstTest/VisitProgramTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/boardgamelang/AstTest/VisitProgramTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +22,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="AST" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -51,9 +60,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "AST",
+    "git-widget-placeholder": "add-program-ast-node-visitor",
     "kotlin-language-version-configured": "true",
-    "last_directory_selection": "/Users/jonatanz/Documents/GitHub/P4/src/test/java",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -109,7 +117,6 @@
       <workItem from="1776345834966" duration="1050000" />
       <workItem from="1776681168950" duration="5291000" />
       <workItem from="1776756379332" duration="4001000" />
-      <workItem from="1776762247093" duration="1250000" />
     </task>
     <servers />
   </component>
