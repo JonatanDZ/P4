@@ -2,7 +2,7 @@ package com.boardgamelang.AST.stmt;
 
 import com.boardgamelang.AST.Node;
 
-public class AssertNode extends Stmt{
+public class AssertNode extends StmtNode {
     public final String ident;
     public final Node bexp;
 
