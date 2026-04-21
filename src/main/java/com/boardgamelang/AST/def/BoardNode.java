@@ -1,10 +1,10 @@
-package com.boardgamelang.AST;
+package com.boardgamelang.AST.def;
 
-public final class BoardDecl extends Def {
+public final class BoardNode extends Def {
     public final int width;
     public final int height;
 
-    public BoardDecl(int width, int height) {
+    public BoardNode(int width, int height) {
         this.width = width;
         this.height = height;
     }
