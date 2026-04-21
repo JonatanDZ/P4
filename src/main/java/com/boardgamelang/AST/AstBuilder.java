@@ -8,7 +8,6 @@ import java.util.List;
 
 public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
-
     @Override
     public Node visitBoardDef(BoardGameLangParser.BoardDefContext ctx) {
         int width = Integer.parseInt(ctx.NUM(0).getText());
