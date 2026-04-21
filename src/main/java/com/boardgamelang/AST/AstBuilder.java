@@ -17,16 +17,14 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitProgram(BoardGameLangParser.ProgramContext ctx) {
-        List<DefNode> defList = new ArrayList<>();
-        defList.add((DefNode) visit(ctx.def()));
-
+        DefNode def = (DefNode) visit(ctx.def());
         List<StmtNode> stmtList = new ArrayList<>();
         for (CompContext compCtx : ctx.comp()) {           // outer: each comp. Has a list of a def and comps, as given in program rule in CG.
             for (StmtContext stmtCtx : compCtx.stmt()) {   // inner: each stmt in it. Reads inside the list of comps.
                 stmtList.add((StmtNode) visit(stmtCtx));
             }
         }
-        return new ProgramNode(defList, stmtList);
+        return new ProgramNode(def, stmtList);
     }
 
     @Override

@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49735f5a-f440-449a-be2e-bd5e3a6c3841" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/program/ProgramNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/program/ProgramNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/boardgamelang/AstTest/VisitProgramTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/boardgamelang/AstTest/VisitProgramTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,6 +55,7 @@
     "Application.Main.executor": "Run",
     "JUnit.All in boardgamelang.executor": "Run",
     "JUnit.VisitProgramTest.visitProgramReturnsProgramNode.executor": "Run",
+    "JUnit.VisitProgramTest.visitProgramReturnsProgramNodeMultipleStmts.executor": "Run",
     "Maven.boardgamelang [clean].executor": "Run",
     "Maven.boardgamelang [compile].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -94,9 +96,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="VisitProgramTest.visitProgramReturnsProgramNodeMultipleStmts" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="boardgamelang" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.boardgamelang.AstTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.boardgamelang.AstTest" />
+      <option name="MAIN_CLASS_NAME" value="com.boardgamelang.AstTest.VisitProgramTest" />
+      <option name="METHOD_NAME" value="visitProgramReturnsProgramNodeMultipleStmts" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.VisitProgramTest.visitProgramReturnsProgramNode" />
+        <item itemvalue="JUnit.VisitProgramTest.visitProgramReturnsProgramNodeMultipleStmts" />
         <item itemvalue="JUnit.All in boardgamelang" />
       </list>
     </recent_temporary>

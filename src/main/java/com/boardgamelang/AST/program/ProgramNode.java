@@ -8,11 +8,11 @@ import com.boardgamelang.AST.stmt.StmtNode;
 import java.util.List;
 
 public final class ProgramNode extends Node {
-    public final List<DefNode> defNodes;
+    public final DefNode defnode;
     public final List<StmtNode> stmtNodes;
 
-    public ProgramNode(List<DefNode> defNodes, List<StmtNode> stmtNodes) {
-        this.defNodes = defNodes;
+    public ProgramNode(DefNode defnode, List<StmtNode> stmtNodes) {
+        this.defnode = defnode;
         this.stmtNodes = stmtNodes;
     }
 }
