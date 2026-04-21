@@ -5,6 +5,7 @@ import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
+import com.boardgamelang.AST.gamerule.PlayerXhasNPieceYNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
@@ -54,5 +55,13 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         String ident = ctx.IDENT().getText();
         Node bexp = visit(ctx.bexp()); // Visits node child bexp
         return new AssertNode(ident, bexp);
+    }
+
+    @Override
+    public Node visitPlayerHasRule(BoardGameLangParser.PlayerHasRuleContext ctx) {
+        String playerIdent = ctx.IDENT(0).getText();
+        int n = Integer.parseInt(ctx.NUM().getText());
+        String pieceIdent = ctx.IDENT(1).getText();
+        return new PlayerXhasNPieceYNode(playerIdent, n, pieceIdent);
     }
 }
