@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49735f5a-f440-449a-be2e-bd5e3a6c3841" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Def.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Program.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Stmt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilderVisitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstNodeClasses.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/AstBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Place.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Pos.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/PosLit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Program.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/boardgamelang/AST/Stmt.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +51,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
     "JUnit.All in boardgamelang.executor": "Run",
     "Maven.boardgamelang [clean].executor": "Run",
     "Maven.boardgamelang [compile].executor": "Run",
@@ -100,7 +100,7 @@
       <updated>1776345833672</updated>
       <workItem from="1776345834966" duration="1050000" />
       <workItem from="1776681168950" duration="5291000" />
-      <workItem from="1776756379332" duration="3051000" />
+      <workItem from="1776756379332" duration="4001000" />
     </task>
     <servers />
   </component>

@@ -16,6 +16,6 @@ public class Main {
         BoardGameLangParser.ProgramContext parseTree = parser.program();
         Node ast = new AstBuilder().visit(parseTree);
 
-        System.out.println("AST built: " + ast.getClass().getSimpleName());
+        System.out.println("AST built: " + ast);
     }
 }
