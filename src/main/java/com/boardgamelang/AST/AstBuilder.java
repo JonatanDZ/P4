@@ -1,5 +1,6 @@
 package com.boardgamelang.AST;
 
+import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 
@@ -12,7 +13,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     public Node visitBoardDef(BoardGameLangParser.BoardDefContext ctx) {
         int width = Integer.parseInt(ctx.NUM(0).getText());
         int height = Integer.parseInt(ctx.NUM(1).getText());
-        return new BoardDecl(width, height);
+        return new BoardNode(width, height);
     }
 
 }
