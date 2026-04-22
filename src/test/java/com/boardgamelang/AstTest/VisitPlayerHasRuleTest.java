@@ -1,7 +1,7 @@
 package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
-import com.boardgamelang.AST.gamerule.PlayerXhasNPieceYNode;
+import com.boardgamelang.AST.gamerule.PlayerXHasNPieceYNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ public class VisitPlayerHasRuleTest {
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
-        PlayerXhasNPieceYNode node = (PlayerXhasNPieceYNode) builder.visit(parser.gameRule());
+        PlayerXHasNPieceYNode node = (PlayerXHasNPieceYNode) builder.visit(parser.gameRule());
 
         assertEquals("alice", node.playerIdent);
         assertEquals(3, node.n);
