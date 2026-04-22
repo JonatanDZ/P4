@@ -19,7 +19,6 @@ public class VisitProgramTest {
         AstBuilder builder = new AstBuilder();
 
         ProgramNode node = (ProgramNode) builder.visit(parser.program());
-
         assertNotNull(node.defnode);
         assertEquals(1, node.stmtNodes.size());
 
