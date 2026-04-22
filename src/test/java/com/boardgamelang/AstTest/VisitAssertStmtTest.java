@@ -1,7 +1,7 @@
 package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
-import com.boardgamelang.AST.bexp.Bexp;
+import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.BoardGameLangParser;
@@ -37,6 +37,6 @@ public class VisitAssertStmtTest {
 
         AssertNode node = (AssertNode) builder.visit(parser.stmt());
 
-        assertInstanceOf(Bexp.class, node.bexp);
+        assertInstanceOf(BexpNode.class, node.bexp);
     }
 }
