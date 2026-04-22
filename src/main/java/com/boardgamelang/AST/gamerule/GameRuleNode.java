@@ -1,6 +1,6 @@
 package com.boardgamelang.AST.gamerule;
 
-import com.boardgamelang.AST.Node;
+import com.boardgamelang.AST.stmt.StmtNode;
 
-public abstract class GameRuleNode extends Node {
+public abstract class GameRuleNode extends StmtNode {
 }
