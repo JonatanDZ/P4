@@ -1,21 +1,30 @@
 package com.boardgamelang;
 
 import com.boardgamelang.AST.AstBuilder;
-import com.boardgamelang.AST.Node;
+import com.boardgamelang.AST.program.ProgramNode;
+import com.boardgamelang.typechecker.TypeChecker;
 import org.antlr.v4.runtime.*;
 
-public class Main {
-    public static void main(String[] args) {
-        String source = "board(3,3); place piece X at (1,1);";
+import java.io.IOException;
+import java.util.List;
 
-        CharStream input = CharStreams.fromString(source);
+public class Main {
+    public static void main(String[] args) throws IOException {
+        String filePath = args.length > 0 ? args[0] : "examples/bad.bgl";
+        CharStream input = CharStreams.fromFileName(filePath);
         BoardGameLangLexer lexer = new BoardGameLangLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         BoardGameLangParser parser = new BoardGameLangParser(tokens);
 
         BoardGameLangParser.ProgramContext parseTree = parser.program();
-        Node ast = new AstBuilder().visit(parseTree);
+        ProgramNode ast = (ProgramNode) new AstBuilder().visit(parseTree);
 
-        System.out.println("AST built: " + ast);
+        List<String> errors = new TypeChecker().check(ast);
+
+        if (errors.isEmpty()) {
+            System.out.println("Type check passed.");
+        } else {
+            errors.forEach(e -> System.out.println("Error: " + e));
+        }
     }
 }
