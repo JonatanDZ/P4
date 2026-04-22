@@ -1,6 +1,6 @@
 package com.boardgamelang.AST.gamerule;
 
-public final class PlayerXhasNPieceYNode extends GameRuleNode {
+public final class PlayerXHasNPieceYNode extends GameRuleNode {
     public final String playerIdent;
     public final int n;
     public final String pieceIdent;
