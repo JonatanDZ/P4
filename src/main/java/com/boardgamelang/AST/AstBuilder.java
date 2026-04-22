@@ -1,6 +1,7 @@
 package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.stmt.PlacePieceXAtPNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
@@ -54,5 +55,12 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         String ident = ctx.IDENT().getText();
         Node bexp = visit(ctx.bexp()); // Visits node child bexp
         return new AssertNode(ident, bexp);
+    }
+
+    @Override
+    public Node visitPlaceStmt(BoardGameLangParser.PlaceStmtContext ctx) {
+        String x = ctx.IDENT().getText();
+        PosNode pos = (PosNode) visit(ctx.pos());
+        return new PlacePieceXAtPNode(pos, x);
     }
 }
