@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class VisitBoardNodeTest {
     @Test
     void visitBoardNode() {
-        String input = "(3,3)";
+        String input = "board(3,3);";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
