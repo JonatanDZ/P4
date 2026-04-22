@@ -18,7 +18,7 @@ public class VisitPlacePieceXAtPNodeTest {
         PlacePieceXAtPNode node = (PlacePieceXAtPNode) builder.visit(parser.stmt());
 
         assertEquals("X", node.ident);
-        assertEquals(3,2, node.pos.x);
+        assertEquals(3, node.pos.x);
         assertEquals(2, node.pos.y);
     }
 }
