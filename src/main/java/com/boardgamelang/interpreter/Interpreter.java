@@ -26,7 +26,7 @@ public final class Interpreter {
 
     // [board_BS]: δ ← (v₁, v₂)
     private void execBoardDef(BoardNode node) {
-        state.delta = new Position(node.width, node.height);
+        state.delta = new Position(node.pos.x, node.pos.y);
     }
 
     private void execStmt(StmtNode stmt) {

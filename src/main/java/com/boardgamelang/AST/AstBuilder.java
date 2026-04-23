@@ -33,9 +33,8 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitBoardDef(BoardGameLangParser.BoardDefContext ctx) {
-        int width = Integer.parseInt(ctx.NUM(0).getText());
-        int height = Integer.parseInt(ctx.NUM(1).getText());
-        return new BoardNode(width, height);
+        PosNode pos = (PosNode) visit(ctx.pos());
+        return new BoardNode(pos);
     }
 
     @Override

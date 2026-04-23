@@ -2,7 +2,7 @@ grammar BoardGameLang;
 
 program : def comp* EOF;
 
-def : BOARD LPAR NUM COMMA NUM RPAR SEMI     # BoardDef
+def : BOARD pos SEMI     # BoardDef
     ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasRule

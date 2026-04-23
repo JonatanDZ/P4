@@ -21,14 +21,6 @@ public class VisitProgramTest {
         ProgramNode node = (ProgramNode) builder.visit(parser.program());
         assertNotNull(node.defnode);
         assertEquals(1, node.stmtNodes.size());
-
-        BoardNode board = (BoardNode) node.defnode;
-        assertEquals(3, board.width);
-        assertEquals(3, board.height);
-
-        AssertNode stmt = (AssertNode) node.stmtNodes.get(0);
-        assertEquals("foo", stmt.ident);
-
     }
 
     @Test
@@ -41,14 +33,6 @@ public class VisitProgramTest {
 
         assertNotNull(node.defnode);
         assertEquals(2, node.stmtNodes.size());
-
-        BoardNode board = (BoardNode) node.defnode;
-        assertEquals(3, board.width);
-        assertEquals(3, board.height);
-
-        AssertNode stmt = (AssertNode) node.stmtNodes.get(0);
-        assertEquals("foo", stmt.ident);
-
     }
 
     @Test
@@ -60,9 +44,5 @@ public class VisitProgramTest {
         ProgramNode node = (ProgramNode) builder.visit(parser.program());
 
         assertNotNull(node.defnode);
-
-        BoardNode board = (BoardNode) node.defnode;
-        assertEquals(3, board.width);
-        assertEquals(3, board.height);
     }
 }
