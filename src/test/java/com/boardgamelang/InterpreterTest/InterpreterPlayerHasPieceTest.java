@@ -1,0 +1,65 @@
+package com.boardgamelang.InterpreterTest;
+
+import com.boardgamelang.AST.AstBuilder;
+import com.boardgamelang.AST.program.ProgramNode;
+import com.boardgamelang.AstTest.ParseTreeHelper;
+import com.boardgamelang.BoardGameLangParser;
+import com.boardgamelang.interpreter.Interpreter;
+import com.boardgamelang.interpreter.State;
+import org.junit.jupiter.api.Test;
+
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class InterpreterPlayerHasPieceTest {
+
+    @Test
+    void playerRedHasTwoKnights() {
+        String input = "board(3,3); player red has 2 piece knight;";
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+        State state = interpreter.run(program);
+        // Look in the state of ownedPiece, first the key red, and then count how many "knights" that exist in the state
+        Set<State.OwnedPiece> redPieces = state.o.get("red");
+        long knightCount = redPieces.stream()
+                .filter(p -> p.piece().equals("knight"))
+                .count();
+        assertEquals(2, knightCount);
+    }
+
+    @Test
+    void playerYellowHasFourQueens() {
+        String input = "board(3,3); player red has 2 piece knight; player yellow has 4 piece queen;";
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+        State state = interpreter.run(program);
+        // Look in the state of ownedPiece, first the key red, and then count how many "knights" that exist in the state
+        Set<State.OwnedPiece> yellowPieces = state.o.get("yellow");
+        long queenCount = yellowPieces.stream()
+                .filter(p -> p.piece().equals("queen"))
+                .count();
+        assertEquals(4, queenCount);
+    }
+
+    @Test
+    void twoPlayerKeysInSet() {
+        String input = "board(3,3); player red has 2 piece knight; player yellow has 4 piece queen;";
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+        State state = interpreter.run(program);
+
+        assertEquals(2, state.o.size());
+    }
+
+
+}

@@ -4,8 +4,12 @@ import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
+import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.StmtNode;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public final class Interpreter {
     // public for test package: allows for mocking states. Should be private final..
@@ -27,8 +31,11 @@ public final class Interpreter {
         }
     }
     private void execStmt(StmtNode stmt) {
-        throw new UnsupportedOperationException(
-                "stmt not yet implemented: " + stmt.getClass().getSimpleName());
+        switch (stmt) {
+            case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
+            default -> throw new UnsupportedOperationException(
+                    "stmt not yet implemented: " + stmt.getClass().getSimpleName());
+        }
     }
 
     // public for test package: see comment on `state` above
@@ -51,5 +58,12 @@ public final class Interpreter {
         state.delta = new Position(node.pos.x, node.pos.y);
     }
 
+    private int nextPieceId = 0;
 
+    private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
+        Set<State.OwnedPiece> playerPieces = state.o.computeIfAbsent(node.playerIdent, k -> new HashSet<>());
+        for (int i = 0; i < node.n; i++) {
+            playerPieces.add(new State.OwnedPiece(node.pieceIdent, nextPieceId++));
+        }
+    }
 }
