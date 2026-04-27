@@ -5,12 +5,12 @@ program : def comp* EOF;
 def : BOARD pos SEMI     # BoardDef
     ;
 
-gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasRule
+gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
 
-stmt : PLACE PIECE IDENT AT pos              # PlaceStmt
+stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | ASSERT IDENT LPAR bexp RPAR           # AssertStmt
      | gameRule                               # GameRuleStmt
      ;
