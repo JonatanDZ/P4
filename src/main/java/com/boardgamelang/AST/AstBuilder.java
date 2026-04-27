@@ -38,7 +38,6 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         return new BoardNode(width, height);
     }
 
-    // It is called visitPosition instead of visitPos because: method does not override or implement a method from a supertype
     @Override
     public Node visitPosition(BoardGameLangParser.PositionContext ctx) {
         int x = Integer.parseInt(ctx.NUM(0).getText());
