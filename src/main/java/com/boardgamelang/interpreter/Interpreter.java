@@ -61,7 +61,9 @@ public final class Interpreter {
     private int nextPieceId = 0;
 
     private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
+        // Gets or creates the set of a players pieces, using computeIfAbsent
         Set<State.OwnedPiece> playerPieces = state.o.computeIfAbsent(node.playerIdent, player -> new HashSet<>());
+        //Populates the player with n amount of pieces with unique id
         for (int i = 0; i < node.n; i++) {
             playerPieces.add(new State.OwnedPiece(node.pieceIdent, nextPieceId++));
         }

@@ -40,7 +40,7 @@ public class InterpreterPlayerHasPieceTest {
 
         Interpreter interpreter = new Interpreter();
         State state = interpreter.run(program);
-        // Look in the state of ownedPiece, first the key red, and then count how many "knights" that exist in the state
+        // Look in the state of ownedPiece, first the key yellow, and then count how many "queens" that exist in the state
         Set<State.OwnedPiece> yellowPieces = state.o.get("yellow");
         long queenCount = yellowPieces.stream()
                 .filter(p -> p.piece().equals("queen"))
@@ -57,7 +57,7 @@ public class InterpreterPlayerHasPieceTest {
 
         Interpreter interpreter = new Interpreter();
         State state = interpreter.run(program);
-        // Look in the state of ownedPiece, first the key red, and then count how many "knights" that exist in the state
+        // Look in the state of ownedPiece, first the key red, and then count how many "knights" and "queens" that exist in the state
         Set<State.OwnedPiece> redPieces = state.o.get("red");
         long knightCount = redPieces.stream()
                 .filter(p -> p.piece().equals("knight"))
@@ -71,6 +71,24 @@ public class InterpreterPlayerHasPieceTest {
     }
 
     @Test
+    void appendingPiecesToPlayer() {
+        String input = "board(3,3); player red has 2 piece knight; player red has 4 piece knight;";
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+        State state = interpreter.run(program);
+        // Look in the state of ownedPiece, first the key red, and then count how many "knights" that exist in the state
+        Set<State.OwnedPiece> redPieces = state.o.get("red");
+        long knightCount = redPieces.stream()
+                .filter(p -> p.piece().equals("knight"))
+                .count();
+
+        assertEquals(6, knightCount);
+    }
+
+    @Test
     void twoPlayerKeysInSet() {
         String input = "board(3,3); player red has 2 piece knight; player yellow has 4 piece queen;";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
@@ -79,7 +97,7 @@ public class InterpreterPlayerHasPieceTest {
 
         Interpreter interpreter = new Interpreter();
         State state = interpreter.run(program);
-
+        // Assert that there exists two player keys in the state o
         assertEquals(2, state.o.size());
     }
 
