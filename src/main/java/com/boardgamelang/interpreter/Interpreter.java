@@ -61,7 +61,7 @@ public final class Interpreter {
     private int nextPieceId = 0;
 
     private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
-        Set<State.OwnedPiece> playerPieces = state.o.computeIfAbsent(node.playerIdent, k -> new HashSet<>());
+        Set<State.OwnedPiece> playerPieces = state.o.computeIfAbsent(node.playerIdent, player -> new HashSet<>());
         for (int i = 0; i < node.n; i++) {
             playerPieces.add(new State.OwnedPiece(node.pieceIdent, nextPieceId++));
         }

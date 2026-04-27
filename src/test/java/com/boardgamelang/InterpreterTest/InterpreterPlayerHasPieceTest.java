@@ -49,6 +49,28 @@ public class InterpreterPlayerHasPieceTest {
     }
 
     @Test
+    void noOverrideOfPieces() {
+        String input = "board(3,3); player red has 2 piece knight; player red has 4 piece queen;";
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+        State state = interpreter.run(program);
+        // Look in the state of ownedPiece, first the key red, and then count how many "knights" that exist in the state
+        Set<State.OwnedPiece> redPieces = state.o.get("red");
+        long knightCount = redPieces.stream()
+                .filter(p -> p.piece().equals("knight"))
+                .count();
+        long queenCount = redPieces.stream()
+                .filter(p -> p.piece().equals("queen"))
+                .count();
+
+        assertEquals(2, knightCount);
+        assertEquals(4, queenCount);
+    }
+
+    @Test
     void twoPlayerKeysInSet() {
         String input = "board(3,3); player red has 2 piece knight; player yellow has 4 piece queen;";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
