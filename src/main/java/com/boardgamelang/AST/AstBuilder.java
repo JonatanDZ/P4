@@ -1,12 +1,12 @@
 package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.stmt.PlacePieceXAtPNode;
+import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
-import com.boardgamelang.AST.gamerule.PlayerXHasNPieceYNode;
+import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
@@ -38,6 +38,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         return new BoardNode(width, height);
     }
 
+    // It is called visitPosition instead of visitPos because: method does not override or implement a method from a supertype
     @Override
     public Node visitPosition(BoardGameLangParser.PositionContext ctx) {
         int x = Integer.parseInt(ctx.NUM(0).getText());
@@ -59,17 +60,17 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitPlayerHasRule(BoardGameLangParser.PlayerHasRuleContext ctx) {
+    public Node visitPlayerHasPieceGameRule(BoardGameLangParser.PlayerHasPieceGameRuleContext ctx) {
         String playerIdent = ctx.IDENT(0).getText();
         int n = Integer.parseInt(ctx.NUM().getText());
         String pieceIdent = ctx.IDENT(1).getText();
-        return new PlayerXHasNPieceYNode(playerIdent, n, pieceIdent);
+        return new PlayerHasPieceNode(playerIdent, n, pieceIdent);
     }
 
     @Override
-    public Node visitPlaceStmt(BoardGameLangParser.PlaceStmtContext ctx) {
+    public Node visitPlacePieceAtStmt(BoardGameLangParser.PlacePieceAtStmtContext ctx) {
         String x = ctx.IDENT().getText();
         PosNode pos = (PosNode) visit(ctx.pos());
-        return new PlacePieceXAtPNode(pos, x);
+        return new PlacePieceAtNode(pos, x);
     }
 }

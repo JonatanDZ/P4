@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class VisitOccupiedBexpNodeTest {
+public class VisitOccupiedBexpTest {
 
     @Test
-    void VisitOccupiedBexpReturnsOccupiedNode() {
+    void visitOccupiedBexpReturnsPos() {
         String input = "occupied(3,2)";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
