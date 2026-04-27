@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class VisitPosNodeTest {
+public class VisitPosTest {
     @Test
-    void VisitPosNodeTestReturnsPosNode() {
+    void visitPosTestReturnsPos() {
         String input = "(1,2)";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();

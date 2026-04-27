@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class VisitBoardNodeTest {
+public class VisitBoardDefTest {
     @Test
-    void visitBoardNode() {
+    void visitBoardDefReturnsWidthAndHeight() {
         String input = "board(3,3);";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
