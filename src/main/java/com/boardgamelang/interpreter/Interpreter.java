@@ -32,11 +32,11 @@ public final class Interpreter {
     }
 
     // public for test package: see comment on `state` above
-    public boolean execBexp(BexpNode bExp) {
-        return switch (bExp) {
+    public boolean execBexp(BexpNode bexp) {
+        return switch (bexp) {
             case OccupiedNode o -> execOccupiedBExp(o);
             default -> throw new UnsupportedOperationException(
-                    "Bexp not yet implemented: " + bExp.getClass().getSimpleName());
+                    "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
         };
     }
 
