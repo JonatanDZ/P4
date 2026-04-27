@@ -15,7 +15,7 @@ public class VisitBoardNodeTest {
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
-        BoardNode node = (BoardNode) builder.visit(parser.program());
+        BoardNode node = (BoardNode) builder.visit(parser.def());
 
         assertEquals(3, node.pos.x);
         assertEquals(3, node.pos.y);
