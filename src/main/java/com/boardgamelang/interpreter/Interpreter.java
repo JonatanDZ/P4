@@ -3,6 +3,7 @@ package com.boardgamelang.interpreter;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
+import com.boardgamelang.AST.stmt.PlacePieceXAtPNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 
 public final class Interpreter {
@@ -30,7 +31,26 @@ public final class Interpreter {
     }
 
     private void execStmt(StmtNode stmt) {
-        throw new UnsupportedOperationException(
-                "stmt not yet implemented: " + stmt.getClass().getSimpleName());
+        switch (stmt) {
+            case PlacePieceXAtPNode p -> execPlacePieceAtStmt(p);
+            default -> throw new UnsupportedOperationException(
+                    "stmt not yet implemented: " + stmt.getClass().getSimpleName());
+        }
+    }
+
+    private void execPlacePieceAtStmt(PlacePieceXAtPNode node) {
+        Object piece = state.o.get(node.ident);
+        if (!(piece  )) {
+            throw new RuntimeException("Expected piece: " + node.ident);
+        }
+
+        Position pos = node.pos;
+        if (pos.x() <= 0 || pos.x() > state.delta.x() ||
+                pos.y() <= 0 || pos.y() > state.delta.y()){
+            throw new RuntimeException("Out of bounds!" + pos);
+        }
+
+        state.beta.put(new Position(node.pos.x(), node.pos.y()), node.ident);
+
     }
 }
