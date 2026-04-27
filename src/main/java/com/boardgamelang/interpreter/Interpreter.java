@@ -1,6 +1,7 @@
 package com.boardgamelang.interpreter;
 
 import com.boardgamelang.AST.bexp.BexpNode;
+import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -68,7 +69,24 @@ public final class Interpreter {
 
         BexpNode b1 = state.g;
 
-        state.beta.put(pos, node.ident);
 
+        state.beta.put(pos, node.ident);
     }
+
+
+    // public for test package: see comment on `state` above
+    public boolean execBexp(BexpNode bexp) {
+        return switch (bexp) {
+            case OccupiedNode o -> execOccupiedBExp(o);
+            default -> throw new UnsupportedOperationException(
+                    "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
+        };
+    }
+
+    private boolean execOccupiedBExp(OccupiedNode o) {
+        Position pos = new Position(o.pos.x, o.pos.y);
+        return state.beta.containsKey(pos);
+    }
+
+
 }
