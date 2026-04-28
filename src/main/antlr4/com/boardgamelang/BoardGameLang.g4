@@ -15,10 +15,14 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | gameRule                               # GameRuleStmt
      ;
 
+aexp : NUM                                    # NumAexp
+     ;
+
 bexp : OCCUPIED pos                           # OccupiedBexp
      ;
 
 pos : LPAR NUM COMMA NUM RPAR                 # Position
+    | OFFSET pos dir aexp                     # OffsetPos
     ;
 
 dir : LEFT                                    # LeftDir
@@ -75,7 +79,9 @@ LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
+OFFSET     : 'offset'     ;
 
+// int (not double): board game values are inherently discrete — positions, counts, offsets are all integer-valued
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
 WS      : [ \t\r\n]+ -> skip ;

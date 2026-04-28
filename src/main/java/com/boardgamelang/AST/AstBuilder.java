@@ -1,5 +1,6 @@
 package com.boardgamelang.AST;
 
+import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.direction.DownNode;
@@ -95,5 +96,11 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     @Override
     public Node visitDownDir(BoardGameLangParser.DownDirContext ctx) {
         return new DownNode();
+    }
+
+    @Override
+    public Node visitNumAexp(BoardGameLangParser.NumAexpContext ctx) {
+        int n = Integer.parseInt(ctx.NUM().getText());
+        return new NumNode(n);
     }
 }

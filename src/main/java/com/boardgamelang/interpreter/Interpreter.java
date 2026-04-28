@@ -1,5 +1,7 @@
 package com.boardgamelang.interpreter;
 
+import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.def.BoardNode;
@@ -63,6 +65,15 @@ public final class Interpreter {
     private boolean execOccupiedBExp(OccupiedNode o) {
         Position pos = new Position(o.pos.x, o.pos.y);
         return state.beta.containsKey(pos);
+    }
+
+    // public for test package: see comment on `state` above
+    public int execAexp(AexpNode a) {
+        return switch (a) {
+            case NumNode n -> n.n;
+            default -> throw new UnsupportedOperationException(
+                    "Aexp not yet implemented: " + a.getClass().getSimpleName());
+        };
     }
 
     // currently unused in interpreter which is on purpose. Should be called in offset etc.
