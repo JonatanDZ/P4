@@ -1,9 +1,12 @@
 package com.boardgamelang.interpreter;
 
+import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.aexp.DirAexpNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
+import com.boardgamelang.AST.direction.Direction;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
@@ -53,6 +56,24 @@ public final class Interpreter {
     private boolean execOccupiedBExp(OccupiedNode o) {
         Position pos = new Position(o.pos.x, o.pos.y);
         return state.beta.containsKey(pos);
+    }
+
+    // public for test package: see comment on `state` above
+    public Position execAexp(AexpNode a) {
+        return switch (a) {
+            case DirAexpNode d -> execDirAexp(d);
+            default -> throw new UnsupportedOperationException(
+                    "Aexp not yet implemented: " + a.getClass().getSimpleName());
+        };
+    }
+
+    private Position execDirAexp(DirAexpNode d) {
+        return switch (d.dir) {
+            case LEFT  -> new Position(-1,  0);
+            case RIGHT -> new Position( 1,  0);
+            case UP    -> new Position( 0,  1);
+            case DOWN  -> new Position( 0, -1);
+        };
     }
 
     // [board_BS]: δ ← (v₁, v₂)
