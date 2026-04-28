@@ -4,6 +4,11 @@ import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
+import com.boardgamelang.AST.direction.DirNode;
+import com.boardgamelang.AST.direction.DownNode;
+import com.boardgamelang.AST.direction.LeftNode;
+import com.boardgamelang.AST.direction.RightNode;
+import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
@@ -58,6 +63,18 @@ public final class Interpreter {
     private boolean execOccupiedBExp(OccupiedNode o) {
         Position pos = new Position(o.pos.x, o.pos.y);
         return state.beta.containsKey(pos);
+    }
+
+    // currently unused in interpreter which is on purpose. Should be called in offset etc.
+    public Position execDir(DirNode d) {
+        return switch (d) {
+            case LeftNode  l  -> new Position(-1,  0);
+            case RightNode r  -> new Position( 1,  0);
+            case UpNode    u  -> new Position( 0,  1);
+            case DownNode  dn -> new Position( 0, -1);
+            default -> throw new UnsupportedOperationException(
+                    "Dir not yet implemented: " + d.getClass().getSimpleName());
+        };
     }
 
     // [board_BS]: δ ← (v₁, v₂)

@@ -2,6 +2,10 @@ package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.direction.DownNode;
+import com.boardgamelang.AST.direction.LeftNode;
+import com.boardgamelang.AST.direction.RightNode;
+import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.def.BoardNode;
@@ -71,5 +75,25 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         String x = ctx.IDENT().getText();
         PosNode pos = (PosNode) visit(ctx.pos());
         return new PlacePieceAtNode(pos, x);
+    }
+
+    @Override
+    public Node visitLeftDir(BoardGameLangParser.LeftDirContext ctx) {
+        return new LeftNode();
+    }
+
+    @Override
+    public Node visitRightDir(BoardGameLangParser.RightDirContext ctx) {
+        return new RightNode();
+    }
+
+    @Override
+    public Node visitUpDir(BoardGameLangParser.UpDirContext ctx) {
+        return new UpNode();
+    }
+
+    @Override
+    public Node visitDownDir(BoardGameLangParser.DownDirContext ctx) {
+        return new DownNode();
     }
 }
