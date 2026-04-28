@@ -1,6 +1,7 @@
 package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
+import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.BoardGameLangParser;
@@ -22,7 +23,7 @@ public class VisitOrBexpTest {
     }
 
     @Test
-    public void visitOrBexpIsOccupiedWithCorrectPos() {
+    public void visitOrBexpHasCorrectOperands() {
         String input = "occupied(3,2) or occupied(2,2)";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -38,13 +39,12 @@ public class VisitOrBexpTest {
     }
 
     @Test
-    public void visitMultipleOrIsLeftAssociative() {
+    public void visitMultipleOrsPreservesPrecedence() {
         // occupied(3,2) or occupied(2,2) or occupied(1,1)
         // should parse as: (occupied(3,2) or occupied(2,2)) or occupied(1,1)
-
-        //        OrNode           <--- root
+        //        OrNode
         //        /      \
-        //    OrNode   occupied(1,1)   <--- right is the last operand
+        //    OrNode   occupied(1,1)
         //    /      \
         //  occ(3,2) occ(2,2)
 
@@ -66,5 +66,36 @@ public class VisitOrBexpTest {
         assertEquals(2, innerLeft.pos.y);
         assertEquals(2, innerRight.pos.x);
         assertEquals(2, innerRight.pos.y);
+    }
+
+    @Test
+    public void visitOrAndBuildsAndNodeWithOrOnLeft() {
+        // occupied(3,2) or occupied(2,2) and occupied(1,1)
+        // and has higher precedence than or, so parses as:
+        // occupied(3,2) or (occupied(2,2) and occupied(1,1))
+        //        OrNode
+        //        /      \
+        //  occ(3,2)   AndNode
+        //              /      \
+        //          occ(2,2) occ(1,1)
+
+        String input = "occupied(3,2) or occupied(2,2) and occupied(1,1)";
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+
+        OrNode root = (OrNode) builder.visit(parser.bexp());
+
+        OccupiedNode left = (OccupiedNode) root.left;
+        assertEquals(3, left.pos.x);
+        assertEquals(2, left.pos.y);
+
+        AndNode innerAnd = (AndNode) root.right;
+        OccupiedNode innerLeft = (OccupiedNode) innerAnd.left;
+        OccupiedNode innerRight = (OccupiedNode) innerAnd.right;
+
+        assertEquals(2, innerLeft.pos.x);
+        assertEquals(2, innerLeft.pos.y);
+        assertEquals(1, innerRight.pos.x);
+        assertEquals(1, innerRight.pos.y);
     }
 }

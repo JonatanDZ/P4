@@ -2,6 +2,7 @@ package com.boardgamelang.InterpreterTest;
 
 import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.interpreter.Interpreter;
 import com.boardgamelang.interpreter.Position;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InterpretAndTest {
     @Test
-    void andReturnsTrueWhenBothPositionsOccupied() {
+    void andReturnsTrueWhenBothOperandsAreTrue() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(1, 1), "X");
         interp.state.beta.put(new Position(2, 2), "X");
@@ -26,7 +27,7 @@ public class InterpretAndTest {
     }
 
     @Test
-    void andReturnsFalseWhenLeftIsNotOccupied() {
+    void andReturnsFalseWhenLeftOperandIsFalse() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(2, 2), "X");
 
@@ -39,7 +40,7 @@ public class InterpretAndTest {
     }
 
     @Test
-    void andReturnsFalseWhenRightIsNotOccupied() {
+    void andReturnsFalseWhenRightOperandIsFalse() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(1, 1), "X");
 
@@ -52,7 +53,7 @@ public class InterpretAndTest {
     }
 
     @Test
-    void andReturnsFalseWhenBothIsNotOccupied() {
+    void andReturnsFalseWhenBothOperandsAreFalse() {
         Interpreter interp = new Interpreter();
 
         boolean result = interp.execBexp(new AndNode(
@@ -64,7 +65,7 @@ public class InterpretAndTest {
     }
 
     @Test
-    void andReturnsTrueWhenAllThreePositionsOccupied() {
+    void andReturnsTrueWhenAllThreeOperandsAreTrue() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(1, 1), "X");
         interp.state.beta.put(new Position(2, 2), "X");
@@ -82,7 +83,7 @@ public class InterpretAndTest {
     }
 
     @Test
-    void andReturnsFalseWhenOneOfThreeIsNotOccupied() {
+    void andReturnsFalseWhenOneOfThreeOperandsIsFalse() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(1, 1), "X");
         interp.state.beta.put(new Position(3, 3), "X");
@@ -96,5 +97,62 @@ public class InterpretAndTest {
         ));
 
         assertFalse(result);
+    }
+
+    @Test
+    void andOrReturnsTrueWhenAndIsTrueOrIsFalse() {
+        // (occupied(1,1) and occupied(2,2)) or occupied(3,3)
+        // and is true, or is false → true
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(1, 1), "X");
+        interp.state.beta.put(new Position(2, 2), "X");
+
+        boolean result = interp.execBexp(new OrNode(
+                new AndNode(
+                        new OccupiedNode(new PosNode(1, 1)),
+                        new OccupiedNode(new PosNode(2, 2))
+                ),
+                new OccupiedNode(new PosNode(3, 3))
+        ));
+
+        assertTrue(result);
+    }
+
+    @Test
+    void andOrReturnsFalseWhenBothAndAndOrAreFalse() {
+        // (occupied(1,1) and occupied(2,2)) or occupied(3,3)
+        // and is false, or is false → false
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(1, 1), "X");
+
+        boolean result = interp.execBexp(new OrNode(
+                new AndNode(
+                        new OccupiedNode(new PosNode(1, 1)),
+                        new OccupiedNode(new PosNode(2, 2))
+                ),
+                new OccupiedNode(new PosNode(3, 3))
+        ));
+
+        assertFalse(result);
+    }
+
+    @Test
+    void andOrReturnsTrueWhenBothAndAndOrAreTrue() {
+        // (occupied(1,1) and occupied(2,2)) or occupied(3,3)
+        // and is true, or is true → true
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(1, 1), "X");
+        interp.state.beta.put(new Position(2, 2), "X");
+        interp.state.beta.put(new Position(3, 3), "X");
+
+        boolean result = interp.execBexp(new OrNode(
+                new AndNode(
+                        new OccupiedNode(new PosNode(1, 1)),
+                        new OccupiedNode(new PosNode(2, 2))
+                ),
+                new OccupiedNode(new PosNode(3, 3))
+        ));
+
+        assertTrue(result);
     }
 }

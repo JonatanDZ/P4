@@ -1,5 +1,6 @@
 package com.boardgamelang.InterpreterTest;
 
+import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.pos.PosNode;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InterpretOrTest {
     @Test
-    void orReturnsTrueWhenBothPositionsOccupied() {
+    void orReturnsTrueWhenBothOperandsAreTrue() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(1, 1), "X");
         interp.state.beta.put(new Position(2, 2), "X");
@@ -26,7 +27,7 @@ public class InterpretOrTest {
     }
 
     @Test
-    void orReturnsTrueWhenRightIsNotOccupied() {
+    void orReturnsTrueWhenRightOperandIsFalse() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(1, 1), "X");
 
@@ -39,7 +40,7 @@ public class InterpretOrTest {
     }
 
     @Test
-    void orReturnsTrueWhenLeftIsNotOccupied() {
+    void orReturnsTrueWhenLeftOperandIsFalse() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(2, 2), "X");
 
@@ -52,7 +53,7 @@ public class InterpretOrTest {
     }
 
     @Test
-    void orReturnsFalseWhenBothIsNotOccupied() {
+    void orReturnsFalseWhenBothOperandsAreFalse() {
         Interpreter interp = new Interpreter();
 
         boolean result = interp.execBexp(new OrNode(
@@ -64,7 +65,7 @@ public class InterpretOrTest {
     }
 
     @Test
-    void orReturnsTrueWhenOneOfThreeIsOccupied() {
+    void orReturnsTrueWhenOneOfThreeOperandsIsTrue() {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(2, 2), "X");
 
@@ -80,7 +81,7 @@ public class InterpretOrTest {
     }
 
     @Test
-    void orReturnsFalseWhenAllThreeAreNotOccupied() {
+    void orReturnsFalseWhenAllThreeOperandsAreFalse() {
         Interpreter interp = new Interpreter();
 
         boolean result = interp.execBexp(new OrNode(
@@ -92,5 +93,62 @@ public class InterpretOrTest {
         ));
 
         assertFalse(result);
+    }
+
+    @Test
+    void orAndReturnsTrueWhenOrIsFalseAndIsTrue() {
+        // occupied(1,1) or (occupied(2,2) and occupied(3,3))
+        // or is false, and is true → true
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(2, 2), "X");
+        interp.state.beta.put(new Position(3, 3), "X");
+
+        boolean result = interp.execBexp(new OrNode(
+                new OccupiedNode(new PosNode(1, 1)),
+                new AndNode(
+                        new OccupiedNode(new PosNode(2, 2)),
+                        new OccupiedNode(new PosNode(3, 3))
+                )
+        ));
+
+        assertTrue(result);
+    }
+
+    @Test
+    void orAndReturnsFalseWhenBothOrAndAndAreFalse() {
+        // occupied(1,1) or (occupied(2,2) and occupied(3,3))
+        // or is false, and is false → false
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(2, 2), "X");
+
+        boolean result = interp.execBexp(new OrNode(
+                new OccupiedNode(new PosNode(1, 1)),
+                new AndNode(
+                        new OccupiedNode(new PosNode(2, 2)),
+                        new OccupiedNode(new PosNode(3, 3))
+                )
+        ));
+
+        assertFalse(result);
+    }
+
+    @Test
+    void orAndReturnsTrueWhenBothOrAndAndAreTrue() {
+        // occupied(1,1) or (occupied(2,2) and occupied(3,3))
+        // or is true, and is true → true
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(1, 1), "X");
+        interp.state.beta.put(new Position(2, 2), "X");
+        interp.state.beta.put(new Position(3, 3), "X");
+
+        boolean result = interp.execBexp(new OrNode(
+                new OccupiedNode(new PosNode(1, 1)),
+                new AndNode(
+                        new OccupiedNode(new PosNode(2, 2)),
+                        new OccupiedNode(new PosNode(3, 3))
+                )
+        ));
+
+        assertTrue(result);
     }
 }
