@@ -59,7 +59,7 @@ public final class Interpreter {
 
     public String execStrexp(StrexpNode strexp) {
         return switch (strexp){
-            case PieceNode p -> execPieceAexp(p);
+            case PieceNode p -> execPieceStrexp(p);
             default -> throw new UnsupportedOperationException(
                     "strexp not yet implemented: " + strexp.getClass().getSimpleName());
         };
@@ -92,7 +92,7 @@ public final class Interpreter {
         state.delta = new Position(b.pos.x, b.pos.y);
     }
 
-    private String execPieceAexp(PieceNode p) {
+    private String execPieceStrexp(PieceNode p) {
         Position pos = new Position(p.pos.x, p.pos.y);
 
         String pieceAtPosition = state.beta.get(pos);
