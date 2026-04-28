@@ -36,7 +36,7 @@ public final class Interpreter {
         state.delta = new Position(node.width, node.height);
     }
 
-    private void execStmt(StmtNode stmt) {
+    public void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlacePieceXAtPNode p -> execPlacePieceAtStmt(p);
             default -> throw new UnsupportedOperationException(
