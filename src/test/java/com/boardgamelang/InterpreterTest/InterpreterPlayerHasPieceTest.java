@@ -65,7 +65,6 @@ public class InterpreterPlayerHasPieceTest {
         long queenCount = redPieces.stream()
                 .filter(p -> p.piece().equals("queen"))
                 .count();
-
         assertEquals(2, knightCount);
         assertEquals(4, queenCount);
     }

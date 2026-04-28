@@ -61,11 +61,29 @@ public final class Interpreter {
     private int nextPieceId = 0;
 
     private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
-        // Gets or creates the set of a players pieces, using computeIfAbsent
-        Set<State.OwnedPiece> playerPieces = state.o.computeIfAbsent(node.playerIdent, player -> new HashSet<>());
-        //Populates the player with n amount of pieces with unique id
+        Set<State.OwnedPiece> playerPieces;
+        // boolean that returns true if the piece exists in any other players list of pieces
+        boolean pieceExistsInOtherPlayers = state.o.entrySet().stream()
+                .filter(entry -> !entry.getKey().equals(node.playerIdent))
+                .flatMap(entry -> entry.getValue().stream())
+                .anyMatch(p -> p.piece().equals(node.pieceIdent));
+
+        if(pieceExistsInOtherPlayers) {
+            throw new RuntimeException(node.pieceIdent + " is already assigned to another player");
+        } //retrieve the players set if it already exists in the state
+        else if (state.o.containsKey(node.playerIdent)) {
+            playerPieces = state.o.get(node.playerIdent);
+        }// create a set for the player of it does not exist in the set
+        else {
+            // else an empty set of playerPieces is created and associated with the player
+            playerPieces = new HashSet<>();
+            state.o.put(node.playerIdent, playerPieces);
+        }
+        // This for loop will take the amount of pieces that is associated with the player, and insert it into the players hashset
         for (int i = 0; i < node.n; i++) {
-            playerPieces.add(new State.OwnedPiece(node.pieceIdent, nextPieceId++));
+            State.OwnedPiece newPiece = new State.OwnedPiece(node.pieceIdent, nextPieceId);
+            playerPieces.add(newPiece);
+            nextPieceId = nextPieceId + 1;
         }
     }
 }
