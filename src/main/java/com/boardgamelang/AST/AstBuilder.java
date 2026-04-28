@@ -1,9 +1,11 @@
 package com.boardgamelang.AST;
 
-import com.boardgamelang.AST.aexp.DirAexpNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.direction.Direction;
+import com.boardgamelang.AST.direction.DownNode;
+import com.boardgamelang.AST.direction.LeftNode;
+import com.boardgamelang.AST.direction.RightNode;
+import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.def.BoardNode;
@@ -76,15 +78,22 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitDirAexp(BoardGameLangParser.DirAexpContext ctx) {
-        Direction dir = switch (ctx.dir()) {
-            case BoardGameLangParser.LeftDirContext c -> Direction.LEFT;
-            case BoardGameLangParser.RightDirContext c -> Direction.RIGHT;
-            case BoardGameLangParser.UpDirContext c -> Direction.UP;
-            case BoardGameLangParser.DownDirContext c -> Direction.DOWN;
-            default -> throw new IllegalStateException(
-                    "unknown dir alternative: " + ctx.dir().getClass().getSimpleName());
-        };
-        return new DirAexpNode(dir);
+    public Node visitLeftDir(BoardGameLangParser.LeftDirContext ctx) {
+        return new LeftNode();
+    }
+
+    @Override
+    public Node visitRightDir(BoardGameLangParser.RightDirContext ctx) {
+        return new RightNode();
+    }
+
+    @Override
+    public Node visitUpDir(BoardGameLangParser.UpDirContext ctx) {
+        return new UpNode();
+    }
+
+    @Override
+    public Node visitDownDir(BoardGameLangParser.DownDirContext ctx) {
+        return new DownNode();
     }
 }

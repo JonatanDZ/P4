@@ -26,9 +26,6 @@ dir : LEFT                                    # LeftDir
     | UP                                      # UpDir
     | DOWN                                    # DownDir
     ;
-
-aexp : dir                                    # DirAexp
-     ;
 /*
 orExp : andExp ('or' andExp)*
        ;
