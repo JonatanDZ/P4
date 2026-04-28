@@ -6,6 +6,7 @@ import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
+import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 
 import java.util.HashSet;
@@ -33,10 +34,12 @@ public final class Interpreter {
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
+            case AssertNode a -> execAssertStmt(a);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
     }
+
 
     // public for test package: see comment on `state` above
     public boolean execBexp(BexpNode bexp) {
@@ -47,15 +50,19 @@ public final class Interpreter {
         };
     }
 
+    private void execAssertStmt(AssertNode a) {
+        boolean bexp = execBexp(a.bexp);
+        state.t.put(a.ident, bexp);
+    }
+
     private boolean execOccupiedBExp(OccupiedNode o) {
         Position pos = new Position(o.pos.x, o.pos.y);
         return state.beta.containsKey(pos);
     }
 
-
     // [board_BS]: δ ← (v₁, v₂)
-    private void execBoardDef(BoardNode node) {
-        state.delta = new Position(node.pos.x, node.pos.y);
+    private void execBoardDef(BoardNode b) {
+        state.delta = new Position(b.pos.x, b.pos.y);
     }
 
     private int nextPieceId = 0;
