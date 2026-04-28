@@ -45,11 +45,13 @@ public final class Interpreter {
     }
 
     private void execPlacePieceAtStmt(PlacePieceXAtPNode node) {
+        //get piece from store.
         Object value = state.sigma.get(node.ident);
         if (!(value instanceof String pieceName)) {
             throw new RuntimeException("Expected piece identifier: " + node.ident);
         }
 
+        //Check that piece is mapped to a player.
         boolean exists = state.o.values().stream()
                 .flatMap(Set::stream)
                 .anyMatch(p -> p.piece().equals(pieceName));
@@ -57,20 +59,45 @@ public final class Interpreter {
             throw new RuntimeException("Piece not owned: " + pieceName);
         }
 
+        //Check that position is within bounds of board.
         Position pos = new Position(node.pos.x, node.pos.y);
         if (pos.x() <= 0 || pos.x() > state.delta.x() ||
                 pos.y() <= 0 || pos.y() > state.delta.y()){
             throw new RuntimeException("Out of bounds: " + pos);
         }
 
+
+        //Assign pos and piece to temporary sigma.
         Map<String, Object> sigmaPrime = new HashMap<>(state.sigma);
         sigmaPrime.put("position", pos);
         sigmaPrime.put("piece", pieceName);
 
-        BexpNode b1 = state.g;
+        //Check game rules apply.
+        boolean b1 = execBexp(state.g);
+        if(!b1){
+            throw new RuntimeException("Invalid action: Game rule is false");
+        }
 
+        //Check that win and draw are false before placing a piece.
+       /*for(Position occupiedPos : state.beta.keySet()){
+           boolean b2Before = execBexp(state.w);
+           boolean b3Before = execBexp(state.eta);
+           if(b2Before || b3Before){
+               throw new RuntimeException("Win and Draw are already true!");
+           }
+       }*/
 
-        state.beta.put(pos, node.ident);
+       //Place piece at position.
+        state.beta.put(pos, pieceName);
+
+       //Check win and draw conditions after move.
+        boolean b2 = execBexp(state.w);
+        boolean b3 = execBexp(state.eta);
+        if(b2){
+            state.sigma.put("win", true);
+        }else if(b3){
+            state.sigma.put("draw", true);
+        }
     }
 
 
