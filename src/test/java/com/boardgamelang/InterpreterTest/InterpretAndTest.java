@@ -62,4 +62,39 @@ public class InterpretAndTest {
 
         assertFalse(result);
     }
+
+    @Test
+    void andReturnsTrueWhenAllThreePositionsOccupied() {
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(1, 1), "X");
+        interp.state.beta.put(new Position(2, 2), "X");
+        interp.state.beta.put(new Position(3, 3), "X");
+
+        boolean result = interp.execBexp(new AndNode(
+                new AndNode(
+                        new OccupiedNode(new PosNode(1, 1)),
+                        new OccupiedNode(new PosNode(2, 2))
+                ),
+                new OccupiedNode(new PosNode(3, 3))
+        ));
+
+        assertTrue(result);
+    }
+
+    @Test
+    void andReturnsFalseWhenOneOfThreeIsNotOccupied() {
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(1, 1), "X");
+        interp.state.beta.put(new Position(3, 3), "X");
+
+        boolean result = interp.execBexp(new AndNode(
+                new AndNode(
+                        new OccupiedNode(new PosNode(1, 1)),
+                        new OccupiedNode(new PosNode(2, 2))
+                ),
+                new OccupiedNode(new PosNode(3, 3))
+        ));
+
+        assertFalse(result);
+    }
 }

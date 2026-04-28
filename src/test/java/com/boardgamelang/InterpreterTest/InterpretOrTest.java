@@ -62,4 +62,35 @@ public class InterpretOrTest {
 
         assertFalse(result);
     }
+
+    @Test
+    void orReturnsTrueWhenOneOfThreeIsOccupied() {
+        Interpreter interp = new Interpreter();
+        interp.state.beta.put(new Position(2, 2), "X");
+
+        boolean result = interp.execBexp(new OrNode(
+                new OrNode(
+                        new OccupiedNode(new PosNode(1, 1)),
+                        new OccupiedNode(new PosNode(2, 2))
+                ),
+                new OccupiedNode(new PosNode(3, 3))
+        ));
+
+        assertTrue(result);
+    }
+
+    @Test
+    void orReturnsFalseWhenAllThreeAreNotOccupied() {
+        Interpreter interp = new Interpreter();
+
+        boolean result = interp.execBexp(new OrNode(
+                new OrNode(
+                        new OccupiedNode(new PosNode(1, 1)),
+                        new OccupiedNode(new PosNode(2, 2))
+                ),
+                new OccupiedNode(new PosNode(3, 3))
+        ));
+
+        assertFalse(result);
+    }
 }
