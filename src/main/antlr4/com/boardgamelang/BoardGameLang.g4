@@ -15,10 +15,12 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | gameRule                               # GameRuleStmt
      ;
 
-bexp : OCCUPIED pos                           # OccupiedBexp
+bexp : OCCUPIED pos          # OccupiedBexp
+     | bexp AND bexp         # AndBexp
+     | bexp OR bexp          # OrBexp
      ;
 
-pos : LPAR NUM COMMA NUM RPAR                 # Position
+pos : LPAR NUM COMMA NUM RPAR  # Position
     ;
 
 /*aexp : orExp
@@ -68,6 +70,8 @@ OCCUPIED : 'occupied' ;
 ASSERT : 'assert' ;
 PLAYER : 'player' ;
 HAS : 'has';
+OR : 'or';
+AND : 'and';
 
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
