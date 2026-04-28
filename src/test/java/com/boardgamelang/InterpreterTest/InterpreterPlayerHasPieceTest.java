@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class InterpreterPlayerHasPieceTest {
 
@@ -98,6 +99,18 @@ public class InterpreterPlayerHasPieceTest {
         State state = interpreter.run(program);
         // Assert that there exists two player keys in the state o
         assertEquals(2, state.o.size());
+    }
+
+    @Test
+    void twoPlayerCannotHaveSamePiece() {
+        String input = "board(3,3); player red has 2 piece knight; player yellow has 4 piece knight;";
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+        // Assert that a runtimeerror is thrown
+        assertThrows(RuntimeException.class, () -> interpreter.run(program));
     }
 
 
