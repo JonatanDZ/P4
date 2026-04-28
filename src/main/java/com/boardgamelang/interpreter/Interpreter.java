@@ -62,7 +62,7 @@ public final class Interpreter {
 
     private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
         Set<State.OwnedPiece> playerPieces;
-        // boolean that returns true if the piece exists in any other players list of pieces
+        // boolean that returns true if the piece exists in any other players list of pieces, like the semantics constraint
         boolean pieceExistsInOtherPlayers = state.o.entrySet().stream()
                 .filter(entry -> !entry.getKey().equals(node.playerIdent))
                 .flatMap(entry -> entry.getValue().stream())
