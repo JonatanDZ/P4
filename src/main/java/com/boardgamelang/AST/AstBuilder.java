@@ -10,6 +10,7 @@ import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
+import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
@@ -71,5 +72,11 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         String x = ctx.IDENT().getText();
         PosNode pos = (PosNode) visit(ctx.pos());
         return new PlacePieceAtNode(pos, x);
+    }
+
+    @Override
+    public Node visitGamerulesPositionPieceGameRule(BoardGameLangParser.GamerulesPositionPieceGameRuleContext ctx) {
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
+        return new GamerulesPositionPieceNode(bexp);
     }
 }

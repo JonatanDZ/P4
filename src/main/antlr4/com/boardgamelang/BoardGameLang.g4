@@ -6,6 +6,7 @@ def : BOARD pos SEMI     # BoardDef
     ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
+         | GAMERULES POSITION PIECE bexp     # GamerulesPositionPieceGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -68,6 +69,8 @@ OCCUPIED : 'occupied' ;
 ASSERT : 'assert' ;
 PLAYER : 'player' ;
 HAS : 'has';
+GAMERULES: 'gamerules';
+POSITION: 'position';
 
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
