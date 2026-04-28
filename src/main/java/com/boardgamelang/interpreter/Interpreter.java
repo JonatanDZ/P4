@@ -76,7 +76,6 @@ public final class Interpreter {
         };
     }
 
-    // currently unused in interpreter which is on purpose. Should be called in offset etc.
     public Position execDir(DirNode d) {
         return switch (d) {
             case LeftNode  l  -> new Position(-1,  0);
