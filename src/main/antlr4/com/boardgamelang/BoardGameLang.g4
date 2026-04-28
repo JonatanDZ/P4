@@ -26,8 +26,11 @@ dir : LEFT                                    # LeftDir
     | UP                                      # UpDir
     | DOWN                                    # DownDir
     ;
-/*
-orExp : andExp ('or' andExp)*
+
+strexp : PIECE pos SEMI                              # PieceStrexp
+     ;
+
+/*orExp : andExp ('or' andExp)*
        ;
 
 andExp : eqExp ('and' eqExp)*
