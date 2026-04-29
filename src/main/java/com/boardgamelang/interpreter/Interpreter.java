@@ -1,10 +1,12 @@
 package com.boardgamelang.interpreter;
 
+import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.direction.DirNode;
@@ -59,14 +61,16 @@ public final class Interpreter {
 
 
     // public for test package: see comment on `state` above
-
     public boolean execBexp(BexpNode bexp) {
         return switch (bexp) {
             case OccupiedNode o -> execOccupiedBExp(o);
+            case AndNode a -> execBexp(a.left) && execBexp(a.right);
+            case OrNode o -> execBexp(o.left) || execBexp(o.right);
             default -> throw new UnsupportedOperationException(
                     "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
         };
     }
+
     public String execStrexp(StrexpNode strexp) {
         return switch (strexp){
             case PieceNode p -> execPieceStrexp(p);
@@ -86,7 +90,6 @@ public final class Interpreter {
     }
 
     // currently unused in interpreter which is on purpose. Should be called in offset etc.
-
     public Position execDir(DirNode d) {
         return switch (d) {
             case LeftNode  l  -> new Position(-1,  0);
@@ -97,11 +100,12 @@ public final class Interpreter {
                     "Dir not yet implemented: " + d.getClass().getSimpleName());
         };
     }
-    // [board_BS]: δ ← (v₁, v₂)
 
+    // [board_BS]: δ ← (v₁, v₂)
     private void execBoardDef(BoardNode b) {
         state.delta = new Position(b.pos.x, b.pos.y);
     }
+
     private String execPieceStrexp(PieceNode p) {
         Position pos = new Position(p.pos.x, p.pos.y);
 

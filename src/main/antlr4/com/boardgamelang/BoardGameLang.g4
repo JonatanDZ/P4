@@ -15,7 +15,9 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | gameRule                               # GameRuleStmt
      ;
 
-bexp : OCCUPIED pos                           # OccupiedBexp
+bexp : OCCUPIED pos          # OccupiedBexp
+     | bexp AND bexp         # AndBexp
+     | bexp OR bexp          # OrBexp
      ;
 
 aexp : COUNT LPAR IDENT RPAR                  # CountAexp
@@ -74,9 +76,11 @@ LPAR     : '('        ;
 RPAR     : ')'        ;
 COMMA    : ','        ;
 OCCUPIED : 'occupied' ;
-ASSERT   : 'assert'   ;
-PLAYER   : 'player'   ;
-HAS      : 'has'      ;
+ASSERT : 'assert' ;
+PLAYER : 'player' ;
+HAS : 'has';
+OR : 'or';
+AND : 'and';
 LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
