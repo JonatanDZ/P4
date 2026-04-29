@@ -2,6 +2,7 @@ package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OrNode;
+import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
@@ -118,5 +119,11 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     public Node visitPieceStrexp(BoardGameLangParser.PieceStrexpContext ctx) {
         PosNode pos = (PosNode) visit(ctx.pos());
         return new PieceNode(pos);
+    }
+
+    @Override
+    public Node visitCountAexp(BoardGameLangParser.CountAexpContext ctx) {
+        String pieceIdent = ctx.IDENT(0).getText();
+        return new CountNode(pieceIdent);
     }
 }
