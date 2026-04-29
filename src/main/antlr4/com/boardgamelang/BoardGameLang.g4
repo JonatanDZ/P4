@@ -18,6 +18,9 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
 bexp : OCCUPIED pos                           # OccupiedBexp
      ;
 
+aexp : COUNT LPAR IDENT RPAR                  # CountAexp
+     ;
+
 pos : LPAR NUM COMMA NUM RPAR                 # Position
     ;
 
@@ -78,6 +81,7 @@ LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
+COUNT    : 'count'    ;
 
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
