@@ -1,6 +1,8 @@
 package com.boardgamelang.interpreter;
 
 import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
+import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
@@ -40,6 +42,16 @@ public final class Interpreter {
                     "def not yet implemented: " + def.getClass().getSimpleName());
         }
     }
+
+    private void execRule(GameRuleNode gameRule){
+        switch (gameRule) {
+            case DrawWhenGlobalNode dg -> execDrawWhenGlobalGameRule(dg);
+            default -> throw new UnsupportedOperationException(
+                    "GameRule not yet implemented: " + gameRule.getClass().getSimpleName());
+        }
+    }
+
+
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
@@ -131,4 +143,9 @@ public final class Interpreter {
             nextPieceId = nextPieceId + 1;
         }
     }
+
+    private String execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
+        //String bexpToString = printBexp(node.bexp);
+    }
+    
 }
