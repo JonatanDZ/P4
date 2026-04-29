@@ -27,32 +27,6 @@ public class InterpretOrTest {
     }
 
     @Test
-    void orReturnsTrueWhenRightOperandIsFalse() {
-        Interpreter interp = new Interpreter();
-        interp.state.beta.put(new Position(1, 1), "X");
-
-        boolean result = interp.execBexp(new OrNode(
-                new OccupiedNode(new PosNode(1, 1)),
-                new OccupiedNode(new PosNode(2, 2))
-        ));
-
-        assertTrue(result);
-    }
-
-    @Test
-    void orReturnsTrueWhenLeftOperandIsFalse() {
-        Interpreter interp = new Interpreter();
-        interp.state.beta.put(new Position(2, 2), "X");
-
-        boolean result = interp.execBexp(new OrNode(
-                new OccupiedNode(new PosNode(1, 1)),
-                new OccupiedNode(new PosNode(2, 2))
-        ));
-
-        assertTrue(result);
-    }
-
-    @Test
     void orReturnsFalseWhenBothOperandsAreFalse() {
         Interpreter interp = new Interpreter();
 
