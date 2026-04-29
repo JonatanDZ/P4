@@ -1,21 +1,20 @@
 package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
-import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.stmt.PlacePieceXAtPNode;
+import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class VisitPlacePieceXAtPNodeTest {
+public class VisitPlacePieceAtStmtTest {
     @Test
-    void VisitPlacePieceXAtPNode() {
+    void visitPlacePieceAtReturnsIdentAndPos() {
         String input = "place piece X at (3,2);";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
-        PlacePieceXAtPNode node = (PlacePieceXAtPNode) builder.visit(parser.stmt());
+        PlacePieceAtNode node = (PlacePieceAtNode) builder.visit(parser.stmt());
 
         assertEquals("X", node.ident);
         assertEquals(3, node.pos.x);

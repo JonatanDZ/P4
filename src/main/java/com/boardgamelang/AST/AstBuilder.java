@@ -2,12 +2,16 @@ package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.stmt.PlacePieceXAtPNode;
+import com.boardgamelang.AST.direction.DownNode;
+import com.boardgamelang.AST.direction.LeftNode;
+import com.boardgamelang.AST.direction.RightNode;
+import com.boardgamelang.AST.direction.UpNode;
+import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
-import com.boardgamelang.AST.gamerule.PlayerXHasNPieceYNode;
+import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
@@ -34,9 +38,8 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitBoardDef(BoardGameLangParser.BoardDefContext ctx) {
-        int width = Integer.parseInt(ctx.NUM(0).getText());
-        int height = Integer.parseInt(ctx.NUM(1).getText());
-        return new BoardNode(width, height);
+        PosNode pos = (PosNode) visit(ctx.pos());
+        return new BoardNode(pos);
     }
 
     @Override
@@ -55,22 +58,42 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     @Override
     public Node visitAssertStmt(BoardGameLangParser.AssertStmtContext ctx) {
         String ident = ctx.IDENT().getText();
-        BexpNode bexp = (BexpNode) visit(ctx.bexp()); // Visits node child bexp
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
         return new AssertNode(ident, bexp);
     }
 
     @Override
-    public Node visitPlayerHasRule(BoardGameLangParser.PlayerHasRuleContext ctx) {
+    public Node visitPlayerHasPieceGameRule(BoardGameLangParser.PlayerHasPieceGameRuleContext ctx) {
         String playerIdent = ctx.IDENT(0).getText();
         int n = Integer.parseInt(ctx.NUM().getText());
         String pieceIdent = ctx.IDENT(1).getText();
-        return new PlayerXHasNPieceYNode(playerIdent, n, pieceIdent);
+        return new PlayerHasPieceNode(playerIdent, n, pieceIdent);
     }
 
     @Override
-    public Node visitPlaceStmt(BoardGameLangParser.PlaceStmtContext ctx) {
+    public Node visitPlacePieceAtStmt(BoardGameLangParser.PlacePieceAtStmtContext ctx) {
         String x = ctx.IDENT().getText();
         PosNode pos = (PosNode) visit(ctx.pos());
-        return new PlacePieceXAtPNode(pos, x);
+        return new PlacePieceAtNode(pos, x);
+    }
+
+    @Override
+    public Node visitLeftDir(BoardGameLangParser.LeftDirContext ctx) {
+        return new LeftNode();
+    }
+
+    @Override
+    public Node visitRightDir(BoardGameLangParser.RightDirContext ctx) {
+        return new RightNode();
+    }
+
+    @Override
+    public Node visitUpDir(BoardGameLangParser.UpDirContext ctx) {
+        return new UpNode();
+    }
+
+    @Override
+    public Node visitDownDir(BoardGameLangParser.DownDirContext ctx) {
+        return new DownNode();
     }
 }

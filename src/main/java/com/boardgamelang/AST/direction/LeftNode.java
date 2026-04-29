@@ -1,4 +1,4 @@
 package com.boardgamelang.AST.direction;
 
-public class LeftNode {
+public final class LeftNode extends DirNode {
 }

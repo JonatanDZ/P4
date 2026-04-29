@@ -1,12 +1,12 @@
 package com.boardgamelang.AST.def;
 
-public final class BoardNode extends DefNode {
-    public final int width;
-    public final int height;
+import com.boardgamelang.AST.pos.PosNode;
 
-    public BoardNode(int width, int height) {
-        this.width = width;
-        this.height = height;
+public final class BoardNode extends DefNode {
+    public final PosNode pos;
+
+    public BoardNode(PosNode pos) {
+        this.pos = pos;
     }
 }
 

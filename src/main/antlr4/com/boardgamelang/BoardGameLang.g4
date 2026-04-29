@@ -2,15 +2,15 @@ grammar BoardGameLang;
 
 program : def comp* EOF;
 
-def : BOARD LPAR NUM COMMA NUM RPAR SEMI     # BoardDef
+def : BOARD pos SEMI     # BoardDef
     ;
 
-gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasRule
+gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
 
-stmt : PLACE PIECE IDENT AT pos              # PlaceStmt
+stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | ASSERT IDENT LPAR bexp RPAR           # AssertStmt
      | gameRule                               # GameRuleStmt
      ;
@@ -21,9 +21,12 @@ bexp : OCCUPIED pos                           # OccupiedBexp
 pos : LPAR NUM COMMA NUM RPAR                 # Position
     ;
 
-/*aexp : orExp
-     ;
-
+dir : LEFT                                    # LeftDir
+    | RIGHT                                   # RightDir
+    | UP                                      # UpDir
+    | DOWN                                    # DownDir
+    ;
+/*
 orExp : andExp ('or' andExp)*
        ;
 
@@ -56,18 +59,22 @@ notExp : ('!' | '-')* term
      ;*/
 
 
-PLACE : 'place' ;
-BOARD : 'board' ;
-PIECE : 'piece' ;
-AT    : 'at'    ;
-SEMI  : ';'     ;
-LPAR  : '('     ;
-RPAR  : ')'     ;
-COMMA : ','     ;
+PLACE    : 'place'    ;
+BOARD    : 'board'    ;
+PIECE    : 'piece'    ;
+AT       : 'at'       ;
+SEMI     : ';'        ;
+LPAR     : '('        ;
+RPAR     : ')'        ;
+COMMA    : ','        ;
 OCCUPIED : 'occupied' ;
-ASSERT : 'assert' ;
-PLAYER : 'player' ;
-HAS : 'has';
+ASSERT   : 'assert'   ;
+PLAYER   : 'player'   ;
+HAS      : 'has'      ;
+LEFT     : 'left'     ;
+RIGHT    : 'right'    ;
+UP       : 'up'       ;
+DOWN     : 'down'     ;
 
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
