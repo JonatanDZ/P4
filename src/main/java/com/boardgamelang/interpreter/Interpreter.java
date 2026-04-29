@@ -1,5 +1,6 @@
 package com.boardgamelang.interpreter;
 
+import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.def.BoardNode;
@@ -13,6 +14,7 @@ import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
+import com.boardgamelang.AST.strexp.StrexpNode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,6 +57,14 @@ public final class Interpreter {
         };
     }
 
+    public String execStrexp(StrexpNode strexp) {
+        return switch (strexp){
+            case PieceNode p -> execPieceStrexp(p);
+            default -> throw new UnsupportedOperationException(
+                    "strexp not yet implemented: " + strexp.getClass().getSimpleName());
+        };
+    }
+
     private void execAssertStmt(AssertNode a) {
         boolean bexp = execBexp(a.bexp);
         state.t.put(a.ident, bexp);
@@ -80,6 +90,13 @@ public final class Interpreter {
     // [board_BS]: δ ← (v₁, v₂)
     private void execBoardDef(BoardNode b) {
         state.delta = new Position(b.pos.x, b.pos.y);
+    }
+
+    private String execPieceStrexp(PieceNode p) {
+        Position pos = new Position(p.pos.x, p.pos.y);
+
+        String pieceAtPosition = state.beta.get(pos);
+        return pieceAtPosition;
     }
 
     private int nextPieceId = 0;
