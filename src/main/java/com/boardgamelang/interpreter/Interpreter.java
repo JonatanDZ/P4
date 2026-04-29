@@ -1,6 +1,7 @@
 package com.boardgamelang.interpreter;
 
 import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
@@ -43,6 +44,7 @@ public final class Interpreter {
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
+            case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
             case AssertNode a -> execAssertStmt(a);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
@@ -104,6 +106,14 @@ public final class Interpreter {
     }
 
     private int nextPieceId = 0;
+
+    private void execWinWhenPositionsGameRule(WinWhenPositionsNode node) {
+        // rn state is limited to onle be declared once, maybe it should be changed?
+        if (state.w != null) {
+            throw new RuntimeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
+        }
+        state.w = node.bexp;
+    }
 
     private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
         Set<State.OwnedPiece> playerPieces;

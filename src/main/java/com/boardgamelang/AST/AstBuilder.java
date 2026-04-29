@@ -123,8 +123,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitWinWhenPositionsGameRule(BoardGameLangParser.WinWhenPositionsGameRuleContext ctx) {
-        PosNode pos = (PosNode) visit(ctx.pos());
         BexpNode bexp = (BexpNode) visit(ctx.bexp());
-        return new WinWhenPositionsNode(pos, bexp);
+        return new WinWhenPositionsNode(bexp);
     }
 }

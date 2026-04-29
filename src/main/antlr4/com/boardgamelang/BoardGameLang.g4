@@ -6,7 +6,7 @@ def : BOARD pos SEMI     # BoardDef
     ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
-         | WIN WHEN POSITIONS pos LBRAC bexp RBRAC SEMI    # WinWhenPositionsGameRule
+         | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
