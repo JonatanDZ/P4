@@ -12,9 +12,11 @@ import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
+import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,6 +44,7 @@ public final class Interpreter {
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
+            case PlacePieceAtNode p -> execPlacePieceAtStmt(p);
             case AssertNode a -> execAssertStmt(a);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
@@ -113,14 +116,13 @@ public final class Interpreter {
             nextPieceId = nextPieceId + 1;
         }
     }
-}
 
-    private void execPlacePieceAtStmt(PlacePieceAtNode node) {
+    public void execPlacePieceAtStmt(PlacePieceAtNode node) {
         //get piece from store.
-        Object value = state.sigma.get(node.ident);
-        if (!(value instanceof String pieceName)) {
+        String pieceName = node.ident;
+        /*if (!(value instanceof String pieceName)) {
             throw new RuntimeException("Expected piece identifier: " + node.ident);
-        }
+        }*/
 
         //Check that piece is mapped to a player.
         boolean exists = state.o.values().stream()
@@ -136,15 +138,13 @@ public final class Interpreter {
                 pos.y() <= 0 || pos.y() > state.delta.y()){
             throw new RuntimeException("Out of bounds: " + pos);
         }
-
-
         //Assign pos and piece to temporary sigma.
         Map<String, Object> sigmaPrime = new HashMap<>(state.sigma);
         sigmaPrime.put("position", pos);
         sigmaPrime.put("piece", pieceName);
 
         //Check game rules apply.
-        boolean b1 = execBexp(state.g);
+        boolean b1 = state.g == null || execBexp(state.g);
         if(!b1){
             throw new RuntimeException("Invalid action: Game rule is false");
         }
@@ -158,19 +158,17 @@ public final class Interpreter {
            }
        }*/
 
-       //Place piece at position.
+        //Place piece at position.
         state.beta.put(pos, pieceName);
 
-       //Check win and draw conditions after move.
-        boolean b2 = execBexp(state.w);
-        boolean b3 = execBexp(state.eta);
+        //Check win and draw conditions after move.
+        boolean b2 = state.w != null && execBexp(state.w);
+        boolean b3 = state.eta != null && execBexp(state.eta);
         if(b2){
             state.sigma.put("win", true);
         }else if(b3){
             state.sigma.put("draw", true);
         }
     }
-
-
-
 }
+
