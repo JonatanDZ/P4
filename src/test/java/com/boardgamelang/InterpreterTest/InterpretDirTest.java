@@ -12,37 +12,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterpretDirTest {
     @Test
-    void execDirLeftReturnsNegativeXOffset() {
+    void execDirUpDecreasesRow() {
         Interpreter interp = new Interpreter();
 
-        Position result = interp.execDir(new LeftNode());
+        Position result = interp.execDir(new UpNode());
 
         assertEquals(new Position(-1, 0), result);
     }
 
     @Test
-    void execDirRightReturnsPositiveXOffset() {
+    void execDirDownIncreasesRow() {
         Interpreter interp = new Interpreter();
 
-        Position result = interp.execDir(new RightNode());
+        Position result = interp.execDir(new DownNode());
 
         assertEquals(new Position(1, 0), result);
     }
 
     @Test
-    void execDirUpReturnsPositiveYOffset() {
+    void execDirRightIncreasesColumn() {
         Interpreter interp = new Interpreter();
 
-        Position result = interp.execDir(new UpNode());
+        Position result = interp.execDir(new RightNode());
 
         assertEquals(new Position(0, 1), result);
     }
 
     @Test
-    void execDirDownReturnsNegativeYOffset() {
+    void execDirLeftDecreasesColumn() {
         Interpreter interp = new Interpreter();
 
-        Position result = interp.execDir(new DownNode());
+        Position result = interp.execDir(new LeftNode());
 
         assertEquals(new Position(0, -1), result);
     }

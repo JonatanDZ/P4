@@ -1,7 +1,7 @@
 package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
-import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ public class VisitPosTest {
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
-        PosNode node = (PosNode) builder.visit(parser.pos());
+        PositionNode node = (PositionNode) builder.visit(parser.pos());
 
         assertEquals(1, node.x);
         assertEquals(2, node.y);

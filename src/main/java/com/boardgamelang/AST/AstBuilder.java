@@ -3,10 +3,9 @@ package com.boardgamelang.AST;
 import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.direction.DownNode;
-import com.boardgamelang.AST.direction.LeftNode;
-import com.boardgamelang.AST.direction.RightNode;
-import com.boardgamelang.AST.direction.UpNode;
+import com.boardgamelang.AST.direction.*;
+import com.boardgamelang.AST.pos.OffsetNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.def.BoardNode;
@@ -19,6 +18,7 @@ import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
 import com.boardgamelang.BoardGameLangParser.StmtContext;
+import com.boardgamelang.interpreter.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     public Node visitPosition(BoardGameLangParser.PositionContext ctx) {
         int x = Integer.parseInt(ctx.NUM(0).getText());
         int y = Integer.parseInt(ctx.NUM(1).getText());
-        return new PosNode(x, y);
+        return new PositionNode(x, y);
     }
 
     @Override
@@ -102,5 +102,13 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     public Node visitNumAexp(BoardGameLangParser.NumAexpContext ctx) {
         int n = Integer.parseInt(ctx.NUM().getText());
         return new NumNode(n);
+    }
+
+    @Override
+    public Node visitOffsetPos(BoardGameLangParser.OffsetPosContext ctx) {
+        PosNode pos = (PosNode) visit(ctx.pos());
+        DirNode dir = (DirNode) visit(ctx.dir());
+        int amount = Integer.parseInt(ctx.NUM().getText());
+        return new OffsetNode(pos, dir, amount);
     }
 }

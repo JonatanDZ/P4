@@ -22,7 +22,7 @@ bexp : OCCUPIED pos                           # OccupiedBexp
      ;
 
 pos : LPAR NUM COMMA NUM RPAR                 # Position
-    | OFFSET pos dir aexp                     # OffsetPos
+    | OFFSET pos dir NUM                     # OffsetPos
     ;
 
 dir : LEFT                                    # LeftDir

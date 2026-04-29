@@ -12,6 +12,9 @@ import com.boardgamelang.AST.direction.LeftNode;
 import com.boardgamelang.AST.direction.RightNode;
 import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
+import com.boardgamelang.AST.pos.OffsetNode;
+import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
@@ -57,13 +60,22 @@ public final class Interpreter {
         };
     }
 
+    public Position execPos(PosNode p) {
+        return switch (p) {
+            case PositionNode lit -> new Position(lit.x, lit.y);
+            case OffsetNode    o  -> execOffsetPos(o);
+            default -> throw new UnsupportedOperationException(
+                    "Pos not yet implemented: " + p.getClass().getSimpleName());
+        };
+    }
+
     private void execAssertStmt(AssertNode a) {
         boolean bexp = execBexp(a.bexp);
         state.t.put(a.ident, bexp);
     }
 
     private boolean execOccupiedBExp(OccupiedNode o) {
-        Position pos = new Position(o.pos.x, o.pos.y);
+        Position pos = execPos(o.pos);
         return state.beta.containsKey(pos);
     }
 
@@ -78,10 +90,10 @@ public final class Interpreter {
 
     public Position execDir(DirNode d) {
         return switch (d) {
-            case LeftNode  l  -> new Position(-1,  0);
-            case RightNode r  -> new Position( 1,  0);
-            case UpNode    u  -> new Position( 0,  1);
-            case DownNode  dn -> new Position( 0, -1);
+            case UpNode    u  -> new Position(-1,  0);   // [up_BS]
+            case DownNode  dn -> new Position( 1,  0);   // [down_BS]
+            case RightNode r  -> new Position( 0,  1);   // [right_BS]
+            case LeftNode  l  -> new Position( 0, -1);   // [left_BS]
             default -> throw new UnsupportedOperationException(
                     "Dir not yet implemented: " + d.getClass().getSimpleName());
         };
@@ -89,7 +101,7 @@ public final class Interpreter {
 
     // [board_BS]: δ ← (v₁, v₂)
     private void execBoardDef(BoardNode b) {
-        state.delta = new Position(b.pos.x, b.pos.y);
+        state.delta = execPos(b.pos);
     }
 
     private int nextPieceId = 0;
@@ -119,5 +131,28 @@ public final class Interpreter {
             playerPieces.add(newPiece);
             nextPieceId = nextPieceId + 1;
         }
+    }
+
+    private Position execOffsetPos(OffsetNode node) {
+        Position boardDim = new Position(
+                state.delta.x(),
+                state.delta.y()
+        );
+        Position base   = execPos(node.pos);
+        Position dir = execDir(node.dir);
+        Position result = new Position(
+                base.x() + dir.x() * node.n,
+                base.y() + dir.y() * node.n
+        );
+        // ensures that p (base) is in bound and the result position of offset is inbound. CHANGE THE SEMANTICS IN THE REPORT!
+        if (0 < base.x()   && base.x()   <= boardDim.x()
+            && 0 < base.y()   && base.y()   <= boardDim.y()
+            && 0 < result.x() && result.x() <= boardDim.x()
+            && 0 < result.y() && result.y() <= boardDim.y()) {
+            return result;
+        } else {
+            throw new RuntimeException("offset out of bounds: " + result);
+        }
+
     }
 }

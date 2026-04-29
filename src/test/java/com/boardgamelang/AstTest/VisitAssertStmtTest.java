@@ -3,6 +3,7 @@ package com.boardgamelang.AstTest;
 import com.boardgamelang.AST.AstBuilder;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.antlr.v4.runtime.*;
@@ -24,8 +25,9 @@ public class VisitAssertStmtTest {
 
         assertEquals("foo", node.ident);
         OccupiedNode occupied = (OccupiedNode) node.bexp; // Go into occupiedNode and exstract the values
-        assertEquals(1, occupied.pos.x);
-        assertEquals(2, occupied.pos.y);
+        PositionNode pos = (PositionNode) occupied.pos;
+        assertEquals(1, pos.x);
+        assertEquals(2, pos.y);
     }
 
     // Ensure that Assert should hold a bexp
