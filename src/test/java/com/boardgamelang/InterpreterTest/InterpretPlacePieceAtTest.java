@@ -71,15 +71,4 @@ public class InterpretPlacePieceAtTest {
         assertTrue(ex.getMessage().contains("Piece not owned"));
     }
 
-    @Test
-    void failsWhenGameruleFalse(){
-        String input = "board(8,8); player x has 1 piece knight; place piece knight at (9,8);";
-
-    }
-
-
-
-
-
-
 }

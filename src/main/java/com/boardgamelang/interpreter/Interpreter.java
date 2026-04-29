@@ -120,9 +120,6 @@ public final class Interpreter {
     public void execPlacePieceAtStmt(PlacePieceAtNode node) {
         //get piece from store.
         String pieceName = node.ident;
-        /*if (!(value instanceof String pieceName)) {
-            throw new RuntimeException("Expected piece identifier: " + node.ident);
-        }*/
 
         //Check that piece is mapped to a player.
         boolean exists = state.o.values().stream()
@@ -148,15 +145,6 @@ public final class Interpreter {
         if(!b1){
             throw new RuntimeException("Invalid action: Game rule is false");
         }
-
-        //Check that win and draw are false before placing a piece.
-       /*for(Position occupiedPos : state.beta.keySet()){
-           boolean b2Before = execBexp(state.w);
-           boolean b3Before = execBexp(state.eta);
-           if(b2Before || b3Before){
-               throw new RuntimeException("Win and Draw are already true!");
-           }
-       }*/
 
         //Place piece at position.
         state.beta.put(pos, pieceName);
