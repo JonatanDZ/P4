@@ -5,6 +5,7 @@ import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.aexp.CountNode;
+import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
@@ -12,7 +13,7 @@ import com.boardgamelang.AST.direction.*;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
-import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -45,7 +46,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitBoardDef(BoardGameLangParser.BoardDefContext ctx) {
-        PosNode pos = (PosNode) visit(ctx.pos());
+        PositionNode pos = (PositionNode) visit(ctx.pos());
         return new BoardNode(pos);
     }
 
@@ -58,7 +59,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitOccupiedBexp(BoardGameLangParser.OccupiedBexpContext ctx) {
-        PosNode pos = (PosNode) visit(ctx.pos());
+        PositionNode pos = (PositionNode) visit(ctx.pos());
         return new OccupiedNode(pos);
     }
 
@@ -80,7 +81,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     @Override
     public Node visitPlacePieceAtStmt(BoardGameLangParser.PlacePieceAtStmtContext ctx) {
         String x = ctx.IDENT().getText();
-        PosNode pos = (PosNode) visit(ctx.pos());
+        PositionNode pos = (PositionNode) visit(ctx.pos());
         return new PlacePieceAtNode(pos, x);
     }
 
@@ -134,7 +135,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitPieceStrexp(BoardGameLangParser.PieceStrexpContext ctx) {
-        PosNode pos = (PosNode) visit(ctx.pos());
+        PositionNode pos = (PositionNode) visit(ctx.pos());
         return new PieceNode(pos);
     }
 

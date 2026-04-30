@@ -5,6 +5,7 @@ import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.aexp.CountNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
@@ -131,19 +132,17 @@ public final class Interpreter {
     }
 
     private String execPieceStrexp(PieceNode p) {
-        Position pos = new Position(p.pos.x, p.pos.y);
+        Position pos = execPos(p.pos);
 
-        String pieceAtPosition = state.beta.get(pos);
-        return pieceAtPosition;
+        return state.beta.get(pos);
     }
 
     private long execCountNode(CountNode count) {
         // Looks in beta and count the amount of appearances of the piece
-        long amountOfAppearances = state.beta.values().stream()
+
+        return state.beta.values().stream()
                 .filter(piece -> piece.equals(count.ident))
                 .count();
-
-        return amountOfAppearances;
     }
 
     private int nextPieceId = 0;
