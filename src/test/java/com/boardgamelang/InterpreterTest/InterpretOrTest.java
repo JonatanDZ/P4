@@ -3,7 +3,8 @@ package com.boardgamelang.InterpreterTest;
 import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.bexp.OrNode;
-import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.AST.pos.PositionNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.interpreter.Interpreter;
 import com.boardgamelang.interpreter.Position;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,8 @@ public class InterpretOrTest {
         interp.state.beta.put(new Position(2, 2), "X");
 
         boolean result = interp.execBexp(new OrNode(
-                new OccupiedNode(new PosNode(1, 1)),
-                new OccupiedNode(new PosNode(2, 2))
+                new OccupiedNode(new PositionNode(1, 1)),
+                new OccupiedNode(new PositionNode(2, 2))
         ));
 
         assertTrue(result);
@@ -31,8 +32,8 @@ public class InterpretOrTest {
         Interpreter interp = new Interpreter();
 
         boolean result = interp.execBexp(new OrNode(
-                new OccupiedNode(new PosNode(1, 1)),
-                new OccupiedNode(new PosNode(2, 2))
+                new OccupiedNode(new PositionNode(1, 1)),
+                new OccupiedNode(new PositionNode(2, 2))
         ));
 
         assertFalse(result);
@@ -45,10 +46,10 @@ public class InterpretOrTest {
 
         boolean result = interp.execBexp(new OrNode(
                 new OrNode(
-                        new OccupiedNode(new PosNode(1, 1)),
-                        new OccupiedNode(new PosNode(2, 2))
+                        new OccupiedNode(new PositionNode(1, 1)),
+                        new OccupiedNode(new PositionNode(2, 2))
                 ),
-                new OccupiedNode(new PosNode(3, 3))
+                new OccupiedNode(new PositionNode(3, 3))
         ));
 
         assertTrue(result);
@@ -60,10 +61,10 @@ public class InterpretOrTest {
 
         boolean result = interp.execBexp(new OrNode(
                 new OrNode(
-                        new OccupiedNode(new PosNode(1, 1)),
-                        new OccupiedNode(new PosNode(2, 2))
+                        new OccupiedNode(new PositionNode(1, 1)),
+                        new OccupiedNode(new PositionNode(2, 2))
                 ),
-                new OccupiedNode(new PosNode(3, 3))
+                new OccupiedNode(new PositionNode(3, 3))
         ));
 
         assertFalse(result);
@@ -78,10 +79,10 @@ public class InterpretOrTest {
         interp.state.beta.put(new Position(3, 3), "X");
 
         boolean result = interp.execBexp(new OrNode(
-                new OccupiedNode(new PosNode(1, 1)),
+                new OccupiedNode(new PositionNode(1, 1)),
                 new AndNode(
-                        new OccupiedNode(new PosNode(2, 2)),
-                        new OccupiedNode(new PosNode(3, 3))
+                        new OccupiedNode(new PositionNode(2, 2)),
+                        new OccupiedNode(new PositionNode(3, 3))
                 )
         ));
 
@@ -96,10 +97,10 @@ public class InterpretOrTest {
         interp.state.beta.put(new Position(2, 2), "X");
 
         boolean result = interp.execBexp(new OrNode(
-                new OccupiedNode(new PosNode(1, 1)),
+                new OccupiedNode(new PositionNode(1, 1)),
                 new AndNode(
-                        new OccupiedNode(new PosNode(2, 2)),
-                        new OccupiedNode(new PosNode(3, 3))
+                        new OccupiedNode(new PositionNode(2, 2)),
+                        new OccupiedNode(new PositionNode(3, 3))
                 )
         ));
 
@@ -116,10 +117,10 @@ public class InterpretOrTest {
         interp.state.beta.put(new Position(3, 3), "X");
 
         boolean result = interp.execBexp(new OrNode(
-                new OccupiedNode(new PosNode(1, 1)),
+                new OccupiedNode(new PositionNode(1, 1)),
                 new AndNode(
-                        new OccupiedNode(new PosNode(2, 2)),
-                        new OccupiedNode(new PosNode(3, 3))
+                        new OccupiedNode(new PositionNode(2, 2)),
+                        new OccupiedNode(new PositionNode(3, 3))
                 )
         ));
 

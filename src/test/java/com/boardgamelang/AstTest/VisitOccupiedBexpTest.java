@@ -2,6 +2,7 @@ package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +18,9 @@ public class VisitOccupiedBexpTest {
         AstBuilder builder = new AstBuilder();
 
         OccupiedNode node = (OccupiedNode) builder.visit(parser.bexp());
+        PositionNode pos = (PositionNode) node.pos;
 
-        assertEquals(3, node.pos.x);
-        assertEquals(2, node.pos.y);
+        assertEquals(3, pos.x);
+        assertEquals(2, pos.y);
     }
 }

@@ -23,9 +23,12 @@ bexp : OCCUPIED pos          # OccupiedBexp
      ;
 
 aexp : COUNT LPAR IDENT RPAR                  # CountAexp
+      | NUM                                    # NumAexp
      ;
 
+
 pos : LPAR NUM COMMA NUM RPAR                 # Position
+    | OFFSET pos dir NUM                     # OffsetPos
     ;
 
 dir : LEFT                                    # LeftDir
@@ -91,11 +94,13 @@ LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
+OFFSET   : 'offset'   ;
 WIN : 'win' ;
 WHEN : 'when' ;
 POSITIONS : 'positions' ;
 COUNT    : 'count'    ;
 
+// int (not double): board game values are inherently discrete — positions, counts, offsets are all integer-valued
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
 WS      : [ \t\r\n]+ -> skip ;

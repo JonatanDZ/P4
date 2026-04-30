@@ -2,6 +2,7 @@ package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
 import com.boardgamelang.AST.def.BoardNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,9 @@ public class VisitBoardDefTest {
         AstBuilder builder = new AstBuilder();
 
         BoardNode node = (BoardNode) builder.visit(parser.def());
+        PositionNode pos = (PositionNode) node.pos;
 
-        assertEquals(3, node.pos.x);
-        assertEquals(3, node.pos.y);
+        assertEquals(3, pos.x);
+        assertEquals(3, pos.y);
     }
 }
