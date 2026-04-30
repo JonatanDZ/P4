@@ -22,6 +22,7 @@ import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
 import com.boardgamelang.BoardGameLangParser.StmtContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,20 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
+    public Node visitOrBexp(BoardGameLangParser.OrBexpContext ctx) {
+        BexpNode left = (BexpNode) visit(ctx.bexp(0));
+        BexpNode right = (BexpNode) visit(ctx.bexp(1));
+        return new OrNode(left, right);
+    }
+
+    @Override
+    public Node visitAndBexp(BoardGameLangParser.AndBexpContext ctx) {
+        BexpNode left = (BexpNode) visit(ctx.bexp(0));
+        BexpNode right = (BexpNode) visit(ctx.bexp(1));
+        return new AndNode(left, right);
+    }
+
+    @Override
     public Node visitAssertStmt(BoardGameLangParser.AssertStmtContext ctx) {
         String ident = ctx.IDENT().getText();
         BexpNode bexp = (BexpNode) visit(ctx.bexp());
@@ -79,20 +94,6 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         String x = ctx.IDENT().getText();
         PosNode pos = (PosNode) visit(ctx.pos());
         return new PlacePieceAtNode(pos, x);
-    }
-
-    @Override
-    public Node visitOrBexp(BoardGameLangParser.OrBexpContext ctx) {
-        BexpNode left = (BexpNode) visit(ctx.bexp(0));
-        BexpNode right = (BexpNode) visit(ctx.bexp(1));
-        return new OrNode(left, right);
-    }
-
-    @Override
-    public Node visitAndBexp(BoardGameLangParser.AndBexpContext ctx) {
-        BexpNode left = (BexpNode) visit(ctx.bexp(0));
-        BexpNode right = (BexpNode) visit(ctx.bexp(1));
-        return new AndNode(left, right);
     }
 
     @Override
@@ -124,6 +125,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     @Override
     public Node visitGamerulesPositionPieceGameRule(BoardGameLangParser.GamerulesPositionPieceGameRuleContext ctx) {
         BexpNode bexp = (BexpNode) visit(ctx.bexp());
+
         return new GamerulesPositionPieceNode(bexp);
     }
 }

@@ -5,8 +5,8 @@ program : def comp* EOF;
 def : BOARD pos SEMI     # BoardDef
     ;
 
-gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
-         | GAMERULES POSITION PIECE bexp     # GamerulesPositionPieceGameRule
+gameRule : PLAYER IDENT HAS NUM PIECE IDENT   # PlayerHasPieceGameRule
+         | GAMERULES POSITION PIECE LBRA bexp RBRA     # GamerulesPositionPieceGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -72,6 +72,8 @@ AT       : 'at'       ;
 SEMI     : ';'        ;
 LPAR     : '('        ;
 RPAR     : ')'        ;
+LBRA     : '{'        ;
+RBRA     : '}'        ;
 COMMA    : ','        ;
 OCCUPIED : 'occupied' ;
 ASSERT : 'assert' ;

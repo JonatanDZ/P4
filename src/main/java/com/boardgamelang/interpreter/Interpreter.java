@@ -42,15 +42,24 @@ public final class Interpreter {
                     "def not yet implemented: " + def.getClass().getSimpleName());
         }
     }
+
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
             case AssertNode a -> execAssertStmt(a);
+            case GameRuleNode g -> execGameRule(g);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
     }
 
+    private void execGameRule(GameRuleNode gameRule) {
+        switch (gameRule){
+            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
+            default -> throw new UnsupportedOperationException(
+                    "gameRule not yet implemented: " + gameRule.getClass().getSimpleName());
+        }
+    }
 
     // public for test package: see comment on `state` above
     public boolean execBexp(BexpNode bexp) {
@@ -71,16 +80,6 @@ public final class Interpreter {
         };
     }
 
-    private void execAssertStmt(AssertNode a) {
-        boolean bexp = execBexp(a.bexp);
-        state.t.put(a.ident, bexp);
-    }
-
-    private boolean execOccupiedBExp(OccupiedNode o) {
-        Position pos = new Position(o.pos.x, o.pos.y);
-        return state.beta.containsKey(pos);
-    }
-
     // currently unused in interpreter which is on purpose. Should be called in offset etc.
     public Position execDir(DirNode d) {
         return switch (d) {
@@ -91,6 +90,16 @@ public final class Interpreter {
             default -> throw new UnsupportedOperationException(
                     "Dir not yet implemented: " + d.getClass().getSimpleName());
         };
+    }
+
+    private void execAssertStmt(AssertNode a) {
+        boolean bexp = execBexp(a.bexp);
+        state.t.put(a.ident, bexp);
+    }
+
+    private boolean execOccupiedBExp(OccupiedNode o) {
+        Position pos = new Position(o.pos.x, o.pos.y);
+        return state.beta.containsKey(pos);
     }
 
     // [board_BS]: δ ← (v₁, v₂)
@@ -133,4 +142,9 @@ public final class Interpreter {
             nextPieceId = nextPieceId + 1;
         }
     }
+
+    private void execGamerulesPositionPieceGameRule(GamerulesPositionPieceNode gr) {
+        state.g = gr.bexp;
+        }
+
 }
