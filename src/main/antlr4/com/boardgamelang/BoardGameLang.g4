@@ -7,6 +7,7 @@ def : BOARD pos SEMI     # BoardDef
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
          | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
+         | GAMERULES POSITION PIECE LBRAC bexp RBRAC     # GamerulesPositionPieceGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -82,6 +83,8 @@ OCCUPIED : 'occupied' ;
 ASSERT : 'assert' ;
 PLAYER : 'player' ;
 HAS : 'has';
+GAMERULES: 'gamerules';
+POSITION: 'position';
 OR : 'or';
 AND : 'and';
 LEFT     : 'left'     ;

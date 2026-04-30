@@ -19,10 +19,12 @@ import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
+import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
 import com.boardgamelang.BoardGameLangParser.StmtContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +122,13 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     public Node visitPieceStrexp(BoardGameLangParser.PieceStrexpContext ctx) {
         PosNode pos = (PosNode) visit(ctx.pos());
         return new PieceNode(pos);
+    }
+
+    @Override
+    public Node visitGamerulesPositionPieceGameRule(BoardGameLangParser.GamerulesPositionPieceGameRuleContext ctx) {
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
+
+        return new GamerulesPositionPieceNode(bexp);
     }
 
     @Override

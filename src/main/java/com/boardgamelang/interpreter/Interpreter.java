@@ -16,6 +16,8 @@ import com.boardgamelang.AST.direction.LeftNode;
 import com.boardgamelang.AST.direction.RightNode;
 import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
+import com.boardgamelang.AST.gamerule.GameRuleNode;
+import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
@@ -43,16 +45,25 @@ public final class Interpreter {
                     "def not yet implemented: " + def.getClass().getSimpleName());
         }
     }
+
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
             case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
             case AssertNode a -> execAssertStmt(a);
+            case GameRuleNode g -> execGameRule(g);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
     }
 
+    private void execGameRule(GameRuleNode gameRule) {
+        switch (gameRule){
+            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
+            default -> throw new UnsupportedOperationException(
+                    "gameRule not yet implemented: " + gameRule.getClass().getSimpleName());
+        }
+    }
     public long execAexp(AexpNode aexp) {
         return switch (aexp) {
             case CountNode c -> execCountNode(c);
@@ -160,4 +171,9 @@ public final class Interpreter {
             nextPieceId = nextPieceId + 1;
         }
     }
+
+    private void execGamerulesPositionPieceGameRule(GamerulesPositionPieceNode gr) {
+        state.g = gr.bexp;
+        }
+
 }
