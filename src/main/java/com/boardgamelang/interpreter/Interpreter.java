@@ -2,8 +2,14 @@ package com.boardgamelang.interpreter;
 
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.NumNode;
+import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
+import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.aexp.CountNode;
+import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.direction.DirNode;
@@ -15,9 +21,12 @@ import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.pos.PositionNode;
+import com.boardgamelang.AST.gamerule.GameRuleNode;
+import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
+import com.boardgamelang.AST.strexp.StrexpNode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,13 +50,31 @@ public final class Interpreter {
                     "def not yet implemented: " + def.getClass().getSimpleName());
         }
     }
+
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
+            case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
             case AssertNode a -> execAssertStmt(a);
+            case GameRuleNode g -> execGameRule(g);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
+    }
+
+    private void execGameRule(GameRuleNode gameRule) {
+        switch (gameRule){
+            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
+            default -> throw new UnsupportedOperationException(
+                    "gameRule not yet implemented: " + gameRule.getClass().getSimpleName());
+        }
+    }
+    public long execAexp(AexpNode aexp) {
+        return switch (aexp) {
+            case CountNode c -> execCountNode(c);
+            default -> throw new UnsupportedOperationException(
+                    "aexp not yet implemented: " + aexp.getClass().getSimpleName());
+        };
     }
 
 
@@ -55,6 +82,8 @@ public final class Interpreter {
     public boolean execBexp(BexpNode bexp) {
         return switch (bexp) {
             case OccupiedNode o -> execOccupiedBExp(o);
+            case AndNode a -> execBexp(a.left) && execBexp(a.right);
+            case OrNode o -> execBexp(o.left) || execBexp(o.right);
             default -> throw new UnsupportedOperationException(
                     "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
         };
@@ -66,6 +95,14 @@ public final class Interpreter {
             case OffsetNode    o  -> execOffsetPos(o);
             default -> throw new UnsupportedOperationException(
                     "Pos not yet implemented: " + p.getClass().getSimpleName());
+        };
+    }
+
+    public String execStrexp(StrexpNode strexp) {
+        return switch (strexp){
+            case PieceNode p -> execPieceStrexp(p);
+            default -> throw new UnsupportedOperationException(
+                    "strexp not yet implemented: " + strexp.getClass().getSimpleName());
         };
     }
 
@@ -104,7 +141,31 @@ public final class Interpreter {
         state.delta = execPos(b.pos);
     }
 
+    private String execPieceStrexp(PieceNode p) {
+        Position pos = new Position(p.pos.x, p.pos.y);
+
+        String pieceAtPosition = state.beta.get(pos);
+        return pieceAtPosition;
+    }
+
+    private long execCountNode(CountNode count) {
+        // Looks in beta and count the amount of appearances of the piece
+        long amountOfAppearances = state.beta.values().stream()
+                .filter(piece -> piece.equals(count.ident))
+                .count();
+
+        return amountOfAppearances;
+    }
+
     private int nextPieceId = 0;
+
+    private void execWinWhenPositionsGameRule(WinWhenPositionsNode node) {
+        // rn state is limited to onle be declared once, maybe it should be changed?
+        if (state.w != null) {
+            throw new RuntimeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
+        }
+        state.w = node.bexp;
+    }
 
     private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
         Set<State.OwnedPiece> playerPieces;
@@ -151,4 +212,9 @@ public final class Interpreter {
         }
 
     }
+
+    private void execGamerulesPositionPieceGameRule(GamerulesPositionPieceNode gr) {
+        state.g = gr.bexp;
+        }
+
 }

@@ -6,6 +6,8 @@ def : BOARD pos SEMI     # BoardDef
     ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
+         | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
+         | GAMERULES POSITION PIECE LBRAC bexp RBRAC     # GamerulesPositionPieceGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -15,11 +17,15 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | gameRule                               # GameRuleStmt
      ;
 
-aexp : NUM                                    # NumAexp
+bexp : OCCUPIED pos          # OccupiedBexp
+     | bexp AND bexp         # AndBexp
+     | bexp OR bexp          # OrBexp
      ;
 
-bexp : OCCUPIED pos                           # OccupiedBexp
+aexp : COUNT LPAR IDENT RPAR                  # CountAexp
+      | NUM                                    # NumAexp
      ;
+
 
 pos : LPAR NUM COMMA NUM RPAR                 # Position
     | OFFSET pos dir NUM                     # OffsetPos
@@ -30,8 +36,11 @@ dir : LEFT                                    # LeftDir
     | UP                                      # UpDir
     | DOWN                                    # DownDir
     ;
-/*
-orExp : andExp ('or' andExp)*
+
+strexp : PIECE pos                              # PieceStrexp
+     ;
+
+/*orExp : andExp ('or' andExp)*
        ;
 
 andExp : eqExp ('and' eqExp)*
@@ -70,16 +79,26 @@ AT       : 'at'       ;
 SEMI     : ';'        ;
 LPAR     : '('        ;
 RPAR     : ')'        ;
+LBRAC    : '{'        ;
+RBRAC    : '}'        ;
 COMMA    : ','        ;
 OCCUPIED : 'occupied' ;
-ASSERT   : 'assert'   ;
-PLAYER   : 'player'   ;
-HAS      : 'has'      ;
+ASSERT : 'assert' ;
+PLAYER : 'player' ;
+HAS : 'has';
+GAMERULES: 'gamerules';
+POSITION: 'position';
+OR : 'or';
+AND : 'and';
 LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
 OFFSET   : 'offset'   ;
+WIN : 'win' ;
+WHEN : 'when' ;
+POSITIONS : 'positions' ;
+COUNT    : 'count'    ;
 
 // int (not double): board game values are inherently discrete — positions, counts, offsets are all integer-valued
 NUM : [0-9]+ ;
