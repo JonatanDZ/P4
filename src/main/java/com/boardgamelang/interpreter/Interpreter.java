@@ -22,7 +22,6 @@ import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
-import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
@@ -56,11 +55,11 @@ public final class Interpreter {
     private void execGameRule(GameRuleNode gameRule){
         switch (gameRule) {
             case DrawWhenGlobalNode dg -> execDrawWhenGlobalGameRule(dg);
+            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
             default -> throw new UnsupportedOperationException(
                     "GameRule not yet implemented: " + gameRule.getClass().getSimpleName());
         }
     }
-
 
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
@@ -68,19 +67,11 @@ public final class Interpreter {
             case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
             case GameRuleNode g -> execGameRule(g);
             case AssertNode a -> execAssertStmt(a);
-            case GameRuleNode g -> execGameRule(g);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
     }
 
-    private void execGameRule(GameRuleNode gameRule) {
-        switch (gameRule){
-            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
-            default -> throw new UnsupportedOperationException(
-                    "gameRule not yet implemented: " + gameRule.getClass().getSimpleName());
-        }
-    }
     public long execAexp(AexpNode aexp) {
         return switch (aexp) {
             case CountNode c -> execCountNode(c);
