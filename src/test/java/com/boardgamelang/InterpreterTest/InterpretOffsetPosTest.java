@@ -20,7 +20,6 @@ public class InterpretOffsetPosTest {
         interp.state.delta = interp.execPos(new PositionNode(3,3));
 
         Position result = interp.execPos(new OffsetNode(pos, dir, 1));
-        assertDoesNotThrow(() -> result);
         assertEquals(new Position(2,1), result);
     }
 
@@ -40,7 +39,7 @@ public class InterpretOffsetPosTest {
     @Test
     void offsetResultOutOfBoundsAndThrows() {
         Interpreter interp = new Interpreter();
-        PositionNode pos = new PositionNode(1, 1);   // column 4 is off a 3x3 board
+        PositionNode pos = new PositionNode(1, 1);   // base is in bounds, but result (1, -4) is off a 3x3 board
         DirNode dir = new LeftNode();
         interp.state.delta = interp.execPos(new PositionNode(3, 3));
 
@@ -56,7 +55,6 @@ public class InterpretOffsetPosTest {
         interp.state.delta = interp.execPos(new PositionNode(3,3));
 
         Position result = interp.execPos(new OffsetNode(new OffsetNode(pos, dir, 1), dir, 1));
-        assertDoesNotThrow(() -> result);
         assertEquals(new Position(1,1), result);
     }
 }

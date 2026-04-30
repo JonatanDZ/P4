@@ -18,7 +18,6 @@ import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
 import com.boardgamelang.BoardGameLangParser.StmtContext;
-import com.boardgamelang.interpreter.Position;
 
 import java.util.ArrayList;
 import java.util.List;

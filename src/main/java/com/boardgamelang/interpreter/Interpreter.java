@@ -134,10 +134,6 @@ public final class Interpreter {
     }
 
     private Position execOffsetPos(OffsetNode node) {
-        Position boardDim = new Position(
-                state.delta.x(),
-                state.delta.y()
-        );
         Position base   = execPos(node.pos);
         Position dir = execDir(node.dir);
         Position result = new Position(
@@ -145,10 +141,10 @@ public final class Interpreter {
                 base.y() + dir.y() * node.n
         );
         // ensures that p (base) is in bound and the result position of offset is inbound. CHANGE THE SEMANTICS IN THE REPORT!
-        if (0 < base.x()   && base.x()   <= boardDim.x()
-            && 0 < base.y()   && base.y()   <= boardDim.y()
-            && 0 < result.x() && result.x() <= boardDim.x()
-            && 0 < result.y() && result.y() <= boardDim.y()) {
+        if (0 < base.x()   && base.x()   <= state.delta.x()
+            && 0 < base.y()   && base.y()   <= state.delta.y()
+            && 0 < result.x() && result.x() <= state.delta.x()
+            && 0 < result.y() && result.y() <= state.delta.y()) {
             return result;
         } else {
             throw new RuntimeException("offset out of bounds: " + result);

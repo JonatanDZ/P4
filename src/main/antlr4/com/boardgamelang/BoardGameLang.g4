@@ -79,7 +79,7 @@ LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
-OFFSET     : 'offset'     ;
+OFFSET   : 'offset'   ;
 
 // int (not double): board game values are inherently discrete — positions, counts, offsets are all integer-valued
 NUM : [0-9]+ ;
