@@ -3,6 +3,8 @@ package com.boardgamelang.interpreter;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
+import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.pos.PositionNode;
@@ -20,7 +22,6 @@ import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
-import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
@@ -50,24 +51,27 @@ public final class Interpreter {
         }
     }
 
+
+    private void execGameRule(GameRuleNode gameRule){
+        switch (gameRule) {
+            case DrawWhenGlobalNode dg -> execDrawWhenGlobalGameRule(dg);
+            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
+            default -> throw new UnsupportedOperationException(
+                    "GameRule not yet implemented: " + gameRule.getClass().getSimpleName());
+        }
+    }
+
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
             case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
-            case AssertNode a -> execAssertStmt(a);
             case GameRuleNode g -> execGameRule(g);
+            case AssertNode a -> execAssertStmt(a);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
     }
 
-    private void execGameRule(GameRuleNode gameRule) {
-        switch (gameRule){
-            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
-            default -> throw new UnsupportedOperationException(
-                    "gameRule not yet implemented: " + gameRule.getClass().getSimpleName());
-        }
-    }
     public long execAexp(AexpNode aexp) {
         return switch (aexp) {
             case CountNode c -> execCountNode(c);
@@ -204,5 +208,10 @@ public final class Interpreter {
     private void execGamerulesPositionPieceGameRule(GamerulesPositionPieceNode gr) {
         state.g = gr.bexp;
         }
+
+
+    private void execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
+        state.eta = node.bexp;
+    }
 
 }

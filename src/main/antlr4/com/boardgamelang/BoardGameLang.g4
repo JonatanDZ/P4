@@ -6,8 +6,9 @@ def : BOARD pos SEMI     # BoardDef
     ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
-         | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
          | GAMERULES POSITION PIECE LBRAC bexp RBRAC     # GamerulesPositionPieceGameRule
+         | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
+         | DRAW WHEN GLOBAL LBRAC bexp RBRAC # DrawWhenGlobalGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -73,6 +74,7 @@ notExp : ('!' | '-')* term
 
 
 PLACE    : 'place'    ;
+DRAW     : 'draw'     ;
 BOARD    : 'board'    ;
 PIECE    : 'piece'    ;
 AT       : 'at'       ;
@@ -88,6 +90,7 @@ PLAYER : 'player' ;
 HAS : 'has';
 GAMERULES: 'gamerules';
 POSITION: 'position';
+GLOBAL : 'global' ;
 OR : 'or';
 AND : 'and';
 LEFT     : 'left'     ;
