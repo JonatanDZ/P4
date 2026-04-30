@@ -1,12 +1,10 @@
 package com.boardgamelang.interpreter;
 
-import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.CountNode;
+import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.strexp.PieceNode;
-import com.boardgamelang.AST.bexp.BexpNode;
-import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.direction.DirNode;
@@ -66,8 +64,18 @@ public final class Interpreter {
             case OccupiedNode o -> execOccupiedBExp(o);
             case AndNode a -> execBexp(a.left) && execBexp(a.right);
             case OrNode o -> execBexp(o.left) || execBexp(o.right);
+            case EqualsNode e -> execEqualsNode(e);
             default -> throw new UnsupportedOperationException(
                     "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
+        };
+    }
+
+    private boolean execEqualsNode(EqualsNode node) {
+        return switch (node.left) {
+            case AexpNode l -> execAexp(l) == execAexp((AexpNode) node.right);
+            case StrexpNode l -> execStrexp(l).equals(execStrexp((StrexpNode) node.right));
+            case PosNode l -> execPos(l).equals(execPos((PosNode) node.right));
+            default -> throw new RuntimeException("Unsupported equals type");
         };
     }
 

@@ -1,11 +1,9 @@
 package com.boardgamelang.AST;
 
-import com.boardgamelang.AST.bexp.AndNode;
-import com.boardgamelang.AST.bexp.OrNode;
+import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.strexp.PieceNode;
-import com.boardgamelang.AST.bexp.BexpNode;
-import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.direction.DownNode;
 import com.boardgamelang.AST.direction.LeftNode;
 import com.boardgamelang.AST.direction.RightNode;
@@ -18,6 +16,7 @@ import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
+import com.boardgamelang.AST.strexp.StrexpNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
@@ -125,5 +124,26 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     public Node visitCountAexp(BoardGameLangParser.CountAexpContext ctx) {
         String pieceIdent = ctx.IDENT(0).getText();
         return new CountNode(pieceIdent);
+    }
+
+    @Override
+    public Node visitEqualsPosBexp(BoardGameLangParser.EqualsPosBexpContext ctx) {
+        PosNode left = (PosNode) visit(ctx.pos(0));
+        PosNode right = (PosNode) visit(ctx.pos(1));
+        return new EqualsNode(left, right);
+    }
+
+    @Override
+    public Node visitEqualsBexp(BoardGameLangParser.EqualsBexpContext ctx) {
+        AexpNode left = (AexpNode) visit(ctx.aexp(0));
+        AexpNode right = (AexpNode) visit(ctx.aexp(1));
+        return new EqualsNode(left, right);
+    }
+
+    @Override
+    public Node visitEqualsStrexpBexp(BoardGameLangParser.EqualsStrexpBexpContext ctx) {
+        StrexpNode left = (StrexpNode) visit(ctx.strexp(0));
+        StrexpNode right = (StrexpNode) visit(ctx.strexp(1));
+        return new EqualsNode(left, right);
     }
 }
