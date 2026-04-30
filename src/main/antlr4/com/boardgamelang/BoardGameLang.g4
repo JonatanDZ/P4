@@ -6,6 +6,7 @@ def : BOARD pos SEMI     # BoardDef
     ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
+         | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -74,6 +75,8 @@ AT       : 'at'       ;
 SEMI     : ';'        ;
 LPAR     : '('        ;
 RPAR     : ')'        ;
+LBRAC    : '{'        ;
+RBRAC    : '}'        ;
 COMMA    : ','        ;
 OCCUPIED : 'occupied' ;
 ASSERT : 'assert' ;
@@ -85,6 +88,9 @@ LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
+WIN : 'win' ;
+WHEN : 'when' ;
+POSITIONS : 'positions' ;
 COUNT    : 'count'    ;
 
 NUM : [0-9]+ ;
