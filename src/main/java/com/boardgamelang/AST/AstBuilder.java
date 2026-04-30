@@ -154,7 +154,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitCountAexp(BoardGameLangParser.CountAexpContext ctx) {
-        String pieceIdent = ctx.IDENT(0).getText();
+        String pieceIdent = ctx.IDENT().getText();
         return new CountNode(pieceIdent);
     }
 }
