@@ -4,6 +4,7 @@ import com.boardgamelang.AST.AstBuilder;
 import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
 
@@ -32,10 +33,10 @@ public class VisitOrBexpTest {
         OccupiedNode left = (OccupiedNode) node.left;
         OccupiedNode right = (OccupiedNode) node.right;
 
-        assertEquals(3, left.pos.x);
-        assertEquals(2, left.pos.y);
-        assertEquals(2, right.pos.x);
-        assertEquals(2, right.pos.y);
+        assertEquals(3, ((PositionNode) left.pos).x);
+        assertEquals(2, ((PositionNode) left.pos).y);
+        assertEquals(2, ((PositionNode) right.pos).x);
+        assertEquals(2, ((PositionNode) right.pos).y);
     }
 
     @Test
@@ -55,17 +56,17 @@ public class VisitOrBexpTest {
         OrNode root = (OrNode) builder.visit(parser.bexp());
 
         OccupiedNode right = (OccupiedNode) root.right;
-        assertEquals(1, right.pos.x);
-        assertEquals(1, right.pos.y);
+        assertEquals(1, ((PositionNode) right.pos).x);
+        assertEquals(1, ((PositionNode) right.pos).y);
 
         OrNode innerOr = (OrNode) root.left;
         OccupiedNode innerLeft = (OccupiedNode) innerOr.left;
         OccupiedNode innerRight = (OccupiedNode) innerOr.right;
 
-        assertEquals(3, innerLeft.pos.x);
-        assertEquals(2, innerLeft.pos.y);
-        assertEquals(2, innerRight.pos.x);
-        assertEquals(2, innerRight.pos.y);
+        assertEquals(3, ((PositionNode) innerLeft.pos).x);
+        assertEquals(2, ((PositionNode) innerLeft.pos).y);
+        assertEquals(2, ((PositionNode) innerRight.pos).x);
+        assertEquals(2, ((PositionNode) innerRight.pos).y);
     }
 
     @Test
@@ -86,16 +87,16 @@ public class VisitOrBexpTest {
         OrNode root = (OrNode) builder.visit(parser.bexp());
 
         OccupiedNode left = (OccupiedNode) root.left;
-        assertEquals(3, left.pos.x);
-        assertEquals(2, left.pos.y);
+        assertEquals(3, ((PositionNode) left.pos).x);
+        assertEquals(2, ((PositionNode) left.pos).y);
 
         AndNode innerAnd = (AndNode) root.right;
         OccupiedNode innerLeft = (OccupiedNode) innerAnd.left;
         OccupiedNode innerRight = (OccupiedNode) innerAnd.right;
 
-        assertEquals(2, innerLeft.pos.x);
-        assertEquals(2, innerLeft.pos.y);
-        assertEquals(1, innerRight.pos.x);
-        assertEquals(1, innerRight.pos.y);
+        assertEquals(2, ((PositionNode) innerLeft.pos).x);
+        assertEquals(2, ((PositionNode) innerLeft.pos).y);
+        assertEquals(1, ((PositionNode) innerRight.pos).x);
+        assertEquals(1, ((PositionNode) innerRight.pos).y);
     }
 }

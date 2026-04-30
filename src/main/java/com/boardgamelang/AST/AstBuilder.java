@@ -12,8 +12,8 @@ import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.direction.*;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PositionNode;
+import com.boardgamelang.AST.pos.PositionRefNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
-import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -46,7 +46,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitBoardDef(BoardGameLangParser.BoardDefContext ctx) {
-        PositionNode pos = (PositionNode) visit(ctx.pos());
+        PosNode pos = (PosNode) visit(ctx.pos());
         return new BoardNode(pos);
     }
 
@@ -59,7 +59,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitOccupiedBexp(BoardGameLangParser.OccupiedBexpContext ctx) {
-        PositionNode pos = (PositionNode) visit(ctx.pos());
+        PosNode pos = (PosNode) visit(ctx.pos());
         return new OccupiedNode(pos);
     }
 
@@ -81,7 +81,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     @Override
     public Node visitPlacePieceAtStmt(BoardGameLangParser.PlacePieceAtStmtContext ctx) {
         String x = ctx.IDENT().getText();
-        PositionNode pos = (PositionNode) visit(ctx.pos());
+        PosNode pos = (PosNode) visit(ctx.pos());
         return new PlacePieceAtNode(pos, x);
     }
 
@@ -126,6 +126,11 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
+    public Node visitPositionRef(BoardGameLangParser.PositionRefContext ctx) {
+        return new PositionRefNode();
+    }
+
+    @Override
     public Node visitOffsetPos(BoardGameLangParser.OffsetPosContext ctx) {
         PosNode pos = (PosNode) visit(ctx.pos());
         DirNode dir = (DirNode) visit(ctx.dir());
@@ -135,7 +140,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitPieceStrexp(BoardGameLangParser.PieceStrexpContext ctx) {
-        PositionNode pos = (PositionNode) visit(ctx.pos());
+        PosNode pos = (PosNode) visit(ctx.pos());
         return new PieceNode(pos);
     }
 
@@ -154,7 +159,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitCountAexp(BoardGameLangParser.CountAexpContext ctx) {
-        String pieceIdent = ctx.IDENT(0).getText();
+        String pieceIdent = ctx.IDENT().getText();
         return new CountNode(pieceIdent);
     }
 }

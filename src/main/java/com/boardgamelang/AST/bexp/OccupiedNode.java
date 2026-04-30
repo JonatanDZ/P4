@@ -1,12 +1,11 @@
 package com.boardgamelang.AST.bexp;
 
 import com.boardgamelang.AST.pos.PosNode;
-import com.boardgamelang.AST.pos.PositionNode;
 
 public final class OccupiedNode extends BexpNode {
-    public final PositionNode pos;
+    public final PosNode pos;
 
-    public OccupiedNode(PositionNode pos) {
+    public OccupiedNode(PosNode pos) {
         this.pos = pos;
     }
 }

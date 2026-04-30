@@ -20,6 +20,7 @@ import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.AST.pos.PositionRefNode;
 import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -96,11 +97,21 @@ public final class Interpreter {
 
     public Position execPos(PosNode p) {
         return switch (p) {
-            case PositionNode lit -> new Position(lit.x, lit.y);
-            case OffsetNode    o  -> execOffsetPos(o);
+            case PositionNode    lit -> new Position(lit.x, lit.y);
+            case OffsetNode      o   -> execOffsetPos(o);
+            case PositionRefNode r   -> execPositionRef();
             default -> throw new UnsupportedOperationException(
                     "Pos not yet implemented: " + p.getClass().getSimpleName());
         };
+    }
+
+    private Position execPositionRef() {
+        Object v = state.sigma.get("position");
+        if (!(v instanceof Position pos)) {
+            throw new RuntimeException(
+                    "'position' is not bound — only valid inside a gamerule, win, or draw bexp during place piece");
+        }
+        return pos;
     }
 
     public String execStrexp(StrexpNode strexp) {
@@ -209,14 +220,12 @@ public final class Interpreter {
 
     private void execGamerulesPositionPieceGameRule(GamerulesPositionPieceNode gr) {
         state.g = gr.bexp;
-        }
+    }
 
 
     public void execPlacePieceAtStmt(PlacePieceAtNode node) {
-        //get piece from store.
         String pieceName = node.ident;
 
-        //Check that piece is mapped to a player.
         boolean exists = state.o.values().stream()
                 .flatMap(Set::stream)
                 .anyMatch(p -> p.piece().equals(pieceName));
@@ -224,33 +233,31 @@ public final class Interpreter {
             throw new RuntimeException("Piece not owned: " + pieceName);
         }
 
-        //Check that position is within bounds of board.
-        Position pos = new Position(node.pos.x, node.pos.y);
+        Position pos = execPos(node.pos);
         if (pos.x() <= 0 || pos.x() > state.delta.x() ||
                 pos.y() <= 0 || pos.y() > state.delta.y()){
             throw new RuntimeException("Out of bounds: " + pos);
         }
-        //Assign pos and piece to temporary sigma.
-        Map<String, Object> sigmaPrime = new HashMap<>(state.sigma);
-        sigmaPrime.put("position", pos);
-        sigmaPrime.put("piece", pieceName);
 
-        //Check game rules apply.
-        boolean b1 = state.g == null || execBexp(state.g);
-        if(!b1){
-            throw new RuntimeException("Invalid action: Game rule is false");
-        }
+        // σ' = σ[position ↦ pos] for the duration of bexp evaluation; restored in finally
+        state.sigma.put("position", pos);
+        try {
+            boolean b1 = state.g == null || execBexp(state.g);
+            if(!b1){
+                throw new RuntimeException("Invalid action: Game rule is false");
+            }
 
-        //Place piece at position.
-        state.beta.put(pos, pieceName);
+            state.beta.put(pos, pieceName);
 
-        //Check win and draw conditions after move.
-        boolean b2 = state.w != null && execBexp(state.w);
-        boolean b3 = state.eta != null && execBexp(state.eta);
-        if(b2){
-            state.sigma.put("win", true);
-        }else if(b3){
-            state.sigma.put("draw", true);
+            boolean b2 = state.w != null && execBexp(state.w);
+            boolean b3 = state.eta != null && execBexp(state.eta);
+            if(b2){
+                state.sigma.put("win", true);
+            } else if(b3){
+                state.sigma.put("draw", true);
+            }
+        } finally {
+            state.sigma.remove("position");
         }
     }
 }

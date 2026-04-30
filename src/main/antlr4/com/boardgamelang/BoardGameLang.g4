@@ -28,7 +28,8 @@ aexp : COUNT LPAR IDENT RPAR                  # CountAexp
 
 
 pos : LPAR NUM COMMA NUM RPAR                 # Position
-    | OFFSET pos dir NUM                     # OffsetPos
+    | OFFSET pos dir NUM                      # OffsetPos
+    | POSITION                                # PositionRef
     ;
 
 dir : LEFT                                    # LeftDir
