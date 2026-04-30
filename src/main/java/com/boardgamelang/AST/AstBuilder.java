@@ -2,6 +2,7 @@ package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OrNode;
+import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
@@ -71,6 +72,12 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         int n = Integer.parseInt(ctx.NUM().getText());
         String pieceIdent = ctx.IDENT(1).getText();
         return new PlayerHasPieceNode(playerIdent, n, pieceIdent);
+    }
+
+    @Override
+    public Node visitDrawWhenGlobalGameRule(BoardGameLangParser.DrawWhenGlobalGameRuleContext ctx){
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
+        return new DrawWhenGlobalNode(bexp);
     }
 
     @Override

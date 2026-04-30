@@ -43,7 +43,7 @@ public final class Interpreter {
         }
     }
 
-    private void execRule(GameRuleNode gameRule){
+    private void execGameRule(GameRuleNode gameRule){
         switch (gameRule) {
             case DrawWhenGlobalNode dg -> execDrawWhenGlobalGameRule(dg);
             default -> throw new UnsupportedOperationException(
@@ -55,6 +55,7 @@ public final class Interpreter {
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
+            case GameRuleNode g -> execGameRule(g);
             case AssertNode a -> execAssertStmt(a);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
@@ -144,8 +145,8 @@ public final class Interpreter {
         }
     }
 
-    private String execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
-        //String bexpToString = printBexp(node.bexp);
+    private void execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
+        state.eta = node.bexp;
     }
-    
+
 }

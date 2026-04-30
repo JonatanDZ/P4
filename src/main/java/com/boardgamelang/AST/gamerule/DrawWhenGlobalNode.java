@@ -4,9 +4,9 @@ import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 
 public class DrawWhenGlobalNode extends GameRuleNode{
-    public final BexpNode BexpInput;
+    public final BexpNode bexp;
 
-    public DrawWhenGlobalNode(BexpNode BexpInput){
-        this.BexpInput = BexpInput;
+    public DrawWhenGlobalNode(BexpNode bexp){
+        this.bexp = bexp;
     }
 }
