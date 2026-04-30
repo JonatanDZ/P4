@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 public class VisitDrawWhenGlobalGameRuleTest {
 
     @Test
-    void instanceOfBexpAnd(){
+    void visitDrawWhenGlobalGameruleReturnsBexp(){
         String input = "draw when global {occupied(2,3) and occupied(3,3) or occupied(4,4)};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);

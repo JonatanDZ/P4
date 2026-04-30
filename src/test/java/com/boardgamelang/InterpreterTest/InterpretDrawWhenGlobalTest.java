@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 public class InterpretDrawWhenGlobalTest {
 
     @Test
-    void SaveBexpToStringCorrect(){
+    void drawWhenGlobalSetDrawCondition(){
         String input = "board(5,5); player x has 2 piece knight; draw when global {occupied(2,2)};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
