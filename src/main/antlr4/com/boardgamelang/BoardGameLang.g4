@@ -5,8 +5,9 @@ program : def comp* EOF;
 def : BOARD pos SEMI     # BoardDef
     ;
 
-gameRule : PLAYER IDENT HAS NUM PIECE IDENT   # PlayerHasPieceGameRule
-         | GAMERULES POSITION PIECE LBRA bexp RBRA     # GamerulesPositionPieceGameRule
+gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
+         | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
+         | GAMERULES POSITION PIECE LBRAC bexp RBRAC     # GamerulesPositionPieceGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -21,7 +22,10 @@ bexp : OCCUPIED pos          # OccupiedBexp
      | bexp OR bexp          # OrBexp
      ;
 
-pos : LPAR NUM COMMA NUM RPAR  # Position
+aexp : COUNT LPAR IDENT RPAR                  # CountAexp
+     ;
+
+pos : LPAR NUM COMMA NUM RPAR                 # Position
     ;
 
 dir : LEFT                                    # LeftDir
@@ -72,8 +76,8 @@ AT       : 'at'       ;
 SEMI     : ';'        ;
 LPAR     : '('        ;
 RPAR     : ')'        ;
-LBRA     : '{'        ;
-RBRA     : '}'        ;
+LBRAC    : '{'        ;
+RBRAC    : '}'        ;
 COMMA    : ','        ;
 OCCUPIED : 'occupied' ;
 ASSERT : 'assert' ;
@@ -87,6 +91,10 @@ LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
+WIN : 'win' ;
+WHEN : 'when' ;
+POSITIONS : 'positions' ;
+COUNT    : 'count'    ;
 
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;

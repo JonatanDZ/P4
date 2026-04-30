@@ -2,6 +2,8 @@ package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.OrNode;
+import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
+import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
@@ -61,20 +63,6 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitOrBexp(BoardGameLangParser.OrBexpContext ctx) {
-        BexpNode left = (BexpNode) visit(ctx.bexp(0));
-        BexpNode right = (BexpNode) visit(ctx.bexp(1));
-        return new OrNode(left, right);
-    }
-
-    @Override
-    public Node visitAndBexp(BoardGameLangParser.AndBexpContext ctx) {
-        BexpNode left = (BexpNode) visit(ctx.bexp(0));
-        BexpNode right = (BexpNode) visit(ctx.bexp(1));
-        return new AndNode(left, right);
-    }
-
-    @Override
     public Node visitAssertStmt(BoardGameLangParser.AssertStmtContext ctx) {
         String ident = ctx.IDENT().getText();
         BexpNode bexp = (BexpNode) visit(ctx.bexp());
@@ -94,6 +82,20 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         String x = ctx.IDENT().getText();
         PosNode pos = (PosNode) visit(ctx.pos());
         return new PlacePieceAtNode(pos, x);
+    }
+
+    @Override
+    public Node visitOrBexp(BoardGameLangParser.OrBexpContext ctx) {
+        BexpNode left = (BexpNode) visit(ctx.bexp(0));
+        BexpNode right = (BexpNode) visit(ctx.bexp(1));
+        return new OrNode(left, right);
+    }
+
+    @Override
+    public Node visitAndBexp(BoardGameLangParser.AndBexpContext ctx) {
+        BexpNode left = (BexpNode) visit(ctx.bexp(0));
+        BexpNode right = (BexpNode) visit(ctx.bexp(1));
+        return new AndNode(left, right);
     }
 
     @Override
@@ -127,5 +129,17 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         BexpNode bexp = (BexpNode) visit(ctx.bexp());
 
         return new GamerulesPositionPieceNode(bexp);
+    }
+
+    @Override
+    public Node visitWinWhenPositionsGameRule(BoardGameLangParser.WinWhenPositionsGameRuleContext ctx) {
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
+        return new WinWhenPositionsNode(bexp);
+    }
+
+    @Override
+    public Node visitCountAexp(BoardGameLangParser.CountAexpContext ctx) {
+        String pieceIdent = ctx.IDENT(0).getText();
+        return new CountNode(pieceIdent);
     }
 }

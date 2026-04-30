@@ -1,6 +1,9 @@
 package com.boardgamelang.interpreter;
 
 import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
+import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
@@ -46,6 +49,7 @@ public final class Interpreter {
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
+            case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
             case AssertNode a -> execAssertStmt(a);
             case GameRuleNode g -> execGameRule(g);
             default -> throw new UnsupportedOperationException(
@@ -60,6 +64,14 @@ public final class Interpreter {
                     "gameRule not yet implemented: " + gameRule.getClass().getSimpleName());
         }
     }
+    public long execAexp(AexpNode aexp) {
+        return switch (aexp) {
+            case CountNode c -> execCountNode(c);
+            default -> throw new UnsupportedOperationException(
+                    "aexp not yet implemented: " + aexp.getClass().getSimpleName());
+        };
+    }
+
 
     // public for test package: see comment on `state` above
     public boolean execBexp(BexpNode bexp) {
@@ -80,6 +92,16 @@ public final class Interpreter {
         };
     }
 
+    private void execAssertStmt(AssertNode a) {
+        boolean bexp = execBexp(a.bexp);
+        state.t.put(a.ident, bexp);
+    }
+
+    private boolean execOccupiedBExp(OccupiedNode o) {
+        Position pos = new Position(o.pos.x, o.pos.y);
+        return state.beta.containsKey(pos);
+    }
+
     // currently unused in interpreter which is on purpose. Should be called in offset etc.
     public Position execDir(DirNode d) {
         return switch (d) {
@@ -90,16 +112,6 @@ public final class Interpreter {
             default -> throw new UnsupportedOperationException(
                     "Dir not yet implemented: " + d.getClass().getSimpleName());
         };
-    }
-
-    private void execAssertStmt(AssertNode a) {
-        boolean bexp = execBexp(a.bexp);
-        state.t.put(a.ident, bexp);
-    }
-
-    private boolean execOccupiedBExp(OccupiedNode o) {
-        Position pos = new Position(o.pos.x, o.pos.y);
-        return state.beta.containsKey(pos);
     }
 
     // [board_BS]: δ ← (v₁, v₂)
@@ -114,7 +126,24 @@ public final class Interpreter {
         return pieceAtPosition;
     }
 
+    private long execCountNode(CountNode count) {
+        // Looks in beta and count the amount of appearances of the piece
+        long amountOfAppearances = state.beta.values().stream()
+                .filter(piece -> piece.equals(count.ident))
+                .count();
+
+        return amountOfAppearances;
+    }
+
     private int nextPieceId = 0;
+
+    private void execWinWhenPositionsGameRule(WinWhenPositionsNode node) {
+        // rn state is limited to onle be declared once, maybe it should be changed?
+        if (state.w != null) {
+            throw new RuntimeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
+        }
+        state.w = node.bexp;
+    }
 
     private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
         Set<State.OwnedPiece> playerPieces;
