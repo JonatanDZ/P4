@@ -6,6 +6,8 @@ def : BOARD pos SEMI     # BoardDef
     ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
+         | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
+         | GAMERULES POSITION PIECE LBRAC bexp RBRAC     # GamerulesPositionPieceGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -15,7 +17,12 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | gameRule                               # GameRuleStmt
      ;
 
-bexp : OCCUPIED pos                           # OccupiedBexp
+bexp : OCCUPIED pos          # OccupiedBexp
+     | bexp AND bexp         # AndBexp
+     | bexp OR bexp          # OrBexp
+     ;
+
+aexp : COUNT LPAR IDENT RPAR                  # CountAexp
      ;
 
 pos : LPAR NUM COMMA NUM RPAR                 # Position
@@ -26,8 +33,11 @@ dir : LEFT                                    # LeftDir
     | UP                                      # UpDir
     | DOWN                                    # DownDir
     ;
-/*
-orExp : andExp ('or' andExp)*
+
+strexp : PIECE pos                              # PieceStrexp
+     ;
+
+/*orExp : andExp ('or' andExp)*
        ;
 
 andExp : eqExp ('and' eqExp)*
@@ -66,15 +76,25 @@ AT       : 'at'       ;
 SEMI     : ';'        ;
 LPAR     : '('        ;
 RPAR     : ')'        ;
+LBRAC    : '{'        ;
+RBRAC    : '}'        ;
 COMMA    : ','        ;
 OCCUPIED : 'occupied' ;
-ASSERT   : 'assert'   ;
-PLAYER   : 'player'   ;
-HAS      : 'has'      ;
+ASSERT : 'assert' ;
+PLAYER : 'player' ;
+HAS : 'has';
+GAMERULES: 'gamerules';
+POSITION: 'position';
+OR : 'or';
+AND : 'and';
 LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
+WIN : 'win' ;
+WHEN : 'when' ;
+POSITIONS : 'positions' ;
+COUNT    : 'count'    ;
 
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
