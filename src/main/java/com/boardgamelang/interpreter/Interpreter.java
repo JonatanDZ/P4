@@ -4,7 +4,6 @@ import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
-import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.bexp.BexpNode;
@@ -20,7 +19,6 @@ import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
-import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -72,11 +70,11 @@ public final class Interpreter {
     public long execAexp(AexpNode aexp) {
         return switch (aexp) {
             case CountNode c -> execCountNode(c);
+            case NumNode n -> n.n;
             default -> throw new UnsupportedOperationException(
                     "aexp not yet implemented: " + aexp.getClass().getSimpleName());
         };
     }
-
 
     // public for test package: see comment on `state` above
     public boolean execBexp(BexpNode bexp) {
@@ -114,15 +112,6 @@ public final class Interpreter {
     private boolean execOccupiedBExp(OccupiedNode o) {
         Position pos = execPos(o.pos);
         return state.beta.containsKey(pos);
-    }
-
-    // public for test package: see comment on `state` above
-    public int execAexp(AexpNode a) {
-        return switch (a) {
-            case NumNode n -> n.n;
-            default -> throw new UnsupportedOperationException(
-                    "Aexp not yet implemented: " + a.getClass().getSimpleName());
-        };
     }
 
     public Position execDir(DirNode d) {
