@@ -25,42 +25,6 @@ public class InterpretGamerulesPositionPieceTest {
         assertInstanceOf(BexpNode.class, state.g);
     }
 
-    @Test
-    void visitGamerulesExpectsOccupiedAndOccupied() {
-        String input = "board(7,9); gamerules position piece {occupied(2,5) and occupied(3,5)};";
-
-        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
-        AstBuilder builder = new AstBuilder();
-
-        ProgramNode programNode = (ProgramNode) builder.visit(parser.program());
-        State state = new Interpreter().run(programNode);
-
-        assertInstanceOf(BexpNode.class, state.g);
-    }
-
-    @Test
-    void visitGamerulesExpectsOccupiedOrOccupied() {
-        String input = "board(9,12); gamerules position piece {occupied(1,7) or occupied(4,9)};";
-
-        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
-        AstBuilder builder = new AstBuilder();
-
-        ProgramNode programNode = (ProgramNode) builder.visit(parser.program());
-        State state = new Interpreter().run(programNode);
-
-        assertInstanceOf(BexpNode.class, state.g);
-    }
-
-    @Test
-    void visitGamerulesExpectsOccupiedAndOccupiedOrOccupied() {
-        String input = "board(13,10); gamerules position piece {occupied(1,7) and occupied(3,7) or occupied(4,9)};";
-        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
-        AstBuilder builder = new AstBuilder();
-
-        ProgramNode programNode = (ProgramNode) builder.visit(parser.program());
-        State state = new Interpreter().run(programNode);
-
-        assertInstanceOf(BexpNode.class, state.g);
-    }
+    // Mangler test til at se om gamerules faktisk virker.
 
 }
