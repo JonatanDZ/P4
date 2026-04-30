@@ -21,7 +21,10 @@ bexp : OCCUPIED pos          # OccupiedBexp
      | bexp OR bexp          # OrBexp
      ;
 
-pos : LPAR NUM COMMA NUM RPAR  # Position
+aexp : COUNT LPAR IDENT RPAR                  # CountAexp
+     ;
+
+pos : LPAR NUM COMMA NUM RPAR                 # Position
     ;
 
 dir : LEFT                                    # LeftDir
@@ -88,6 +91,7 @@ DOWN     : 'down'     ;
 WIN : 'win' ;
 WHEN : 'when' ;
 POSITIONS : 'positions' ;
+COUNT    : 'count'    ;
 
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
