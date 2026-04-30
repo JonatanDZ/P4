@@ -1,22 +1,21 @@
 package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
-import com.boardgamelang.AST.pos.PositionNode;
+import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class VisitPosTest {
+public class VisitNumAexpTest {
     @Test
-    void visitPosTestReturnsPos() {
-        String input = "(1,2)";
+    void visitNumAexpReturnsNum() {
+        String input = "10";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
-        PositionNode node = (PositionNode) builder.visit(parser.pos());
+        NumNode node = (NumNode) builder.visit(parser.aexp());
 
-        assertEquals(1, node.x);
-        assertEquals(2, node.y);
+        assertEquals(10, node.n);
     }
 }
