@@ -96,7 +96,7 @@ public final class Interpreter {
             case AexpNode l -> execAexp(l) == execAexp((AexpNode) e.right);
             case StrexpNode l -> execStrexp(l).equals(execStrexp((StrexpNode) e.right));
             case PosNode l -> execPos(l).equals(execPos((PosNode) e.right));
-            default -> throw new RuntimeException("Unsupported equals type");
+            default -> throw new RuntimeException("Unsupported equality check");
         };
     }
 
