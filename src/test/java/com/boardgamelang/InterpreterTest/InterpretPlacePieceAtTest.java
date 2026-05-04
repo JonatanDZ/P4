@@ -68,8 +68,8 @@ public class InterpretPlacePieceAtTest {
     void gamerulesAndPlacePieceTest(){
         String input = "board(8,8); player x has 1 piece pawn; "
                 + "player x has 1 piece knight; "
+                + "gamerules position piece {}; "
                 + "place piece pawn at (4,8); "
-                + "gamerules position piece {occupied position}; "
                 + "place piece knight at (4,8);";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();

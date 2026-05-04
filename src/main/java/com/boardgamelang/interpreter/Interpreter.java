@@ -239,17 +239,23 @@ public final class Interpreter {
             throw new RuntimeException("Out of bounds: " + pos);
         }
 
-        // σ' = σ[position ↦ pos] for the duration of bexp evaluation; restored in finally
+        // this is σ' = σ[position ↦ pos]. It does not create intermediary state, but it cleans up after itself; essentially doing the same.
         state.sigma.put("position", pos);
         try {
-            boolean b1 = state.g == null || execBexp(state.g);
-            if(!b1){
-                throw new RuntimeException("Invalid action: Game rule is false");
+            // code is purposefully ugly. execBexp has to be run after throwing custom exception, given that g is null; else it throws ambigious exception.
+            if (state.g == null) {
+                throw new RuntimeException("Invalid action: Game Rules are not declared");
+            }
+            boolean b1 = execBexp(state.g);
+            if (!b1) {
+                throw new RuntimeException("Invalid action: Game rule is false and the piece can not be placed");
             }
 
             state.beta.put(pos, pieceName);
 
+            // check win conditions
             boolean b2 = state.w != null && execBexp(state.w);
+            // check draw conditions
             boolean b3 = state.eta != null && execBexp(state.eta);
             if(b2){
                 state.sigma.put("win", true);
