@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class InterpretGamerulesPositionPieceTest {
 
     @Test
-    void interpretGamerulesPositionPieceIsOfTypeBexp() {
+    void interpretGamerulesPositionPieceIsBexpNode() {
         String input = "board(3,3); gamerules position piece {occupied(3,2)};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
