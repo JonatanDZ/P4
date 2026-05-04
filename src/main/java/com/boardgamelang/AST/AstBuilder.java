@@ -20,20 +20,17 @@ import com.boardgamelang.AST.direction.LeftNode;
 import com.boardgamelang.AST.direction.RightNode;
 import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
-import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
-import com.boardgamelang.AST.strexp.StrexpNode;
 import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
 import com.boardgamelang.BoardGameLangParser.StmtContext;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,23 +170,9 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitEqualsPosBexp(BoardGameLangParser.EqualsPosBexpContext ctx) {
-        PosNode left = (PosNode) visit(ctx.pos(0));
-        PosNode right = (PosNode) visit(ctx.pos(1));
-        return new EqualsNode(left, right);
-    }
-
-    @Override
     public Node visitEqualsBexp(BoardGameLangParser.EqualsBexpContext ctx) {
-        AexpNode left = (AexpNode) visit(ctx.aexp(0));
-        AexpNode right = (AexpNode) visit(ctx.aexp(1));
-        return new EqualsNode(left, right);
-    }
-
-    @Override
-    public Node visitEqualsStrexpBexp(BoardGameLangParser.EqualsStrexpBexpContext ctx) {
-        StrexpNode left = (StrexpNode) visit(ctx.strexp(0));
-        StrexpNode right = (StrexpNode) visit(ctx.strexp(1));
+        Node left = visit(ctx.eqexp(0));
+        Node right = visit(ctx.eqexp(1));
         return new EqualsNode(left, right);
     }
 }

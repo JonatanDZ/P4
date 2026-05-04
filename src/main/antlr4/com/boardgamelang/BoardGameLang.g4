@@ -18,12 +18,15 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | gameRule                               # GameRuleStmt
      ;
 
+eqexp : pos
+      | aexp
+      | strexp
+      ;
+
 bexp : OCCUPIED pos                           # OccupiedBexp
      | bexp AND bexp                          # AndBexp
      | bexp OR bexp                           # OrBexp
-     | strexp EQUALS strexp                   # EqualsStrexpBexp
-     | aexp EQUALS aexp                       # EqualsBexp
-     | pos EQUALS pos                         # EqualsPosBexp
+     | eqexp EQUALS eqexp                     # EqualsBexp
      ;
 
 aexp : COUNT LPAR IDENT RPAR                  # CountAexp

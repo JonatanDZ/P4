@@ -91,21 +91,21 @@ public final class Interpreter {
         };
     }
 
+    public boolean execEqualsNode(EqualsNode e) {
+        return switch (e.left) {
+            case AexpNode l -> execAexp(l) == execAexp((AexpNode) e.right);
+            case StrexpNode l -> execStrexp(l).equals(execStrexp((StrexpNode) e.right));
+            case PosNode l -> execPos(l).equals(execPos((PosNode) e.right));
+            default -> throw new RuntimeException("Unsupported equals type");
+        };
+    }
+
     public Position execPos(PosNode p) {
         return switch (p) {
             case PositionNode lit -> new Position(lit.x, lit.y);
             case OffsetNode    o  -> execOffsetPos(o);
             default -> throw new UnsupportedOperationException(
                     "Pos not yet implemented: " + p.getClass().getSimpleName());
-        };
-    }
-
-    private boolean execEqualsNode(EqualsNode node) {
-        return switch (node.left) {
-            case AexpNode l -> execAexp(l) == execAexp((AexpNode) node.right);
-            case StrexpNode l -> execStrexp(l).equals(execStrexp((StrexpNode) node.right));
-            case PosNode l -> execPos(l).equals(execPos((PosNode) node.right));
-            default -> throw new RuntimeException("Unsupported equals type");
         };
     }
 
