@@ -1,5 +1,6 @@
 package com.boardgamelang.interpreter;
 
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.*;
@@ -85,8 +86,18 @@ public final class Interpreter {
             case AndNode a -> execBexp(a.left) && execBexp(a.right);
             case OrNode o -> execBexp(o.left) || execBexp(o.right);
             case NotNode n -> !execBexp(n.b);
+            case EqualityNode e -> execEqualityNode(e);
             default -> throw new UnsupportedOperationException(
                     "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
+        };
+    }
+
+    public boolean execEqualityNode(EqualityNode e) {
+        return switch (e.left) {
+            case AexpNode l -> execAexp(l) == execAexp((AexpNode) e.right);
+            case StrexpNode l -> execStrexp(l).equals(execStrexp((StrexpNode) e.right));
+            case PosNode l -> execPos(l).equals(execPos((PosNode) e.right));
+            default -> throw new RuntimeException("Unsupported equality check");
         };
     }
 

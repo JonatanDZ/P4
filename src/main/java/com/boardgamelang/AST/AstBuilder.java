@@ -1,5 +1,6 @@
 package com.boardgamelang.AST;
 
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
@@ -10,8 +11,11 @@ import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.direction.*;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PositionNode;
+import com.boardgamelang.AST.direction.DownNode;
+import com.boardgamelang.AST.direction.LeftNode;
+import com.boardgamelang.AST.direction.RightNode;
+import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
-import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -23,7 +27,6 @@ import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
 import com.boardgamelang.BoardGameLangParser.StmtContext;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,5 +169,12 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     public Node visitCountAexp(BoardGameLangParser.CountAexpContext ctx) {
         String pieceIdent = ctx.IDENT().getText();
         return new CountNode(pieceIdent);
+    }
+
+    @Override
+    public Node visitEqualityBexp(BoardGameLangParser.EqualityBexpContext ctx) {
+        Node left = visit(ctx.eqexp(0));
+        Node right = visit(ctx.eqexp(1));
+        return new EqualityNode(left, right);
     }
 }
