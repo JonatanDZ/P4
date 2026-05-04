@@ -3,6 +3,7 @@ package com.boardgamelang.AstTest;
 import com.boardgamelang.AST.AstBuilder;
 import com.boardgamelang.AST.bexp.NotNode;
 import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
 
@@ -31,8 +32,9 @@ public class VisitNotBexpTest {
 
         NotNode node = (NotNode) builder.visit(parser.bexp());
         OccupiedNode coordinates = (OccupiedNode) node.b;
+        PositionNode pos = (PositionNode) coordinates.pos;
 
-        assertEquals(3, coordinates.pos.x);
-        assertEquals(2, coordinates.pos.y);
+        assertEquals(3, pos.x);
+        assertEquals(2, pos.y);
     }
 }

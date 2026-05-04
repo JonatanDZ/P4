@@ -105,7 +105,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitNotBexp(BoardGameLangParser.NotBexpContext ctx) {
-        BexpNode bexp = (BexpNode) visit(ctx.bexp(0));
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
         return new NotNode(bexp);
     }
 
