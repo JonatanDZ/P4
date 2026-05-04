@@ -2,16 +2,13 @@ package com.boardgamelang.interpreter;
 
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.NumNode;
-import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
 import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.strexp.PieceNode;
-import com.boardgamelang.AST.bexp.BexpNode;
-import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.direction.DirNode;
@@ -87,6 +84,7 @@ public final class Interpreter {
             case OccupiedNode o -> execOccupiedBExp(o);
             case AndNode a -> execBexp(a.left) && execBexp(a.right);
             case OrNode o -> execBexp(o.left) || execBexp(o.right);
+            case NotNode n -> !execBexp(n.b);
             default -> throw new UnsupportedOperationException(
                     "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
         };

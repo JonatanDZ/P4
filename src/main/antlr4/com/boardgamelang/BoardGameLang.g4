@@ -21,6 +21,7 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
 bexp : OCCUPIED pos          # OccupiedBexp
      | bexp AND bexp         # AndBexp
      | bexp OR bexp          # OrBexp
+     | NOT bexp              # NotBexp
      ;
 
 aexp : COUNT LPAR IDENT RPAR                  # CountAexp
@@ -93,6 +94,7 @@ POSITION: 'position';
 GLOBAL : 'global' ;
 OR : 'or';
 AND : 'and';
+NOT : '!';
 LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
