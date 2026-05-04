@@ -1,10 +1,17 @@
 package com.boardgamelang.typechecker;
 
+import com.boardgamelang.AST.Node;
+import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.bexp.BexpNode;
+import com.boardgamelang.AST.bexp.EqualityNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
+import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.program.ProgramNode;
+import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.stmt.StmtNode;
+import com.boardgamelang.AST.strexp.StrexpNode;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +22,7 @@ public class TypeChecker {
     private final Set<String> declaredPieces = new HashSet<>();
     private final Map<String, String> pieceToPlayer = new HashMap<>();
     private boolean winWhenPositionsDeclared = false;
+    public enum Type { INT, STRING, POS }
 
 
     public void check(ProgramNode program) {
@@ -41,6 +49,14 @@ public class TypeChecker {
             case PlacePieceAtNode p -> checkPlacePieceAt(p);
             case PlayerHasPieceNode p -> checkPieceOwnership(p);
             case WinWhenPositionsNode w -> checkWinWhenPositions(w);
+            case AssertNode a -> checkBexp(a.bexp);
+            default -> {}
+        }
+    }
+    
+    private void checkBexp(BexpNode bexp) {
+        switch (bexp) {
+            case EqualityNode e -> checkEqualityNode(e);
             default -> {}
         }
     }
@@ -50,6 +66,7 @@ public class TypeChecker {
             throw new TypeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
         }
         winWhenPositionsDeclared = true;
+        checkBexp(w.bexp);
     }
 
     private void checkPlacePieceAt(PlacePieceAtNode node) {
@@ -64,5 +81,22 @@ public class TypeChecker {
             throw new TypeException("Piece '" + node.pieceIdent + "' is already assigned to player '" + pieceToPlayer.get(node.pieceIdent) + "'");
         }
         pieceToPlayer.put(node.pieceIdent, node.playerIdent);
+    }
+
+    private Type getType(Node node) {
+        return switch (node) {
+            case AexpNode a -> Type.INT;
+            case StrexpNode s -> Type.STRING;
+            case PosNode p -> Type.POS;
+            default -> throw new TypeException("Invalid type in ==: " + node.getClass().getSimpleName());
+        };
+    }
+
+    private void checkEqualityNode(EqualityNode node) {
+        Type leftType = getType(node.left);
+        Type rightType = getType(node.right);
+        if (leftType != rightType) {
+            throw new TypeException("Type mismatch in ==: cannot compare " + leftType + " with " + rightType);
+        }
     }
 }
