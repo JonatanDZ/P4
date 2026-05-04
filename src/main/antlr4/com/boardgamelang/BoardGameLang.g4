@@ -26,7 +26,8 @@ eqexp : pos
 bexp : OCCUPIED pos                           # OccupiedBexp
      | bexp AND bexp                          # AndBexp
      | bexp OR bexp                           # OrBexp
-     | eqexp EQUALITY eqexp                     # EqualityBexp
+     | eqexp EQUALITY eqexp                   # EqualityBexp
+     | NOT bexp                               # NotBexp
      ;
 
 aexp : COUNT LPAR IDENT RPAR                  # CountAexp
@@ -99,6 +100,7 @@ POSITION: 'position';
 GLOBAL : 'global' ;
 OR : 'or';
 AND : 'and';
+NOT : '!';
 LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;

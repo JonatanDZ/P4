@@ -2,15 +2,12 @@ package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.aexp.NumNode;
-import com.boardgamelang.AST.bexp.AndNode;
-import com.boardgamelang.AST.bexp.OrNode;
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.strexp.PieceNode;
-import com.boardgamelang.AST.bexp.BexpNode;
-import com.boardgamelang.AST.bexp.OccupiedNode;
 import com.boardgamelang.AST.direction.*;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PositionNode;
@@ -107,6 +104,12 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
         BexpNode left = (BexpNode) visit(ctx.bexp(0));
         BexpNode right = (BexpNode) visit(ctx.bexp(1));
         return new AndNode(left, right);
+    }
+
+    @Override
+    public Node visitNotBexp(BoardGameLangParser.NotBexpContext ctx) {
+        BexpNode bexp = (BexpNode) visit(ctx.bexp(0));
+        return new NotNode(bexp);
     }
 
     @Override
