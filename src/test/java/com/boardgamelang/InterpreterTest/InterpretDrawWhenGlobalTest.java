@@ -1,7 +1,6 @@
 package com.boardgamelang.InterpreterTest;
 
 import com.boardgamelang.AST.AstBuilder;
-import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AstTest.ParseTreeHelper;
 import com.boardgamelang.BoardGameLangParser;
@@ -9,57 +8,51 @@ import com.boardgamelang.interpreter.Interpreter;
 import com.boardgamelang.interpreter.Position;
 import com.boardgamelang.interpreter.State;
 import org.junit.jupiter.api.Test;
-
+import com.boardgamelang.AST.bexp.BexpNode;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InterpretGamerulesPositionPieceTest {
-
+public class InterpretDrawWhenGlobalTest {
     @Test
-    void interpretGamerulesPositionPieceIsBexpNode() {
-        String input = "board(3,3); gamerules position piece {occupied(3,2)};";
+    void drawWhenGlobalSetDrawCondition(){
+        String input = "board(5,5); player x has 2 piece knight; draw when global {occupied(2,2)};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
-
         ProgramNode program = (ProgramNode) builder.visit(parser.program());
 
         Interpreter interpreter = new Interpreter();
         State state = interpreter.run(program);
 
-        assertInstanceOf(BexpNode.class, state.g);
+        assertInstanceOf(BexpNode.class, state.eta);
     }
 
     @Test
-    void interpretGamerulesPositionPieceIsTrue() {
-        String input = "board(3,3); gamerules position piece {occupied(1,3)};";
+    void drawWhenGlobalEvaluatesToTrue() {
+        String input = "board(5,5); draw when global {occupied(2,2)};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
-
         ProgramNode program = (ProgramNode) builder.visit(parser.program());
 
         Interpreter interpreter = new Interpreter();
         State state = interpreter.run(program);
 
-        interpreter.state.beta.put(new Position(1, 3), "X");
+        interpreter.state.beta.put(new Position(2, 2), "X");
 
-
-        assertTrue(interpreter.execBexp(state.g));
+        assertTrue(interpreter.execBexp(state.eta));
     }
 
     @Test
-    void interpretGamerulesPositionPieceIsFalse() {
-        String input = "board(3,3); gamerules position piece {occupied(2,2)};";
+    void drawWhenGlobalEvaluatesToFalse() {
+        String input = "board(5,5); draw when global {occupied(2,2)};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
-
         ProgramNode program = (ProgramNode) builder.visit(parser.program());
 
         Interpreter interpreter = new Interpreter();
         State state = interpreter.run(program);
 
-        assertFalse(interpreter.execBexp(state.g));
+        assertFalse(interpreter.execBexp(state.eta));
     }
-
 }

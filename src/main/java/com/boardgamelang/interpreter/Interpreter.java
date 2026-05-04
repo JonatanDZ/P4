@@ -3,6 +3,8 @@ package com.boardgamelang.interpreter;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
+import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.pos.PositionNode;
@@ -56,6 +58,16 @@ public final class Interpreter {
         }
     }
 
+
+    private void execGameRule(GameRuleNode gameRule){
+        switch (gameRule) {
+            case DrawWhenGlobalNode dg -> execDrawWhenGlobalGameRule(dg);
+            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
+            default -> throw new UnsupportedOperationException(
+                    "GameRule not yet implemented: " + gameRule.getClass().getSimpleName());
+        }
+    }
+
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
@@ -63,18 +75,12 @@ public final class Interpreter {
             case PlacePieceAtNode p -> execPlacePieceAtStmt(p);
             case AssertNode a -> execAssertStmt(a);
             case GameRuleNode g -> execGameRule(g);
+            case AssertNode a -> execAssertStmt(a);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
     }
 
-    private void execGameRule(GameRuleNode gameRule) {
-        switch (gameRule){
-            case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
-            default -> throw new UnsupportedOperationException(
-                    "gameRule not yet implemented: " + gameRule.getClass().getSimpleName());
-        }
-    }
     public long execAexp(AexpNode aexp) {
         return switch (aexp) {
             case CountNode c -> execCountNode(c);
@@ -250,6 +256,12 @@ public final class Interpreter {
             if (!b1) {
                 throw new RuntimeException("Invalid action: Game rule is false and the piece can not be placed");
             }
+
+    private void execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
+        state.eta = node.bexp;
+    }
+
+}
 
             state.beta.put(pos, pieceName);
 
