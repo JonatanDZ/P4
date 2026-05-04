@@ -16,7 +16,7 @@ public class InterpretGamerulesPositionPieceTest {
 
     @Test
     void interpretGamerulesPositionPieceIsBexpNode() {
-        String input = "board(3,3); gamerules position piece {occupied(3,2)};";
+        String input = "board(3,3); gamerules position piece {occupied((3,2))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -31,7 +31,7 @@ public class InterpretGamerulesPositionPieceTest {
 
     @Test
     void interpretGamerulesPositionPieceIsTrue() {
-        String input = "board(3,3); gamerules position piece {occupied(1,3)};";
+        String input = "board(3,3); gamerules position piece {occupied((1,3))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -49,7 +49,7 @@ public class InterpretGamerulesPositionPieceTest {
 
     @Test
     void interpretGamerulesPositionPieceIsFalse() {
-        String input = "board(3,3); gamerules position piece {occupied(2,2)};";
+        String input = "board(3,3); gamerules position piece {occupied((2,2))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();

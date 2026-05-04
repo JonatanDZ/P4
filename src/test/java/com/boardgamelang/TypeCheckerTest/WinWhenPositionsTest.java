@@ -15,7 +15,7 @@ public class WinWhenPositionsTest {
 
     @Test
     void definingWinRuleTwiceThrows() {
-        String input = "board(3,3); win when positions {occupied(1,1)}; win when positions {occupied(2,2)};";
+        String input = "board(3,3); win when positions {occupied((1,1))}; win when positions {occupied((2,2))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();

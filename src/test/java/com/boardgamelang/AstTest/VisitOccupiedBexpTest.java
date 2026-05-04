@@ -13,7 +13,7 @@ public class VisitOccupiedBexpTest {
 
     @Test
     void visitOccupiedBexpReturnsPos() {
-        String input = "occupied(3,2)";
+        String input = "occupied((3,2))";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 

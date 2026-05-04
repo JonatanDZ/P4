@@ -72,7 +72,7 @@ public class InterpretOrTest {
 
     @Test
     void orAndReturnsTrueWhenOrIsFalseAndIsTrue() {
-        // occupied(1,1) or (occupied(2,2) and occupied(3,3))
+        // occupied((1,1)) or (occupied((2,2)) and occupied((3,3)))
         // or is false, and is true → true
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(2, 2), "X");
@@ -91,7 +91,7 @@ public class InterpretOrTest {
 
     @Test
     void orAndReturnsFalseWhenBothOrAndAndAreFalse() {
-        // occupied(1,1) or (occupied(2,2) and occupied(3,3))
+        // occupied((1,1)) or (occupied((2,2)) and occupied((3,3)))
         // or is false, and is false → false
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(2, 2), "X");
@@ -109,7 +109,7 @@ public class InterpretOrTest {
 
     @Test
     void orAndReturnsTrueWhenBothOrAndAndAreTrue() {
-        // occupied(1,1) or (occupied(2,2) and occupied(3,3))
+        // occupied((1,1)) or (occupied((2,2)) and occupied((3,3)))
         // or is true, and is true → true
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(1, 1), "X");

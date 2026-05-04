@@ -14,7 +14,7 @@ public class VisitOrBexpTest {
 
     @Test
     public void visitOrBexpReturnsOrNode() {
-        String input = "occupied(3,2) or occupied(2,2)";
+        String input = "occupied((3,2)) or occupied((2,2))";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
@@ -25,7 +25,7 @@ public class VisitOrBexpTest {
 
     @Test
     public void visitOrBexpHasCorrectOperands() {
-        String input = "occupied(3,2) or occupied(2,2)";
+        String input = "occupied((3,2)) or occupied((2,2))";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
@@ -41,15 +41,15 @@ public class VisitOrBexpTest {
 
     @Test
     public void visitMultipleOrsPreservesPrecedence() {
-        // occupied(3,2) or occupied(2,2) or occupied(1,1)
-        // should parse as: (occupied(3,2) or occupied(2,2)) or occupied(1,1)
+        // occupied((3,2)) or occupied((2,2)) or occupied((1,1))
+        // should parse as: (occupied((3,2)) or occupied((2,2))) or occupied((1,1))
         //        OrNode
         //        /      \
-        //    OrNode   occupied(1,1)
+        //    OrNode   occupied((1,1))
         //    /      \
         //  occ(3,2) occ(2,2)
 
-        String input = "occupied(3,2) or occupied(2,2) or occupied(1,1)";
+        String input = "occupied((3,2)) or occupied((2,2)) or occupied((1,1))";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
@@ -71,16 +71,16 @@ public class VisitOrBexpTest {
 
     @Test
     public void visitOrAndBuildsAndNodeWithOrOnLeft() {
-        // occupied(3,2) or occupied(2,2) and occupied(1,1)
+        // occupied((3,2)) or occupied((2,2)) and occupied((1,1))
         // and has higher precedence than or, so parses as:
-        // occupied(3,2) or (occupied(2,2) and occupied(1,1))
+        // occupied((3,2)) or (occupied((2,2)) and occupied((1,1)))
         //        OrNode
         //        /      \
         //  occ(3,2)   AndNode
         //              /      \
         //          occ(2,2) occ(1,1)
 
-        String input = "occupied(3,2) or occupied(2,2) and occupied(1,1)";
+        String input = "occupied((3,2)) or occupied((2,2)) and occupied((1,1))";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 

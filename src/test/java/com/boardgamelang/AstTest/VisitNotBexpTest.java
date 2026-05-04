@@ -15,7 +15,7 @@ public class VisitNotBexpTest {
 
     @Test
     public void VisitNotBexpReturnsNotNode() {
-        String input = "!occupied(3,2)";
+        String input = "!occupied((3,2))";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
@@ -26,7 +26,7 @@ public class VisitNotBexpTest {
 
     @Test
     public void VisitNotBexpHasCorrectOperands() {
-        String input = "!occupied(3,2)";
+        String input = "!occupied((3,2))";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 

@@ -16,7 +16,7 @@ public class InterpretPlacePieceAtTest {
 
     @Test
     void placePieceWhenValid(){
-        String input = "board(8,8); player x has 1 piece knight; place piece knight at (4,8);";
+        String input = "board(8,8); gamerules position piece {!occupied(position)}; player x has 1 piece knight; place piece knight at (4,8);";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -30,7 +30,7 @@ public class InterpretPlacePieceAtTest {
 
     @Test
     void failsWhenPositionIsOutOfBounds(){
-        String input = "board(8,8); player x has 1 piece knight; place piece knight at (9,8);";
+        String input = "board(8,8); gamerules position piece {!occupied(position)}; player x has 1 piece knight; place piece knight at (9,8);";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -48,7 +48,7 @@ public class InterpretPlacePieceAtTest {
 
     @Test
     void failsWhenPieceDoesNotExist(){
-        String input = "board(8,8); player x has 1 piece knight; place piece pawn at (5,8);";
+        String input = "board(8,8); gamerules position piece {!occupied(position)}; player x has 1 piece knight; place piece pawn at (5,8);";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -65,12 +65,13 @@ public class InterpretPlacePieceAtTest {
     }
 
     @Test
-    void gamerulesAndPlacePieceTest(){
-        String input = "board(8,8); player x has 1 piece pawn; "
+    void gamerulesAndPlacePieceTestEndToEnd(){
+        String input = "board(8,8); "
+                + "player x has 1 piece pawn;"
                 + "player x has 1 piece knight; "
-                + "gamerules position piece {}; "
-                + "place piece pawn at (4,8); "
-                + "place piece knight at (4,8);";
+                + "gamerules position piece {!occupied(position)}; "
+                + "place piece knight at (4,8); "
+                + "place piece pawn at (5,8);";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
         ProgramNode program = (ProgramNode) builder.visit(parser.program());
@@ -84,27 +85,15 @@ public class InterpretPlacePieceAtTest {
     // place piece removes σ["position"] after successful return.
     @Test
     void placePieceUnbindsPositionAfterSuccess() {
-        String input = "board(8,8); player x has 1 piece knight; place piece pawn at (5,8);";
+        String input = "board(8,8); player x has 1 piece knight; gamerules position piece {!occupied(position)}; "
+                + "place piece knight at (5,8);";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
         ProgramNode program = (ProgramNode) builder.visit(parser.program());
-
         Interpreter interpreter = new Interpreter();
+        State state = interpreter.run(program);
 
-        //
+        assertTrue(state.sigma.isEmpty());
     }
-
-    // place piece removes σ["position"] even when it throws mid-evaluation (try/finally).
-    @Test
-    void placePieceUnbindsPositionEvenOnGameruleFailure() {
-        // TODO
-    }
-
-    // End-to-end: a gamerule referencing `position` sees the place-piece pos.
-    @Test
-    void placePieceEvaluatesGameruleReferencingPosition() {
-        // TODO
-    }
-
 }

@@ -18,7 +18,7 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | gameRule                               # GameRuleStmt
      ;
 
-bexp : OCCUPIED pos          # OccupiedBexp
+bexp : OCCUPIED LPAR pos RPAR          # OccupiedBexp
      | bexp AND bexp         # AndBexp
      | bexp OR bexp          # OrBexp
      | NOT bexp              # NotBexp

@@ -13,7 +13,7 @@ public class VisitDrawWhenGlobalGameRuleTest {
 
     @Test
     void visitDrawWhenGlobalGameruleReturnsBexp(){
-        String input = "draw when global {occupied(2,3) and occupied(3,3) or occupied(4,4)};";
+        String input = "draw when global {occupied((2,3)) and occupied((3,3)) or occupied((4,4))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
