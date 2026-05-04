@@ -2,16 +2,13 @@ package com.boardgamelang.interpreter;
 
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.NumNode;
-import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
 import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.strexp.PieceNode;
-import com.boardgamelang.AST.bexp.BexpNode;
-import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.direction.DirNode;
@@ -92,6 +89,7 @@ public final class Interpreter {
             case OccupiedNode o -> execOccupiedBExp(o);
             case AndNode a -> execBexp(a.left) && execBexp(a.right);
             case OrNode o -> execBexp(o.left) || execBexp(o.right);
+            case NotNode n -> !execBexp(n.b);
             default -> throw new UnsupportedOperationException(
                     "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
         };
@@ -167,37 +165,17 @@ public final class Interpreter {
     private int nextPieceId = 0;
 
     private void execWinWhenPositionsGameRule(WinWhenPositionsNode node) {
-        // rn state is limited to onle be declared once, maybe it should be changed?
-        if (state.w != null) {
-            throw new RuntimeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
-        }
         state.w = node.bexp;
     }
 
     private void execPlayerHasPieceGameRule(PlayerHasPieceNode node) {
-        Set<State.OwnedPiece> playerPieces;
-        // boolean that returns true if the piece exists in any other players list of pieces, like the semantics constraint
-        boolean pieceExistsInOtherPlayers = state.o.entrySet().stream()
-                .filter(entry -> !entry.getKey().equals(node.playerIdent))
-                .flatMap(entry -> entry.getValue().stream())
-                .anyMatch(p -> p.piece().equals(node.pieceIdent));
-
-        if(pieceExistsInOtherPlayers) {
-            throw new RuntimeException(node.pieceIdent + " is already assigned to another player");
-        } //retrieve the players set if it already exists in the state
-        else if (state.o.containsKey(node.playerIdent)) {
-            playerPieces = state.o.get(node.playerIdent);
-        }// create a set for the player of it does not exist in the set
-        else {
-            // else an empty set of playerPieces is created and associated with the player
-            playerPieces = new HashSet<>();
-            state.o.put(node.playerIdent, playerPieces);
+        // type checker guarantees piece is not assigned to another player — get or create the player's set
+        if (!state.o.containsKey(node.playerIdent)) {
+            state.o.put(node.playerIdent, new HashSet<>());
         }
-        // This for loop will take the amount of pieces that is associated with the player, and insert it into the players hashset
+        Set<State.OwnedPiece> playerPieces = state.o.get(node.playerIdent);
         for (int i = 0; i < node.n; i++) {
-            State.OwnedPiece newPiece = new State.OwnedPiece(node.pieceIdent, nextPieceId);
-            playerPieces.add(newPiece);
-            nextPieceId = nextPieceId + 1;
+            playerPieces.add(new State.OwnedPiece(node.pieceIdent, nextPieceId++));
         }
     }
 
