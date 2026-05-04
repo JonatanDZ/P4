@@ -23,7 +23,6 @@ import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.pos.PositionRefNode;
-import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
@@ -31,9 +30,7 @@ import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 import com.boardgamelang.AST.strexp.StrexpNode;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -75,7 +72,6 @@ public final class Interpreter {
             case PlacePieceAtNode p -> execPlacePieceAtStmt(p);
             case AssertNode a -> execAssertStmt(a);
             case GameRuleNode g -> execGameRule(g);
-            case AssertNode a -> execAssertStmt(a);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
@@ -257,12 +253,6 @@ public final class Interpreter {
                 throw new RuntimeException("Invalid action: Game rule is false and the piece can not be placed");
             }
 
-    private void execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
-        state.eta = node.bexp;
-    }
-
-}
-
             state.beta.put(pos, pieceName);
 
             // check win conditions
@@ -277,6 +267,10 @@ public final class Interpreter {
         } finally {
             state.sigma.remove("position");
         }
+    }
+
+    private void execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
+        state.eta = node.bexp;
     }
 }
 
