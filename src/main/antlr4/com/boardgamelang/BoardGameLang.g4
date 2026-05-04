@@ -26,7 +26,7 @@ eqexp : pos
 bexp : OCCUPIED pos                           # OccupiedBexp
      | bexp AND bexp                          # AndBexp
      | bexp OR bexp                           # OrBexp
-     | eqexp EQUALS eqexp                     # EqualsBexp
+     | eqexp EQUALITY eqexp                     # EqualityBexp
      ;
 
 aexp : COUNT LPAR IDENT RPAR                  # CountAexp
@@ -108,7 +108,7 @@ WIN : 'win' ;
 WHEN : 'when' ;
 POSITIONS : 'positions' ;
 COUNT    : 'count'    ;
-EQUALS   : '=='   ;
+EQUALITY   : '=='   ;
 
 // int (not double): board game values are inherently discrete — positions, counts, offsets are all integer-valued
 NUM : [0-9]+ ;

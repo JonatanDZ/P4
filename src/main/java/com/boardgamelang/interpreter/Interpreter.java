@@ -85,13 +85,13 @@ public final class Interpreter {
             case OccupiedNode o -> execOccupiedBExp(o);
             case AndNode a -> execBexp(a.left) && execBexp(a.right);
             case OrNode o -> execBexp(o.left) || execBexp(o.right);
-            case EqualsNode e -> execEqualsNode(e);
+            case EqualityNode e -> execEqualityNode(e);
             default -> throw new UnsupportedOperationException(
                     "Bexp not yet implemented: " + bexp.getClass().getSimpleName());
         };
     }
 
-    public boolean execEqualsNode(EqualsNode e) {
+    public boolean execEqualityNode(EqualityNode e) {
         return switch (e.left) {
             case AexpNode l -> execAexp(l) == execAexp((AexpNode) e.right);
             case StrexpNode l -> execStrexp(l).equals(execStrexp((StrexpNode) e.right));

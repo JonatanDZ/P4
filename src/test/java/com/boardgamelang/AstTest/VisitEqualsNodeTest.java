@@ -2,9 +2,7 @@ package com.boardgamelang.AstTest;
 
 import com.boardgamelang.AST.AstBuilder;
 import com.boardgamelang.AST.aexp.CountNode;
-import com.boardgamelang.AST.bexp.EqualsNode;
-import com.boardgamelang.AST.bexp.OccupiedNode;
-import com.boardgamelang.AST.pos.PositionNode;
+import com.boardgamelang.AST.bexp.EqualityNode;
 import com.boardgamelang.BoardGameLangParser;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +17,7 @@ public class VisitEqualsNodeTest {
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
-        EqualsNode node = (EqualsNode) builder.visit(parser.bexp());
+        EqualityNode node = (EqualityNode) builder.visit(parser.bexp());
 
 
         assertInstanceOf(CountNode.class, node.left);

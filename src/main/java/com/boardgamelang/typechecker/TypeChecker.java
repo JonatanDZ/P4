@@ -3,7 +3,7 @@ package com.boardgamelang.typechecker;
 import com.boardgamelang.AST.Node;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.bexp.BexpNode;
-import com.boardgamelang.AST.bexp.EqualsNode;
+import com.boardgamelang.AST.bexp.EqualityNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.pos.PosNode;
@@ -56,7 +56,7 @@ public class TypeChecker {
     
     private void checkBexp(BexpNode bexp) {
         switch (bexp) {
-            case EqualsNode e -> checkEqualsNode(e);
+            case EqualityNode e -> checkEqualityNode(e);
             default -> {}
         }
     }
@@ -92,7 +92,7 @@ public class TypeChecker {
         };
     }
 
-    private void checkEqualsNode(EqualsNode node) {
+    private void checkEqualityNode(EqualityNode node) {
         Type leftType = getType(node.left);
         Type rightType = getType(node.right);
         if (leftType != rightType) {

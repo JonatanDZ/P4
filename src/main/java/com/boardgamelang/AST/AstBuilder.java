@@ -1,6 +1,5 @@
 package com.boardgamelang.AST;
 
-import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.aexp.NumNode;
 import com.boardgamelang.AST.bexp.AndNode;
@@ -170,9 +169,9 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitEqualsBexp(BoardGameLangParser.EqualsBexpContext ctx) {
+    public Node visitEqualityBexp(BoardGameLangParser.EqualityBexpContext ctx) {
         Node left = visit(ctx.eqexp(0));
         Node right = visit(ctx.eqexp(1));
-        return new EqualsNode(left, right);
+        return new EqualityNode(left, right);
     }
 }
