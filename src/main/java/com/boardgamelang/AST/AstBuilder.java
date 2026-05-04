@@ -2,14 +2,25 @@ package com.boardgamelang.AST;
 
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.bexp.*;
+import com.boardgamelang.AST.aexp.NumNode;
+import com.boardgamelang.AST.bexp.AndNode;
+import com.boardgamelang.AST.bexp.OrNode;
+import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
+import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.aexp.CountNode;
+import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.strexp.PieceNode;
+import com.boardgamelang.AST.bexp.BexpNode;
+import com.boardgamelang.AST.bexp.OccupiedNode;
+import com.boardgamelang.AST.direction.*;
+import com.boardgamelang.AST.pos.OffsetNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.direction.DownNode;
 import com.boardgamelang.AST.direction.LeftNode;
 import com.boardgamelang.AST.direction.RightNode;
 import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
-import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.def.DefNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -17,10 +28,12 @@ import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 import com.boardgamelang.AST.strexp.StrexpNode;
+import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.BoardGameLangBaseVisitor;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.BoardGameLangParser.CompContext;
 import com.boardgamelang.BoardGameLangParser.StmtContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +54,7 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
 
     @Override
     public Node visitBoardDef(BoardGameLangParser.BoardDefContext ctx) {
-        PosNode pos = (PosNode) visit(ctx.pos());
+        PositionNode pos = (PositionNode) visit(ctx.pos());
         return new BoardNode(pos);
     }
 
@@ -49,12 +62,12 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     public Node visitPosition(BoardGameLangParser.PositionContext ctx) {
         int x = Integer.parseInt(ctx.NUM(0).getText());
         int y = Integer.parseInt(ctx.NUM(1).getText());
-        return new PosNode(x, y);
+        return new PositionNode(x, y);
     }
 
     @Override
     public Node visitOccupiedBexp(BoardGameLangParser.OccupiedBexpContext ctx) {
-        PosNode pos = (PosNode) visit(ctx.pos());
+        PositionNode pos = (PositionNode) visit(ctx.pos());
         return new OccupiedNode(pos);
     }
 
@@ -74,9 +87,15 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
+    public Node visitDrawWhenGlobalGameRule(BoardGameLangParser.DrawWhenGlobalGameRuleContext ctx){
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
+        return new DrawWhenGlobalNode(bexp);
+    }
+
+    @Override
     public Node visitPlacePieceAtStmt(BoardGameLangParser.PlacePieceAtStmtContext ctx) {
         String x = ctx.IDENT().getText();
-        PosNode pos = (PosNode) visit(ctx.pos());
+        PositionNode pos = (PositionNode) visit(ctx.pos());
         return new PlacePieceAtNode(pos, x);
     }
 
@@ -115,14 +134,41 @@ public class AstBuilder extends BoardGameLangBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitPieceStrexp(BoardGameLangParser.PieceStrexpContext ctx) {
+    public Node visitNumAexp(BoardGameLangParser.NumAexpContext ctx) {
+        int n = Integer.parseInt(ctx.NUM().getText());
+        return new NumNode(n);
+    }
+
+    @Override
+    public Node visitOffsetPos(BoardGameLangParser.OffsetPosContext ctx) {
         PosNode pos = (PosNode) visit(ctx.pos());
+        DirNode dir = (DirNode) visit(ctx.dir());
+        int amount = Integer.parseInt(ctx.NUM().getText());
+        return new OffsetNode(pos, dir, amount);
+    }
+
+    @Override
+    public Node visitPieceStrexp(BoardGameLangParser.PieceStrexpContext ctx) {
+        PositionNode pos = (PositionNode) visit(ctx.pos());
         return new PieceNode(pos);
     }
 
     @Override
+    public Node visitGamerulesPositionPieceGameRule(BoardGameLangParser.GamerulesPositionPieceGameRuleContext ctx) {
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
+
+        return new GamerulesPositionPieceNode(bexp);
+    }
+
+    @Override
+    public Node visitWinWhenPositionsGameRule(BoardGameLangParser.WinWhenPositionsGameRuleContext ctx) {
+        BexpNode bexp = (BexpNode) visit(ctx.bexp());
+        return new WinWhenPositionsNode(bexp);
+    }
+
+    @Override
     public Node visitCountAexp(BoardGameLangParser.CountAexpContext ctx) {
-        String pieceIdent = ctx.IDENT(0).getText();
+        String pieceIdent = ctx.IDENT().getText();
         return new CountNode(pieceIdent);
     }
 

@@ -6,6 +6,9 @@ def : BOARD pos SEMI     # BoardDef
     ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
+         | GAMERULES POSITION PIECE LBRAC bexp RBRAC     # GamerulesPositionPieceGameRule
+         | WIN WHEN POSITIONS LBRAC bexp RBRAC         # WinWhenPositionsGameRule
+         | DRAW WHEN GLOBAL LBRAC bexp RBRAC # DrawWhenGlobalGameRule
          ;
 
 comp : stmt (SEMI stmt)* SEMI ;
@@ -24,9 +27,12 @@ bexp : OCCUPIED pos                           # OccupiedBexp
      ;
 
 aexp : COUNT LPAR IDENT RPAR                  # CountAexp
+      | NUM                                    # NumAexp
      ;
 
+
 pos : LPAR NUM COMMA NUM RPAR                 # Position
+    | OFFSET pos dir NUM                     # OffsetPos
     ;
 
 dir : LEFT                                    # LeftDir
@@ -71,26 +77,37 @@ notExp : ('!' | '-')* term
 
 
 PLACE    : 'place'    ;
+DRAW     : 'draw'     ;
 BOARD    : 'board'    ;
 PIECE    : 'piece'    ;
 AT       : 'at'       ;
 SEMI     : ';'        ;
 LPAR     : '('        ;
 RPAR     : ')'        ;
+LBRAC    : '{'        ;
+RBRAC    : '}'        ;
 COMMA    : ','        ;
 OCCUPIED : 'occupied' ;
 ASSERT : 'assert' ;
 PLAYER : 'player' ;
 HAS : 'has';
+GAMERULES: 'gamerules';
+POSITION: 'position';
+GLOBAL : 'global' ;
 OR : 'or';
 AND : 'and';
 LEFT     : 'left'     ;
 RIGHT    : 'right'    ;
 UP       : 'up'       ;
 DOWN     : 'down'     ;
+OFFSET   : 'offset'   ;
+WIN : 'win' ;
+WHEN : 'when' ;
+POSITIONS : 'positions' ;
 COUNT    : 'count'    ;
 EQUALS   : '=='   ;
 
+// int (not double): board game values are inherently discrete — positions, counts, offsets are all integer-valued
 NUM : [0-9]+ ;
 IDENT   : [a-zA-Z] [a-zA-Z0-9]* ;
 WS      : [ \t\r\n]+ -> skip ;
