@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class InterpretDrawWhenGlobalTest {
     @Test
     void drawWhenGlobalSetDrawCondition(){
-        String input = "board(5,5); player x has 2 piece knight; draw when global {occupied(2,2)};";
+        String input = "board(5,5); player x has 2 piece knight; draw when global {occupied((2,2))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -28,7 +28,7 @@ public class InterpretDrawWhenGlobalTest {
 
     @Test
     void drawWhenGlobalEvaluatesToTrue() {
-        String input = "board(5,5); draw when global {occupied(2,2)};";
+        String input = "board(5,5); draw when global {occupied((2,2))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -44,7 +44,7 @@ public class InterpretDrawWhenGlobalTest {
 
     @Test
     void drawWhenGlobalEvaluatesToFalse() {
-        String input = "board(5,5); draw when global {occupied(2,2)};";
+        String input = "board(5,5); draw when global {occupied((2,2))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();

@@ -20,14 +20,18 @@ import com.boardgamelang.AST.direction.UpNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.AST.pos.PositionRefNode;
 import com.boardgamelang.AST.gamerule.GamerulesPositionPieceNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
+import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.stmt.StmtNode;
 import com.boardgamelang.AST.strexp.StrexpNode;
 
 import java.util.HashSet;
 import java.util.Set;
+
+
 
 public final class Interpreter {
     // public for test package: allows for mocking states. Should be private final..
@@ -63,8 +67,9 @@ public final class Interpreter {
         switch (stmt) {
             case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
             case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
-            case GameRuleNode g -> execGameRule(g);
+            case PlacePieceAtNode p -> execPlacePieceAtStmt(p);
             case AssertNode a -> execAssertStmt(a);
+            case GameRuleNode g -> execGameRule(g);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }
@@ -103,11 +108,21 @@ public final class Interpreter {
 
     public Position execPos(PosNode p) {
         return switch (p) {
-            case PositionNode lit -> new Position(lit.x, lit.y);
-            case OffsetNode    o  -> execOffsetPos(o);
+            case PositionNode    lit -> new Position(lit.x, lit.y);
+            case OffsetNode      o   -> execOffsetPos(o);
+            case PositionRefNode r   -> execPositionRef();
             default -> throw new UnsupportedOperationException(
                     "Pos not yet implemented: " + p.getClass().getSimpleName());
         };
+    }
+
+    private Position execPositionRef() {
+        Object v = state.sigma.get("position");
+        if (!(v instanceof Position pos)) {
+            throw new RuntimeException(
+                    "'position' is not bound — only valid inside a gamerule, win, or draw bexp during place piece");
+        }
+        return pos;
     }
 
     public String execStrexp(StrexpNode strexp) {
@@ -196,11 +211,54 @@ public final class Interpreter {
 
     private void execGamerulesPositionPieceGameRule(GamerulesPositionPieceNode gr) {
         state.g = gr.bexp;
-        }
-
+    }
 
     private void execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
         state.eta = node.bexp;
     }
 
+    public void execPlacePieceAtStmt(PlacePieceAtNode node) {
+        String pieceName = node.ident;
+
+        boolean exists = state.o.values().stream()
+                .flatMap(Set::stream)
+                .anyMatch(p -> p.piece().equals(pieceName));
+        if (!exists) {
+            throw new RuntimeException("Piece not owned: " + pieceName);
+        }
+
+        Position pos = execPos(node.pos);
+        if (pos.x() <= 0 || pos.x() > state.delta.x() ||
+                pos.y() <= 0 || pos.y() > state.delta.y()){
+            throw new RuntimeException("Out of bounds: " + pos);
+        }
+
+        // this is σ' = σ[position ↦ pos]. It does not create intermediary state, but it cleans up after itself; essentially doing the same.
+        state.sigma.put("position", pos);
+        try {
+            // code is purposefully ugly. execBexp has to be run after throwing custom exception, given that g is null; else it throws ambigious exception.
+            if (state.g == null) {
+                throw new RuntimeException("Invalid action: Game Rules are not declared");
+            }
+            boolean b1 = execBexp(state.g);
+            if (!b1) {
+                throw new RuntimeException("Invalid action: Game rule is false and the piece can not be placed");
+            }
+
+            state.beta.put(pos, pieceName);
+
+            // check win conditions
+            boolean b2 = state.w != null && execBexp(state.w);
+            // check draw conditions
+            boolean b3 = state.eta != null && execBexp(state.eta);
+            if(b2){
+                state.sigma.put("win", true);
+            } else if(b3){
+                state.sigma.put("draw", true);
+            }
+        } finally {
+            state.sigma.remove("position");
+        }
+    }
 }
+

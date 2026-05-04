@@ -14,7 +14,7 @@ public class VisitProgramTest {
 
     @Test
     void visitProgramReturnsProgramNode() {
-        String input = "board(3,3); assert foo (occupied(1,2));";
+        String input = "board(3,3); assert foo (occupied((1,2)));";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
@@ -25,7 +25,7 @@ public class VisitProgramTest {
 
     @Test
     void visitProgramReturnsProgramNodeWithMultipleStmts() {
-        String input = "board(3,3); assert foo (occupied(1,2)); assert foo (occupied(2,3));";
+        String input = "board(3,3); assert foo (occupied((1,2))); assert foo (occupied((2,3)));";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 

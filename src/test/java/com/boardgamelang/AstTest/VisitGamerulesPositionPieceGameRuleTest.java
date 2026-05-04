@@ -13,7 +13,7 @@ public class VisitGamerulesPositionPieceGameRuleTest {
     // Test to check the entered value is a bexp
     @Test
     void visitGamerulesExpectsBexp() {
-        String input = "gamerules position piece {occupied(2,5)};";
+        String input = "gamerules position piece {occupied((2,5))};";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 

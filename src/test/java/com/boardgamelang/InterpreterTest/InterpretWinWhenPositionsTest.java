@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class InterpretWinWhenPositionsTest {
     @Test
     void winWhenPositionsSetsWinCondition() {
-        String input = "board(3,3); win when positions {occupied(56652,1) and occupied(223,23) or occupied(323,232) and occupied(323,132)};";
+        String input = "board(3,3); win when positions {occupied((56652,1)) and occupied((223,23)) or occupied((323,232)) and occupied((323,132))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -30,7 +30,7 @@ public class InterpretWinWhenPositionsTest {
 
     @Test
     void winConditionEvaluatesToFalseWhenPositionsNotOccupied() {
-        String input = "board(3,3); win when positions {occupied(1,1) and occupied(2,2)};";
+        String input = "board(3,3); win when positions {occupied((1,1)) and occupied((2,2))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -44,7 +44,7 @@ public class InterpretWinWhenPositionsTest {
 
     @Test
     void winConditionEvaluatesToTrueWhenPositionsOccupied() {
-        String input = "board(3,3); win when positions {occupied(1,1) and occupied(2,2)};";
+        String input = "board(3,3); win when positions {occupied((1,1)) and occupied((2,2))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();

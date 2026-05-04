@@ -1,12 +1,11 @@
 package com.boardgamelang.AST.strexp;
 
 import com.boardgamelang.AST.pos.PosNode;
-import com.boardgamelang.AST.pos.PositionNode;
 
 public class PieceNode extends StrexpNode {
-    public final PositionNode pos;
+    public final PosNode pos;
 
-    public PieceNode(PositionNode pos) {
+    public PieceNode(PosNode pos) {
         this.pos = pos;
     }
 }

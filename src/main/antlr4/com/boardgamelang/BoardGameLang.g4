@@ -18,6 +18,10 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | gameRule                               # GameRuleStmt
      ;
 
+bexp : OCCUPIED LPAR pos RPAR          # OccupiedBexp
+     | bexp AND bexp         # AndBexp
+     | bexp OR bexp          # OrBexp
+     | NOT bexp              # NotBexp
 eqexp : pos
       | aexp
       | strexp
@@ -36,7 +40,8 @@ aexp : COUNT LPAR IDENT RPAR                  # CountAexp
 
 
 pos : LPAR NUM COMMA NUM RPAR                 # Position
-    | OFFSET pos dir NUM                     # OffsetPos
+    | OFFSET pos dir NUM                      # OffsetPos
+    | POSITION                                # PositionRef
     ;
 
 dir : LEFT                                    # LeftDir

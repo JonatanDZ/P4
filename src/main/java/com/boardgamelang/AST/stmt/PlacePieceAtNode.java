@@ -1,6 +1,7 @@
 package com.boardgamelang.AST.stmt;
 
 import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.interpreter.Position;
 
 public final class PlacePieceAtNode extends StmtNode{
     public final String ident;

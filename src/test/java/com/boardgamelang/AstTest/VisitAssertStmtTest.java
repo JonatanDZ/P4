@@ -17,7 +17,7 @@ public class VisitAssertStmtTest {
     //Ensure that the AST gets the correct values from assert, when going into occupied
     @Test
     void visitAssertStmtReturnsIdentAndPos() {
-        String input = "assert foo (occupied(1,2));";
+        String input = "assert foo (occupied((1,2)));";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
@@ -33,7 +33,7 @@ public class VisitAssertStmtTest {
     // Ensure that Assert should hold a bexp
     @Test
     void visitAssertStmtExpectsBexp() {
-        String input = "assert foo (occupied(1,2));";
+        String input = "assert foo (occupied((1,2)));";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
