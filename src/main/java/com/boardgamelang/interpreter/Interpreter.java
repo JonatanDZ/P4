@@ -224,6 +224,9 @@ public final class Interpreter {
         state.g = gr.bexp;
     }
 
+    private void execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
+        state.eta = node.bexp;
+    }
 
     public void execPlacePieceAtStmt(PlacePieceAtNode node) {
         String pieceName = node.ident;
@@ -267,10 +270,6 @@ public final class Interpreter {
         } finally {
             state.sigma.remove("position");
         }
-    }
-
-    private void execDrawWhenGlobalGameRule(DrawWhenGlobalNode node){
-        state.eta = node.bexp;
     }
 }
 

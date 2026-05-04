@@ -84,7 +84,15 @@ public class InterpretPlacePieceAtTest {
     // place piece removes σ["position"] after successful return.
     @Test
     void placePieceUnbindsPositionAfterSuccess() {
-        // TODO
+        String input = "board(8,8); player x has 1 piece knight; place piece pawn at (5,8);";
+
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+
+        //
     }
 
     // place piece removes σ["position"] even when it throws mid-evaluation (try/finally).
