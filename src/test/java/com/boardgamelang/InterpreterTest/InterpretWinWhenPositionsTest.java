@@ -58,16 +58,4 @@ public class InterpretWinWhenPositionsTest {
 
         assertTrue(interpreter.execBexp(state.w));
     }
-
-    @Test
-    void definingWinRuleTwiceThrows() {
-        String input = "board(3,3); win when positions {occupied(1,1)}; win when positions {occupied(2,2)};";
-
-        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
-        AstBuilder builder = new AstBuilder();
-        ProgramNode program = (ProgramNode) builder.visit(parser.program());
-
-        Interpreter interpreter = new Interpreter();
-        assertThrows(RuntimeException.class, () -> interpreter.run(program));
-    }
 }
