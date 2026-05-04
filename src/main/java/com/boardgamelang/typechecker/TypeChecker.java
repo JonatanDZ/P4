@@ -1,6 +1,7 @@
 package com.boardgamelang.typechecker;
 
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
+import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.stmt.StmtNode;
@@ -13,6 +14,8 @@ import java.util.Set;
 public class TypeChecker {
     private final Set<String> declaredPieces = new HashSet<>();
     private final Map<String, String> pieceToPlayer = new HashMap<>();
+    private boolean winWhenPositionsDeclared = false;
+
 
     public void check(ProgramNode program) {
         collectDeclaredPieces(program);
@@ -37,8 +40,16 @@ public class TypeChecker {
         switch (stmt) {
             case PlacePieceAtNode p -> checkPlacePieceAt(p);
             case PlayerHasPieceNode p -> checkPieceOwnership(p);
+            case WinWhenPositionsNode w -> checkWinWhenPositions(w);
             default -> {}
         }
+    }
+
+    private void checkWinWhenPositions(WinWhenPositionsNode w) {
+        if (winWhenPositionsDeclared) {
+            throw new TypeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
+        }
+        winWhenPositionsDeclared = true;
     }
 
     private void checkPlacePieceAt(PlacePieceAtNode node) {

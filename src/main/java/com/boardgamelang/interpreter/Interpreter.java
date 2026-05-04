@@ -138,10 +138,6 @@ public final class Interpreter {
     private int nextPieceId = 0;
 
     private void execWinWhenPositionsGameRule(WinWhenPositionsNode node) {
-        // rn state is limited to onle be declared once, maybe it should be changed?
-        if (state.w != null) {
-            throw new RuntimeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
-        }
         state.w = node.bexp;
     }
 
