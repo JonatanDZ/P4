@@ -2,8 +2,10 @@ package com.boardgamelang.typechecker;
 
 import com.boardgamelang.AST.Node;
 import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.bexp.AndNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.EqualityNode;
+import com.boardgamelang.AST.bexp.OrNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.pos.PosNode;
@@ -22,7 +24,7 @@ public class TypeChecker {
     private final Set<String> declaredPieces = new HashSet<>();
     private final Map<String, String> pieceToPlayer = new HashMap<>();
     private boolean winWhenPositionsDeclared = false;
-    public enum Type { INT, STRING, POS }
+    public enum Type { INT, STRING, POS, BOOL }
 
 
     public void check(ProgramNode program) {
@@ -57,6 +59,8 @@ public class TypeChecker {
     private void checkBexp(BexpNode bexp) {
         switch (bexp) {
             case EqualityNode e -> checkEqualityNode(e);
+            case AndNode a -> checkAndNode(a);
+            case OrNode o -> checkOrNode(o);
             default -> {}
         }
     }
@@ -97,6 +101,28 @@ public class TypeChecker {
         Type rightType = getType(node.right);
         if (leftType != rightType) {
             throw new TypeException("Type mismatch in ==: cannot compare " + leftType + " with " + rightType);
+        }
+    }
+
+    private void checkAndNode(AndNode node) {
+        Type leftType = getType(node.left);
+        Type rightType = getType(node.right);
+        if (leftType != Type.BOOL) {
+            throw new TypeException("Type must be a boolean expression" + leftType);
+        }
+        if (rightType != Type.BOOL) {
+            throw new TypeException("Type must be a boolean expression" + rightType);
+        }
+    }
+
+    private void checkOrNode(OrNode node) {
+        Type leftType = getType(node.left);
+        Type rightType = getType(node.right);
+        if (leftType != Type.BOOL) {
+            throw new TypeException("Type must be a boolean expression" + leftType);
+        }
+        if (rightType != Type.BOOL) {
+            throw new TypeException("Type must be a boolean expression" + rightType);
         }
     }
 }
