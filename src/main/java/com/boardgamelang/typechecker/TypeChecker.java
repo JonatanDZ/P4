@@ -4,6 +4,7 @@ import com.boardgamelang.AST.Node;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.EqualityNode;
+import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.pos.PosNode;
@@ -27,14 +28,29 @@ public class TypeChecker {
 
     public void check(ProgramNode program) {
         collectDeclaredPieces(program);
+        checkGameRules(program);
         checkStmts(program);
     }
 
     private void collectDeclaredPieces(ProgramNode program) {
-        for (StmtNode stmt : program.stmtNodes) {
-            if (stmt instanceof PlayerHasPieceNode p) {
+        for (GameRuleNode gameRule : program.gameRuleNodes) {
+            if (gameRule instanceof PlayerHasPieceNode p) {
                 declaredPieces.add(p.pieceIdent);
             }
+        }
+    }
+    
+    private void checkGameRules(ProgramNode program) {
+        for (GameRuleNode gameRule : program.gameRuleNodes) {
+            checkGameRule(gameRule);
+        }
+    }
+    
+    private void checkGameRule(GameRuleNode gameRule) {
+        switch (gameRule) {
+            case PlayerHasPieceNode p -> checkPieceOwnership(p);
+            case WinWhenPositionsNode w -> checkWinWhenPositions(w);
+            default -> {}
         }
     }
 
@@ -47,8 +63,6 @@ public class TypeChecker {
     private void checkStmt(StmtNode stmt) {
         switch (stmt) {
             case PlacePieceAtNode p -> checkPlacePieceAt(p);
-            case PlayerHasPieceNode p -> checkPieceOwnership(p);
-            case WinWhenPositionsNode w -> checkWinWhenPositions(w);
             case AssertNode a -> checkBexp(a.bexp);
             default -> {}
         }
