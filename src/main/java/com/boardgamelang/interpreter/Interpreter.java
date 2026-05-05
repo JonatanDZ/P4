@@ -39,6 +39,9 @@ public final class Interpreter {
 
     public State run(ProgramNode program) {
         execDef(program.defnode);
+        for (GameRuleNode gameRule : program.gameRuleNodes) {
+            execGameRule(gameRule);
+        }
         for (StmtNode stmt : program.stmtNodes) {
             execStmt(stmt);
         }
@@ -54,22 +57,21 @@ public final class Interpreter {
     }
 
 
-    private void execGameRule(GameRuleNode gameRule){
+    private void execGameRule(GameRuleNode gameRule) {
         switch (gameRule) {
+            case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
+            case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
             case DrawWhenGlobalNode dg -> execDrawWhenGlobalGameRule(dg);
             case GamerulesPositionPieceNode gr -> execGamerulesPositionPieceGameRule(gr);
             default -> throw new UnsupportedOperationException(
-                    "GameRule not yet implemented: " + gameRule.getClass().getSimpleName());
+                    "gamerule not yet implemented: " + gameRule.getClass().getSimpleName());
         }
     }
 
     private void execStmt(StmtNode stmt) {
         switch (stmt) {
-            case PlayerHasPieceNode p -> execPlayerHasPieceGameRule(p);
-            case WinWhenPositionsNode w -> execWinWhenPositionsGameRule(w);
             case PlacePieceAtNode p -> execPlacePieceAtStmt(p);
             case AssertNode a -> execAssertStmt(a);
-            case GameRuleNode g -> execGameRule(g);
             default -> throw new UnsupportedOperationException(
                     "stmt not yet implemented: " + stmt.getClass().getSimpleName());
         }

@@ -1,9 +1,11 @@
 grammar BoardGameLang;
 
-program : def comp* EOF;
+program : def compRule* comp* EOF;
 
 def : BOARD pos SEMI     # BoardDef
     ;
+
+compRule : gameRule (SEMI gameRule)* SEMI ;
 
 gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
          | GAMERULES POSITION PIECE LBRAC bexp RBRAC     # GamerulesPositionPieceGameRule
@@ -15,7 +17,6 @@ comp : stmt (SEMI stmt)* SEMI ;
 
 stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | ASSERT IDENT LPAR bexp RPAR           # AssertStmt
-     | gameRule                               # GameRuleStmt
      ;
 
 bexp : OCCUPIED LPAR pos RPAR              # OccupiedBexp
