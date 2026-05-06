@@ -2,6 +2,7 @@ package com.boardgamelang.typechecker;
 
 import com.boardgamelang.AST.Node;
 import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.EqualityNode;
 import com.boardgamelang.AST.def.BoardNode;
@@ -96,6 +97,19 @@ public class TypeChecker {
         }
     }
 
+    private void checkAexp(AexpNode aexp) {
+        switch (aexp) {
+            case CountNode c -> checkCountNode(c);
+            default -> {}
+        }
+    }
+
+    private void checkCountNode(CountNode countNode) {
+        if (!declaredPieces.contains(countNode.ident)) {
+            throw new TypeException("Cannot count undeclared piece: '" + countNode.ident + "'");
+        }
+    }
+
     private void checkWinWhenPositions(WinWhenPositionsNode w) {
         if (winWhenPositionsDeclared) {
             throw new TypeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
@@ -141,5 +155,7 @@ public class TypeChecker {
         if (leftType != rightType) {
             throw new TypeException("Type mismatch in ==: cannot compare " + leftType + " with " + rightType);
         }
+        if (node.left  instanceof AexpNode l) checkAexp(l);
+        if (node.right instanceof AexpNode r) checkAexp(r);
     }
 }
