@@ -82,6 +82,47 @@ public class InterpretPlacePieceAtTest {
         assertEquals("knight", state.beta.get(new Position(4,8)));
     }
 
+    @Test
+    void winAssociatesWithOwningPlayer() {
+        String input = "board(3,3); "
+                + "player alice has 1 piece knight; "
+                + "gamerules position piece {!occupied(position)}; "
+                + "win when positions {occupied((1,1)) and occupied((2,2))}; "
+                + "place piece knight at (1,1); "
+                + "place piece knight at (2,2);";
+
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+        State state = interpreter.run(program);
+
+        assertEquals("alice", state.sigma.get("win"));
+    }
+
+    @Test
+    void winCannotBeOverwritten() {
+        String input = "board(3,3); "
+                + "player alice has 1 piece knight; "
+                + "player pete has 1 piece pawn; "
+                + "gamerules position piece {!occupied(position)}; "
+                + "win when positions {occupied((1,1)) and occupied((2,2)) or occupied((3,3)) and occupied((2,3))}; "
+                + "place piece knight at (1,1); "
+                + "place piece pawn at (3,3);"
+                + "place piece knight at (2,2);"
+                + "place piece pawn at (2,3);";
+
+        BoardGameLangParser parser = ParseTreeHelper.createParser(input);
+        AstBuilder builder = new AstBuilder();
+        ProgramNode program = (ProgramNode) builder.visit(parser.program());
+
+        Interpreter interpreter = new Interpreter();
+        State state = interpreter.run(program);
+
+        assertEquals("alice", state.sigma.get("win"));
+    }
+
     // place piece removes σ["position"] after successful return.
     @Test
     void placePieceUnbindsPositionAfterSuccess() {

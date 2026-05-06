@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class VisitPieceStrexpTest {
     @Test
     public void testVisitPieceStrexp() {
-        String input = "piece(3,2);";
+        String input = "piece((3,2));";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 

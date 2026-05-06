@@ -23,7 +23,7 @@ public class InterpretOffsetPosTest {
         assertEquals(new Position(2,1), result);
     }
 
-    // test that base is out of bounds and throws
+    // a literal off-board base is a user error and still throws.
     @Test
     void offsetBaseOutOfBoundsAndThrows() {
         Interpreter interp = new Interpreter();
@@ -35,16 +35,29 @@ public class InterpretOffsetPosTest {
                 () -> interp.execPos(new OffsetNode(pos, dir, 1)));
     }
 
-    // test that result is out of bounds and throws
+    // out-of-bounds result returns null instead of throwing. This lets win/gamerule
+    // bexps ask "is there a 4-in-a-row through position?" near an edge without crashing —
+    // null propagates through piece(...) and equality to a clean false.
     @Test
-    void offsetResultOutOfBoundsAndThrows() {
+    void offsetResultOutOfBoundsReturnsNull() {
         Interpreter interp = new Interpreter();
-        PositionNode pos = new PositionNode(1, 1);   // base is in bounds, but result (1, -4) is off a 3x3 board
+        PositionNode pos = new PositionNode(1, 1);   // base is in bounds, result (1, -4) is off a 3x3 board
         DirNode dir = new LeftNode();
         interp.state.delta = interp.execPos(new PositionNode(3, 3));
 
-        assertThrows(RuntimeException.class,
-                () -> interp.execPos(new OffsetNode(pos, dir, 5)));
+        assertNull(interp.execPos(new OffsetNode(pos, dir, 5)));
+    }
+
+    // a nested offset whose inner step went off-board propagates null outward.
+    @Test
+    void nestedOffsetWithInnerOutOfBoundsReturnsNull() {
+        Interpreter interp = new Interpreter();
+        PositionNode pos = new PositionNode(1, 1);
+        DirNode dir = new LeftNode();
+        interp.state.delta = interp.execPos(new PositionNode(3, 3));
+
+        // inner: offset (1,1) left 5 → null; outer: offset null left 1 → null
+        assertNull(interp.execPos(new OffsetNode(new OffsetNode(pos, dir, 5), dir, 1)));
     }
     // test the result of a nested offset
     @Test

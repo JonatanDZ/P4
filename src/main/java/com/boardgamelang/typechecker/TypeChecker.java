@@ -5,6 +5,7 @@ import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.EqualityNode;
+import com.boardgamelang.AST.bexp.NotNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
@@ -93,6 +94,7 @@ public class TypeChecker {
     private void checkBexp(BexpNode bexp) {
         switch (bexp) {
             case EqualityNode e -> checkEqualityNode(e);
+            case NotNode n -> checkNotNode(n);
             default -> {}
         }
     }
@@ -157,5 +159,11 @@ public class TypeChecker {
         }
         if (node.left  instanceof AexpNode l) checkAexp(l);
         if (node.right instanceof AexpNode r) checkAexp(r);
+    }
+
+    private void checkNotNode(NotNode node) {
+        // if there is no EqualityNodes inside, checkBexp hits the default and does nothing because there is no types to mismatch.
+        // = checkBexp is called with the child (rn only EqualityNodes)
+        checkBexp(node.b);
     }
 }
