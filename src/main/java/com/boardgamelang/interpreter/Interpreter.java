@@ -29,6 +29,7 @@ import com.boardgamelang.AST.stmt.StmtNode;
 import com.boardgamelang.AST.strexp.StrexpNode;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -253,8 +254,14 @@ public final class Interpreter {
             boolean b2 = state.w != null && execBexp(state.w);
             // check draw conditions
             boolean b3 = state.eta != null && execBexp(state.eta);
-            if(b2){
-                state.sigma.put("win", true);
+            if(b2 && !state.sigma.containsKey("win")){
+                // piece ∈ o(player): find the player who owns the piece just placed to associate the player to the win
+                String winner = state.o.entrySet().stream()
+                        .filter(entry -> entry.getValue().stream().anyMatch(p -> p.piece().equals(pieceName)))
+                        .map(Map.Entry::getKey)
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("No player owns piece: " + pieceName));
+                state.sigma.put("win", winner);
             } else if(b3){
                 state.sigma.put("draw", true);
             }
