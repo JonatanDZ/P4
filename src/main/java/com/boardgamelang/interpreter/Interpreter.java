@@ -103,8 +103,21 @@ public final class Interpreter {
     public boolean execEqualityNode(EqualityNode e) {
         return switch (e.left) {
             case AexpNode l -> execAexp(l) == execAexp((AexpNode) e.right);
-            case StrexpNode l -> execStrexp(l).equals(execStrexp((StrexpNode) e.right));
-            case PosNode l -> execPos(l).equals(execPos((PosNode) e.right));
+            // important clause which allows the following check: piece(position) == piece(1,1), assuming both are, or one is, null
+            // a NullPointerException will be thrown if this is not present
+            case StrexpNode l -> {
+                String lv = execStrexp(l);
+                String rv = execStrexp((StrexpNode) e.right);
+                // yield is similar to return. It returns the value to the case and exits the switch
+                if (lv == null || rv == null) yield false;
+                yield lv.equals(rv);
+            }
+            case PosNode l -> {
+                Position lv = execPos(l);
+                Position rv = execPos((PosNode) e.right);
+                if (lv == null || rv == null) yield false;
+                yield lv.equals(rv);
+            }
             default -> throw new RuntimeException("Unsupported equality check");
         };
     }
@@ -194,22 +207,26 @@ public final class Interpreter {
     }
 
     private Position execOffsetPos(OffsetNode node) {
-        Position base   = execPos(node.pos);
+        Position base = execPos(node.pos);
+        // a nested offset that went off-board returns null; propagate it
+        if (base == null) return null;
+        // a literal base off the board is a user error — catch it here
+        boolean baseInBounds = 0 < base.x() && base.x() <= state.delta.x()
+                            && 0 < base.y() && base.y() <= state.delta.y();
+        if (!baseInBounds) {
+            throw new RuntimeException("offset base out of bounds: " + base);
+        }
         Position dir = execDir(node.dir);
         Position result = new Position(
                 base.x() + dir.x() * node.n,
                 base.y() + dir.y() * node.n
         );
-        // ensures that p (base) is in bound and the result position of offset is inbound. CHANGE THE SEMANTICS IN THE REPORT!
-        if (0 < base.x()   && base.x()   <= state.delta.x()
-            && 0 < base.y()   && base.y()   <= state.delta.y()
-            && 0 < result.x() && result.x() <= state.delta.x()
-            && 0 < result.y() && result.y() <= state.delta.y()) {
-            return result;
-        } else {
-            throw new RuntimeException("offset out of bounds: " + result);
-        }
-
+        boolean resultInBounds = 0 < result.x() && result.x() <= state.delta.x()
+                              && 0 < result.y() && result.y() <= state.delta.y();
+        // out-of-bounds result returns null instead of throwing, so win/gamerule bexps
+        // can ask "is there a 4-in-a-row through position?" near the edge without crashing.
+        // null then propagates through piece(...) and equality to a clean false.
+        return resultInBounds ? result : null;
     }
 
     private void execGamerulesPositionPieceGameRule(GamerulesPositionPieceNode gr) {
@@ -231,7 +248,7 @@ public final class Interpreter {
         }
 
         Position pos = execPos(node.pos);
-        if (pos.x() <= 0 || pos.x() > state.delta.x() ||
+        if (pos == null || pos.x() <= 0 || pos.x() > state.delta.x() ||
                 pos.y() <= 0 || pos.y() > state.delta.y()){
             throw new RuntimeException("Out of bounds: " + pos);
         }
