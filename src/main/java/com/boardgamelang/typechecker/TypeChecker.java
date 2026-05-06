@@ -2,9 +2,7 @@ package com.boardgamelang.typechecker;
 
 import com.boardgamelang.AST.Node;
 import com.boardgamelang.AST.aexp.AexpNode;
-import com.boardgamelang.AST.bexp.BexpNode;
-import com.boardgamelang.AST.bexp.EqualityNode;
-import com.boardgamelang.AST.bexp.NotNode;
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
@@ -94,8 +92,21 @@ public class TypeChecker {
         switch (bexp) {
             case EqualityNode e -> checkEqualityNode(e);
             case NotNode n -> checkNotNode(n);
-            default -> {}
+            case AndNode a -> checkAndNode(a);
+            case OrNode o -> checkOrNode(o);
+            case OccupiedNode ignored -> {}
+            default -> {throw new TypeException("Invalid bexp");}
         }
+    }
+
+    private void checkAndNode(AndNode andNode) {
+        checkBexp(andNode.left);
+        checkBexp(andNode.right);
+    }
+
+    private void checkOrNode(OrNode orNode) {
+        checkBexp(orNode.left);
+        checkBexp(orNode.right);
     }
 
     private void checkWinWhenPositions(WinWhenPositionsNode w) {
