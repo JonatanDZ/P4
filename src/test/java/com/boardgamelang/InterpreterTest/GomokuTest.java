@@ -116,6 +116,6 @@ public class GomokuTest {
 
         // diagonal win must have been registered after move 8
         // the user has no way of asserting this in the program at the moment.. Missing a construct which looks up win in sigma.
-        assertEquals(true, state.sigma.get("win"));
+        assertEquals("White", state.sigma.get("win"));
     }
 }
