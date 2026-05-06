@@ -4,11 +4,13 @@ import com.boardgamelang.AST.Node;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.EqualityNode;
+import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.gamerule.GameRuleNode;
 import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
 import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
 import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
 import com.boardgamelang.AST.pos.PosNode;
+import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
@@ -29,9 +31,25 @@ public class TypeChecker {
 
 
     public void check(ProgramNode program) {
+        checkDef(program);
         collectDeclaredPieces(program);
         checkGameRules(program);
         checkStmts(program);
+    }
+
+    private void checkDef(ProgramNode program) {
+        if (program.defnode instanceof BoardNode board) {
+            checkBoard(board);
+        }
+    }
+
+    private void checkBoard(BoardNode board) {
+        if (!(board.pos instanceof PositionNode pos)) {
+            throw new TypeException("Board dimensions must be integer literals");
+        }
+        if (!(pos.x >= 1) || !(pos.y >= 1)) {
+            throw new TypeException("Board dimensions must be positive and above 0, got (" + pos.x + ", " + pos.y + ")");
+        }
     }
 
     private void collectDeclaredPieces(ProgramNode program) {
