@@ -5,10 +5,7 @@ import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.EqualityNode;
 import com.boardgamelang.AST.def.BoardNode;
-import com.boardgamelang.AST.gamerule.GameRuleNode;
-import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
-import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
-import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
+import com.boardgamelang.AST.gamerule.*;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -27,6 +24,7 @@ public class TypeChecker {
     private final Map<String, String> pieceToPlayer = new HashMap<>();
     private boolean winWhenPositionsDeclared = false;
     private boolean drawWhenGlobalDeclared = false;
+    private boolean gameRulePositionPieceDeclared = false;
     public enum Type { INT, STRING, POS }
 
 
@@ -71,6 +69,7 @@ public class TypeChecker {
             case PlayerHasPieceNode p -> checkPieceOwnership(p);
             case WinWhenPositionsNode w -> checkWinWhenPositions(w);
             case DrawWhenGlobalNode d -> checkDrawWhenGlobal(d);
+            case GamerulesPositionPieceNode g -> checkGamrulePositionPiece(g);
             default -> {}
         }
     }
@@ -110,6 +109,14 @@ public class TypeChecker {
         }
         drawWhenGlobalDeclared = true;
         checkBexp(d.bexp);
+    }
+
+    private void checkGamrulePositionPiece(GamerulesPositionPieceNode g) {
+        if(gameRulePositionPieceDeclared){
+            throw new TypeException("GamerulePositionPiece already defined, redefine GamerulePositionPiece to add more game rules.");
+        }
+        gameRulePositionPieceDeclared = true;
+        checkBexp(g.bexp);
     }
 
     private void checkPlacePieceAt(PlacePieceAtNode node) {
