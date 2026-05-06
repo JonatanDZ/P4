@@ -19,11 +19,11 @@ stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
      | ASSERT IDENT LPAR bexp RPAR           # AssertStmt
      ;
 
-bexp : OCCUPIED LPAR pos RPAR              # OccupiedBexp
+bexp : NOT bexp                              # NotBexp
+     | eqexp EQUALITY eqexp                  # EqualityBexp
+     | OCCUPIED LPAR pos RPAR                # OccupiedBexp
      | bexp AND bexp                         # AndBexp
      | bexp OR bexp                          # OrBexp
-     | eqexp EQUALITY eqexp                  # EqualityBexp
-     | NOT bexp                              # NotBexp
      ;
 
 eqexp : pos
