@@ -15,7 +15,7 @@ public class GamerulePositionPieceTest {
     @Test
     public void gamerulePositionPieceDeclaredCorrectTest() {
         String input = "board(8,8);" +
-                "player y has 4 piece donky;" +
+                "player y has 4 piece donkey;" +
                 "gamerules position piece {!occupied((3,4))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
@@ -28,7 +28,7 @@ public class GamerulePositionPieceTest {
     @Test
     public void gamerulePositionPieceDeclaredTwiceTest() {
         String input = "board(8,8);" +
-                "player y has 4 piece donky;" +
+                "player y has 4 piece donkey;" +
                 "gamerules position piece {!occupied((3,4))};" +
                 "gamerules position piece {!occupied((3,6))};";
 
