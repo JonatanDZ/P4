@@ -24,7 +24,7 @@ public class TypeChecker {
     private final Map<String, String> pieceToPlayer = new HashMap<>();
     private boolean winWhenPositionsDeclared = false;
     private boolean drawWhenGlobalDeclared = false;
-    private boolean gameRulesPositionPieceDeclared = false;
+    private boolean gamerulesPositionPieceDeclared = false;
     public enum Type { INT, STRING, POS }
 
 
@@ -112,10 +112,10 @@ public class TypeChecker {
     }
 
     private void checkGamerulesPositionPiece(GamerulesPositionPieceNode g) {
-        if(gameRulesPositionPieceDeclared){
+        if(gamerulesPositionPieceDeclared){
             throw new TypeException("GamerulesPositionPiece already defined, redefine GamerulesPositionPiece to add more game rules.");
         }
-        gameRulesPositionPieceDeclared = true;
+        gamerulesPositionPieceDeclared = true;
         checkBexp(g.bexp);
     }
 

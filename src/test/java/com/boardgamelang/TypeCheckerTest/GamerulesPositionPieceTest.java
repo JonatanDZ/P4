@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class GamerulePositionPieceTest {
+public class GamerulesPositionPieceTest {
     @Test
-    public void gamerulePositionPieceDeclaredCorrectTest() {
+    public void gamerulesPositionPieceDeclaredCorrectTest() {
         String input = "board(8,8);" +
                 "player y has 4 piece donkey;" +
                 "gamerules position piece {!occupied((3,4))};";
@@ -26,7 +26,7 @@ public class GamerulePositionPieceTest {
     }
 
     @Test
-    public void gamerulePositionPieceDeclaredTwiceTest() {
+    public void gamerulesPositionPieceDeclaredTwiceTest() {
         String input = "board(8,8);" +
                 "player y has 4 piece donkey;" +
                 "gamerules position piece {!occupied((3,4))};" +
