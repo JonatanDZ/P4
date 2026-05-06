@@ -21,7 +21,7 @@ public class InterpretPieceAtTest {
         interp.state.beta.put(new Position(1, 1), "X");
         interp.state.beta.put(new Position(1, 2), "Y");
 
-        String input = "piece(1,1);";
+        String input = "piece((1,1));";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -37,7 +37,7 @@ public class InterpretPieceAtTest {
     void returnNullIfPosIsEmpty() {
         Interpreter interp = new Interpreter();
 
-        String input = "piece(1,1);";
+        String input = "piece((1,1));";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
