@@ -100,8 +100,7 @@ public class TypeChecker {
             case NotNode n -> checkNotNode(n);
             case AndNode a -> checkAndNode(a);
             case OrNode o -> checkOrNode(o);
-            case OccupiedNode o -> checkOccupiedNode(o);
-            default -> {throw new TypeException("Invalid bexp");}
+            default -> {}
         }
     }
 
@@ -113,31 +112,6 @@ public class TypeChecker {
     private void checkOrNode(OrNode orNode) {
         checkBexp(orNode.left);
         checkBexp(orNode.right);
-    }
-
-    private void checkOccupiedNode(OccupiedNode o) {
-        checkPos(o.pos);
-    }
-
-    private void checkStrexp(StrexpNode strexp) {
-        switch (strexp) {
-            case PieceNode p -> checkPieceNode(p);
-            default -> throw new TypeException("Invalid strexp: " + strexp.getClass().getSimpleName());
-        }
-    }
-
-    private void checkPieceNode(PieceNode p) {
-        checkPos(p.pos);
-    }
-
-    private void checkPos(PosNode pos) {
-        switch (pos) {
-            // Lexer already accounts for this:
-            case PositionNode Checked -> {}
-            case OffsetNode ignored -> {}
-            case PositionRefNode ignored -> {}
-            default -> throw new TypeException("Invalid pos: " + pos.getClass().getSimpleName());
-        }
     }
 
     private void checkAexp(AexpNode aexp) {
@@ -208,8 +182,6 @@ public class TypeChecker {
         }
         if (node.left  instanceof AexpNode l) checkAexp(l);
         if (node.right instanceof AexpNode r) checkAexp(r);
-        if (node.left  instanceof StrexpNode l) checkStrexp(l);
-        if (node.right instanceof StrexpNode r) checkStrexp(r);
     }
 
     private void checkNotNode(NotNode node) {
