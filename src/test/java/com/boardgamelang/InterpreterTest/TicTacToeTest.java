@@ -83,27 +83,27 @@ public class TicTacToeTest {
                 + "draw when global{count(XP) == 5 and count(OP) == 4};"
 
                 + "place piece XP at (1,1);"
-                + "assert XMove1 (occupied((1,1)));"
+                + "assert XMove1 {occupied((1,1))};"
 
                 + "place piece OP at (2,3);"
-                + "assert OMove1 (occupied((2,3)));"
+                + "assert OMove1 {occupied((2,3))};"
 
                 + "place piece XP at (3,1);"
-                + "assert XMove2 (occupied((3,1)));"
+                + "assert XMove2 {occupied((3,1))};"
 
                 + "place piece OP at (2,1);"
-                + "assert OMove2 (occupied((2,1)));"
+                + "assert OMove2 {occupied((2,1))};"
 
                 + "place piece XP at (2,2);"
-                + "assert XMove3 (occupied((2,2)));"
+                + "assert XMove3 {occupied((2,2))};"
 
                 + "place piece OP at (1,3);"
-                + "assert OMove3 (occupied((1,3)));"
+                + "assert OMove3 {occupied((1,3))};"
 
                 + "place piece XP at (3,3);"
-                + "assert XMove4 (occupied((3,3)));"
+                + "assert XMove4 {occupied((3,3))};"
 
-                + "assert countPiecesPlayed (count(XP) == 4 and count(OP) == 3);"
+                + "assert countPiecesPlayed {count(XP) == 4 and count(OP) == 3};"
                 ;
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
@@ -201,33 +201,33 @@ public class TicTacToeTest {
                 + "draw when global{count(XP) == 5 and count(OP) == 4};"
 
                 + "place piece XP at (1,1);"
-                + "assert XMove1 (occupied((1,1)));"
+                + "assert XMove1 {occupied((1,1))};"
 
                 + "place piece OP at (2,2);"
-                + "assert OMove1 (occupied((2,2)));"
+                + "assert OMove1 {occupied((2,2))};"
 
                 + "place piece XP at (2,1);"
-                + "assert XMove2 (occupied((2,1)));"
+                + "assert XMove2 {occupied((2,1))};"
 
                 + "place piece OP at (3,1);"
-                + "assert OMove2 (occupied((3,1)));"
+                + "assert OMove2 {occupied((3,1))};"
 
                 + "place piece XP at (1,3);"
-                + "assert XMove3 (occupied((1,3)));"
+                + "assert XMove3 {occupied((1,3))};"
 
                 + "place piece OP at (1,2);"
-                + "assert OMove3 (occupied((1,2)));"
+                + "assert OMove3 {occupied((1,2))};"
 
                 + "place piece XP at (3,2);"
-                + "assert XMove4 (occupied((3,2)));"
+                + "assert XMove4 {occupied((3,2))};"
 
                 + "place piece OP at (2,3);"
-                + "assert OMove4 (occupied((2,3)));"
+                + "assert OMove4 {occupied((2,3))};"
 
                 + "place piece XP at (3,3);"
-                + "assert XMove5 (occupied((3,3)));"
+                + "assert XMove5 {occupied((3,3))};"
 
-                + "assert countPiecesPlayed (count(XP) == 5 and count(OP) == 4);"
+                + "assert countPiecesPlayed {count(XP) == 5 and count(OP) == 4};"
                 ;
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
