@@ -16,7 +16,7 @@ gameRule : PLAYER IDENT HAS NUM PIECE IDENT  # PlayerHasPieceGameRule
 comp : stmt (SEMI stmt)* SEMI ;
 
 stmt : PLACE PIECE IDENT AT pos              # PlacePieceAtStmt
-     | ASSERT IDENT LPAR bexp RPAR           # AssertStmt
+     | ASSERT IDENT LBRAC bexp RBRAC           # AssertStmt
      ;
 
 bexp : NOT bexp                              # NotBexp

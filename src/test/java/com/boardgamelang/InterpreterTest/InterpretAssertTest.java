@@ -18,7 +18,7 @@ public class InterpretAssertTest {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(1, 1), "X");
 
-        String input = "board(3,3); assert testTrue (occupied((1,1)));";
+        String input = "board(3,3); assert testTrue {occupied((1,1))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
@@ -35,7 +35,7 @@ public class InterpretAssertTest {
         Interpreter interp = new Interpreter();
         interp.state.beta.put(new Position(2, 2), "X");
 
-        String input = "board(3,3); assert testFalse (occupied((1,1)));";
+        String input = "board(3,3); assert testFalse {occupied((1,1))};";
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();

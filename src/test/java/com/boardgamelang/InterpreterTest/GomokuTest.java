@@ -74,28 +74,28 @@ public class GomokuTest {
 
                 // Game: White (X) wins on diagonal (1,1)→(4,4). Black (O) goes first.
                 "place piece O at (1,2);" +
-                "assert BlackMove1 (occupied((1,2)) and count(O) == 1);" +
+                "assert BlackMove1 {occupied((1,2)) and count(O) == 1};" +
 
                 "place piece X at (1,1);" +
-                "assert WhiteMove1 (occupied((1,1)) and count(X) == 1);" +
+                "assert WhiteMove1 {occupied((1,1)) and count(X) == 1};" +
 
                 "place piece O at (3,4);" +
-                "assert BlackMove2 (occupied((3,4)) and count(O) == 2);" +
+                "assert BlackMove2 {occupied((3,4)) and count(O) == 2};" +
 
                 "place piece X at (2,2);" +
-                "assert WhiteMove2 (piece((1,1)) == piece((2,2)));" +
+                "assert WhiteMove2 {piece((1,1)) == piece((2,2))};" +
 
                 "place piece O at (5,1);" +
-                "assert BlackMove3 (occupied((5,1)) and count(O) == 3);" +
+                "assert BlackMove3 {occupied((5,1)) and count(O) == 3};" +
 
                 "place piece X at (3,3);" +
-                "assert WhiteMove3 (piece((1,1)) == piece((2,2)) and piece((2,2)) == piece((3,3)));" +
+                "assert WhiteMove3 {piece((1,1)) == piece((2,2)) and piece((2,2)) == piece((3,3))};" +
 
                 "place piece O at (5,5);" +
-                "assert BlackOCount (count(O) == 4);" +
+                "assert BlackOCount {count(O) == 4};" +
 
                 "place piece X at (4,4);" +
-                "assert WhiteWinningMove (piece((1,1)) == piece((4,4)) and piece((2,2)) == piece((3,3)) and piece((3,3)) == piece((4,4)));"
+                "assert WhiteWinningMove {piece((1,1)) == piece((4,4)) and piece((2,2)) == piece((3,3)) and piece((3,3)) == piece((4,4))};"
                 ;
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(program);

@@ -25,7 +25,7 @@ class ParserErrorTest {
             "board(3,3); place piece at (1,1);",                   // missing piece name
             "Board(3,3)",                                          // Capital b
             "board(3,3); player player has 5 piece red;",          // restricted keyword player
-            "board(3,3); assert test (player x has 5 piece x);",   // Expecting bexp
+            "board(3,3); assert test {player x has 5 piece x};",   // Expecting bexp
             "board(3,3); board (3,3);",                            // Only one def
             "player x has 5 piece x; board (3,3);",                // Check that board def should be first
             "board(3,3) player x has 5 piece x;",                  // Missing Semi, after def
