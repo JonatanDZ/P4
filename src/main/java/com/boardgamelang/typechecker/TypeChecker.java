@@ -32,6 +32,7 @@ public class TypeChecker {
     private boolean drawWhenGlobalDeclared = false;
     private boolean gamerulesPositionPieceDeclared = false;
     public enum Type { INT, STRING, POS }
+    private boolean positionAllowed = false;
 
 
     public void check(ProgramNode program) {
@@ -105,13 +106,6 @@ public class TypeChecker {
         }
     }
 
-    private void checkPos(PosNode pos) {
-        switch (pos) {
-            case OffsetNode o -> checkOffsetNode(o);
-            default -> {throw new TypeException("Invalid pos");}
-        }
-    }
-
     private void checkOffsetNode(OffsetNode node) {
         checkPos(node.pos);
     }
@@ -144,12 +138,18 @@ public class TypeChecker {
     private void checkPos(PosNode pos) {
         switch (pos) {
             // Lexer already accounts for this:
-            case PositionNode Checked -> {}
-            case OffsetNode ignored -> {}
-            case PositionRefNode ignored -> {}
+            case PositionNode checked -> {}
+            case OffsetNode o -> checkOffsetNode(o);
+            case PositionRefNode p -> checkPostionRedNode(p);
             default -> throw new TypeException("Invalid pos: " + pos.getClass().getSimpleName());
         }
     }
+
+    private void checkPostionRedNode(PosNode pos) {
+        if (!positionAllowed)
+            throw new TypeException("'position' can only be used inside gamerules, win, or draw");
+    }
+
 
     private void checkAexp(AexpNode aexp) {
         switch (aexp) {
@@ -164,11 +164,16 @@ public class TypeChecker {
         }
     }
 
+
+
     private void checkWinWhenPositions(WinWhenPositionsNode w) {
         if (winWhenPositionsDeclared) {
             throw new TypeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
         }
         winWhenPositionsDeclared = true;
+        positionAllowed = true;
+        try { checkBexp(w.bexp); }
+        finally { positionAllowed = false; }
         checkBexp(w.bexp);
     }
 
@@ -177,6 +182,9 @@ public class TypeChecker {
             throw new TypeException("DrawWhenGlobalGameRule already defined, redefine DrawWhenGlobal to add more draw conditions");
         }
         drawWhenGlobalDeclared = true;
+        positionAllowed = true;
+        try { checkBexp(d.bexp); }
+        finally { positionAllowed = false; }
         checkBexp(d.bexp);
     }
 
@@ -185,6 +193,9 @@ public class TypeChecker {
             throw new TypeException("GamerulesPositionPiece already defined, redefine GamerulesPositionPiece to add more game rules.");
         }
         gamerulesPositionPieceDeclared = true;
+        positionAllowed = true;
+        try { checkBexp(g.bexp); }
+        finally { positionAllowed = false; }
         checkBexp(g.bexp);
     }
 
