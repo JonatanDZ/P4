@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class NotTest {
     @Test
     public void notWithTypeMismatchInsideFails() {
-        String input = "board(3,3); player red has 2 piece knight; assert test (!count(knight) == piece(1,1));";
+        String input = "board(3,3); player red has 2 piece knight; assert test (!count(knight) == piece((1,1)));";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         ProgramNode program = (ProgramNode) new AstBuilder().visit(parser.program());
 
@@ -55,7 +55,7 @@ public class NotTest {
 
     @Test
     public void nestedNotWithTypeMismatchInsideFails() {
-        String input = "board(3,3); player red has 2 piece knight; assert test (!!count(knight) == piece(1,1));";
+        String input = "board(3,3); player red has 2 piece knight; assert test (!!count(knight) == piece((1,1)));";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         ProgramNode program = (ProgramNode) new AstBuilder().visit(parser.program());
 
