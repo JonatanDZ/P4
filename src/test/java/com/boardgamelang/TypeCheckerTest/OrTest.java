@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class OrTest {
     @Test
     public void orWithValidChildrenPasses() {
-        String input = "board(3,3); assert test (occupied((1,1)) or occupied((1,1)));";
+        String input = "board(3,3); assert test {occupied((1,1)) or occupied((1,1))};";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         ProgramNode program = (ProgramNode) new AstBuilder().visit(parser.program());
 
@@ -24,7 +24,7 @@ public class OrTest {
 
     @Test
     public void orWithTypeMismatchInChildFails() {
-        String input = "board(3,3); player red has 2 piece knight; assert test (occupied((1,1)) or count(knight) == piece((1,1)));";
+        String input = "board(3,3); player red has 2 piece knight; assert test {occupied((1,1)) or count(knight) == piece((1,1))};";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         ProgramNode program = (ProgramNode) new AstBuilder().visit(parser.program());
 
