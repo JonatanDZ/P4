@@ -20,7 +20,7 @@ public class PrecedenceTest {
         String program =
                 "board(3,3);" +
                 "player Black has 2 piece O;" +
-                "gamerules position piece {!occupied(position) and !occupied(offset position right 1)};" +
+                "gamerules position piece {!occupied(position) and !occupied(offset (position, right, 1))};" +
                 "place piece O at (2,2);" +
                 "assert placeAllowed (occupied((2,2)));" +
                 "place piece O at (2,1);"

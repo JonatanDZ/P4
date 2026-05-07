@@ -21,7 +21,7 @@ class ParserErrorTest {
     @ParameterizedTest
     @ValueSource(strings = {
             "board 3,3;",                                          // missing parentheses
-            "board(3,3); (3,3);",                                  // missing board keyword
+            "(3,3);",                                              // missing board keyword
             "board(3,3); place piece at (1,1);",                   // missing piece name
             "Board(3,3)",                                          // Capital b
             "board(3,3); player player has 5 piece red;",          // restricted keyword player

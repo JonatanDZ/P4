@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 public class VisitOffsetPosTest {
     @Test
     void visitOffsetPosTestReturnsExpectedValues() {
-        String input = "offset (1,2) left 1";
+        String input = "offset ((1,2), left, 1)";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 
@@ -30,7 +30,7 @@ public class VisitOffsetPosTest {
 
     @Test
     void visitOffsetPosNestedReturnsNestedOffsetNode() {
-        String input = "offset offset (1,1) up 2 right 3";
+        String input = "offset (offset ((1,1), up, 2), right, 3)";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         AstBuilder builder = new AstBuilder();
 

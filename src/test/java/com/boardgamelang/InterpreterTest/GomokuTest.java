@@ -21,55 +21,55 @@ public class GomokuTest {
                 "win when positions {" +
                 // horizontal 4-in-a-row
                 // p x x x
-                        "piece(position) == piece(offset position right 1) and piece(position) == piece(offset position right 2) and piece(position) == piece(offset position right 3) " +
+                        "piece(position) == piece(offset (position, right, 1)) and piece(position) == piece(offset (position, right, 2)) and piece(position) == piece(offset (position, right, 3)) " +
                         "or " +
                 // x p x x
-                        "piece(position) == piece(offset position left 1) and piece(position) == piece(offset position right 1) and piece(position) == piece(offset position right 2) " +
+                        "piece(position) == piece(offset (position, left, 1)) and piece(position) == piece(offset (position, right, 1)) and piece(position) == piece(offset (position, right, 2)) " +
                         "or " +
                 // x x p x
-                        "piece(position) == piece(offset position left 2) and piece(position) == piece(offset position left 1) and piece(position) == piece(offset position right 1) " +
+                        "piece(position) == piece(offset (position, left, 2)) and piece(position) == piece(offset (position, left, 1)) and piece(position) == piece(offset (position, right, 1)) " +
                         "or " +
                 // x x x p
-                        "piece(position) == piece(offset position left 1) and piece(position) == piece(offset position left 2) and piece(position) == piece(offset position left 3) " +
+                        "piece(position) == piece(offset (position, left, 1)) and piece(position) == piece(offset (position, left, 2)) and piece(position) == piece(offset (position, left, 3)) " +
                         "or " +
                 // vertical 4-in-a-row (top → bottom)
                 // p x x x
-                        "piece(position) == piece(offset position down 1) and piece(position) == piece(offset position down 2) and piece(position) == piece(offset position down 3) " +
+                        "piece(position) == piece(offset (position, down, 1)) and piece(position) == piece(offset (position, down, 2)) and piece(position) == piece(offset (position, down, 3)) " +
                         "or " +
                 // x p x x
-                        "piece(position) == piece(offset position up 1) and piece(position) == piece(offset position down 1) and piece(position) == piece(offset position down 2) " +
+                        "piece(position) == piece(offset (position, up, 1)) and piece(position) == piece(offset (position, down, 1)) and piece(position) == piece(offset (position, down, 2)) " +
                         "or " +
                 // x x p x
-                        "piece(position) == piece(offset position up 2) and piece(position) == piece(offset position up 1) and piece(position) == piece(offset position down 1) " +
+                        "piece(position) == piece(offset (position, up, 2)) and piece(position) == piece(offset (position, up, 1)) and piece(position) == piece(offset (position, down, 1)) " +
                         "or " +
                 // x x x p
-                        "piece(position) == piece(offset position up 1) and piece(position) == piece(offset position up 2) and piece(position) == piece(offset position up 3) " +
+                        "piece(position) == piece(offset (position, up, 1)) and piece(position) == piece(offset (position, up, 2)) and piece(position) == piece(offset (position, up, 3)) " +
                         "or " +
                 // diagonal ↘ 4-in-a-row (top-left → bottom-right)
                 // p x x x
-                        "piece(position) == piece(offset offset position right 1 down 1) and piece(position) == piece(offset offset position right 2 down 2) and piece(position) == piece(offset offset position right 3 down 3) " +
+                        "piece(position) == piece(offset (offset (position, right, 1), down, 1)) and piece(position) == piece(offset (offset (position, right, 2), down, 2)) and piece(position) == piece(offset (offset (position, right, 3), down, 3)) " +
                         "or " +
                 // x p x x
-                        "piece(position) == piece(offset offset position left 1 up 1) and piece(position) == piece(offset offset position right 1 down 1) and piece(position) == piece(offset offset position right 2 down 2) " +
+                        "piece(position) == piece(offset (offset (position, left, 1), up, 1)) and piece(position) == piece(offset (offset (position, right, 1), down, 1)) and piece(position) == piece(offset (offset (position, right, 2), down, 2)) " +
                         "or " +
                 // x x p x
-                        "piece(position) == piece(offset offset position left 2 up 2) and piece(position) == piece(offset offset position left 1 up 1) and piece(position) == piece(offset offset position right 1 down 1) " +
+                        "piece(position) == piece(offset (offset (position, left, 2), up, 2)) and piece(position) == piece(offset (offset (position, left, 1), up, 1)) and piece(position) == piece(offset (offset (position, right, 1), down, 1)) " +
                         "or " +
                 // x x x p
-                        "piece(position) == piece(offset offset position left 1 up 1) and piece(position) == piece(offset offset position left 2 up 2) and piece(position) == piece(offset offset position left 3 up 3) " +
+                        "piece(position) == piece(offset (offset (position, left, 1), up, 1)) and piece(position) == piece(offset (offset (position, left, 2), up, 2)) and piece(position) == piece(offset (offset (position, left, 3), up, 3)) " +
                         "or " +
                 // diagonal ↙ 4-in-a-row (top-right → bottom-left)
                 // p x x x
-                        "piece(position) == piece(offset offset position left 1 down 1) and piece(position) == piece(offset offset position left 2 down 2) and piece(position) == piece(offset offset position left 3 down 3) " +
+                        "piece(position) == piece(offset (offset (position, left, 1), down, 1)) and piece(position) == piece(offset (offset (position, left, 2), down, 2)) and piece(position) == piece(offset (offset (position, left, 3), down, 3)) " +
                         "or " +
                 // x p x x
-                        "piece(position) == piece(offset offset position right 1 up 1) and piece(position) == piece(offset offset position left 1 down 1) and piece(position) == piece(offset offset position left 2 down 2) " +
+                        "piece(position) == piece(offset (offset (position, right, 1), up, 1)) and piece(position) == piece(offset (offset (position, left, 1), down, 1)) and piece(position) == piece(offset (offset (position, left, 2), down, 2)) " +
                         "or " +
                 // x x p x
-                        "piece(position) == piece(offset offset position right 2 up 2) and piece(position) == piece(offset offset position right 1 up 1) and piece(position) == piece(offset offset position left 1 down 1) " +
+                        "piece(position) == piece(offset (offset (position, right, 2), up, 2)) and piece(position) == piece(offset (offset (position, right, 1), up, 1)) and piece(position) == piece(offset (offset (position, left, 1), down, 1)) " +
                         "or " +
                 // x x x p
-                        "piece(position) == piece(offset offset position right 1 up 1) and piece(position) == piece(offset offset position right 2 up 2) and piece(position) == piece(offset offset position right 3 up 3)" +
+                        "piece(position) == piece(offset (offset (position, right, 1), up, 1)) and piece(position) == piece(offset (offset (position, right, 2), up, 2)) and piece(position) == piece(offset (offset (position, right, 3), up, 3))" +
                 "};" +
 
                 // Game: White (X) wins on diagonal (1,1)→(4,4). Black (O) goes first.
