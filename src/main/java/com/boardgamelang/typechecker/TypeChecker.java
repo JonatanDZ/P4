@@ -9,6 +9,7 @@ import com.boardgamelang.AST.bexp.EqualityNode;
 import com.boardgamelang.AST.bexp.NotNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.gamerule.*;
+import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -100,6 +101,17 @@ public class TypeChecker {
             case OccupiedNode ignored -> {}
             default -> {throw new TypeException("Invalid bexp");}
         }
+    }
+
+    private void checkPos(PosNode pos) {
+        switch (pos) {
+            case OffsetNode o -> checkOffsetNode(o);
+            default -> {throw new TypeException("Invalid pos");}
+        }
+    }
+
+    private void checkOffsetNode(OffsetNode node) {
+        checkPos(node.pos);
     }
 
     private void checkAndNode(AndNode andNode) {
