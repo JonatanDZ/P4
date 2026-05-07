@@ -130,14 +130,10 @@ public class TypeChecker {
         checkPos(p.pos);
     }
 
-    private void checkPositionNode(PositionNode p) {
-        if (!(p.x >= 0 || p.y >= 0))
-            throw new TypeException("Position must be positive or 0, got (" + p.x + ", " + p.y + ")");
-    }
-
     private void checkPos(PosNode pos) {
         switch (pos) {
-            case PositionNode p -> checkPositionNode(p);
+            // Lexer already accounts for this:
+            case PositionNode Checked -> {}
             case OffsetNode ignored -> {}
             case PositionRefNode ignored -> {}
             default -> throw new TypeException("Invalid pos: " + pos.getClass().getSimpleName());
