@@ -6,6 +6,7 @@ import com.boardgamelang.AstTest.ParseTreeHelper;
 import com.boardgamelang.BoardGameLangParser;
 import com.boardgamelang.interpreter.Interpreter;
 import com.boardgamelang.interpreter.State;
+import com.boardgamelang.typechecker.TypeChecker;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,6 +101,8 @@ public class GomokuTest {
 
         BoardGameLangParser parser = ParseTreeHelper.createParser(program);
         ProgramNode ast = (ProgramNode) new AstBuilder().visit(parser.program());
+        TypeChecker typeChecker = new TypeChecker();
+        assertDoesNotThrow(() -> typeChecker.check(ast));
         State state = assertDoesNotThrow(() -> new Interpreter().run(ast));
 
         // every assertion in the program is true:
@@ -115,7 +118,6 @@ public class GomokuTest {
         }
 
         // diagonal win must have been registered after move 8
-        // the user has no way of asserting this in the program at the moment.. Missing a construct which looks up win in sigma.
         assertEquals("White", state.sigma.get("win"));
     }
 }

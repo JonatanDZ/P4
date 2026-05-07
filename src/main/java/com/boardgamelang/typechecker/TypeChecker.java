@@ -2,18 +2,22 @@ package com.boardgamelang.typechecker;
 
 import com.boardgamelang.AST.Node;
 import com.boardgamelang.AST.aexp.AexpNode;
+import com.boardgamelang.AST.bexp.*;
 import com.boardgamelang.AST.aexp.CountNode;
 import com.boardgamelang.AST.bexp.BexpNode;
 import com.boardgamelang.AST.bexp.EqualityNode;
 import com.boardgamelang.AST.bexp.NotNode;
 import com.boardgamelang.AST.def.BoardNode;
 import com.boardgamelang.AST.gamerule.*;
+import com.boardgamelang.AST.pos.OffsetNode;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.pos.PositionNode;
+import com.boardgamelang.AST.pos.PositionRefNode;
 import com.boardgamelang.AST.program.ProgramNode;
 import com.boardgamelang.AST.stmt.AssertNode;
 import com.boardgamelang.AST.stmt.PlacePieceAtNode;
 import com.boardgamelang.AST.stmt.StmtNode;
+import com.boardgamelang.AST.strexp.PieceNode;
 import com.boardgamelang.AST.strexp.StrexpNode;
 
 import java.util.HashMap;
@@ -94,8 +98,20 @@ public class TypeChecker {
         switch (bexp) {
             case EqualityNode e -> checkEqualityNode(e);
             case NotNode n -> checkNotNode(n);
+            case AndNode a -> checkAndNode(a);
+            case OrNode o -> checkOrNode(o);
             default -> {}
         }
+    }
+
+    private void checkAndNode(AndNode andNode) {
+        checkBexp(andNode.left);
+        checkBexp(andNode.right);
+    }
+
+    private void checkOrNode(OrNode orNode) {
+        checkBexp(orNode.left);
+        checkBexp(orNode.right);
     }
 
     private void checkAexp(AexpNode aexp) {
