@@ -15,7 +15,7 @@ public class EqualityTest {
 
     @Test
     public void sameTypePassesTypeChecker() {
-        String input = "board(3,3); player red has 2 piece knight; assert test (count(knight) == count(knight));";
+        String input = "board(3,3); player red has 2 piece knight; assert test {count(knight) == count(knight)};";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         ProgramNode program = (ProgramNode) new AstBuilder().visit(parser.program());
 
@@ -25,7 +25,7 @@ public class EqualityTest {
 
     @Test
     public void differentTypeFailsTypeChecker() {
-        String input = "board(3,3); player red has 2 piece knight; assert test (count(knight) == piece((1,1)));";
+        String input = "board(3,3); player red has 2 piece knight; assert test {count(knight) == piece((1,1))};";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         ProgramNode program = (ProgramNode) new AstBuilder().visit(parser.program());
 

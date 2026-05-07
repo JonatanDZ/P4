@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class AndTest {
     @Test
     public void andWithValidChildrenPasses() {
-        String input = "board(3,3); assert test (occupied((1,1)) and occupied((1,1)));";
+        String input = "board(3,3); assert test {occupied((1,1)) and occupied((1,1))};";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         ProgramNode program = (ProgramNode) new AstBuilder().visit(parser.program());
 
@@ -24,7 +24,7 @@ public class AndTest {
 
     @Test
     public void andWithTypeMismatchInChildFails() {
-        String input = "board(3,3); player red has 2 piece knight; assert test (occupied((1,1)) and count(knight) == piece((1,1)));";
+        String input = "board(3,3); player red has 2 piece knight; assert test {occupied((1,1)) and count(knight) == piece((1,1))};";
         BoardGameLangParser parser = ParseTreeHelper.createParser(input);
         ProgramNode program = (ProgramNode) new AstBuilder().visit(parser.program());
 
