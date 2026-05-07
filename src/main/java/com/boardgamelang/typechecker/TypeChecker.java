@@ -3,11 +3,12 @@ package com.boardgamelang.typechecker;
 import com.boardgamelang.AST.Node;
 import com.boardgamelang.AST.aexp.AexpNode;
 import com.boardgamelang.AST.bexp.*;
+import com.boardgamelang.AST.aexp.CountNode;
+import com.boardgamelang.AST.bexp.BexpNode;
+import com.boardgamelang.AST.bexp.EqualityNode;
+import com.boardgamelang.AST.bexp.NotNode;
 import com.boardgamelang.AST.def.BoardNode;
-import com.boardgamelang.AST.gamerule.GameRuleNode;
-import com.boardgamelang.AST.gamerule.DrawWhenGlobalNode;
-import com.boardgamelang.AST.gamerule.PlayerHasPieceNode;
-import com.boardgamelang.AST.gamerule.WinWhenPositionsNode;
+import com.boardgamelang.AST.gamerule.*;
 import com.boardgamelang.AST.pos.PosNode;
 import com.boardgamelang.AST.pos.PositionNode;
 import com.boardgamelang.AST.program.ProgramNode;
@@ -26,6 +27,7 @@ public class TypeChecker {
     private final Map<String, String> pieceToPlayer = new HashMap<>();
     private boolean winWhenPositionsDeclared = false;
     private boolean drawWhenGlobalDeclared = false;
+    private boolean gamerulesPositionPieceDeclared = false;
     public enum Type { INT, STRING, POS }
 
 
@@ -70,6 +72,7 @@ public class TypeChecker {
             case PlayerHasPieceNode p -> checkPieceOwnership(p);
             case WinWhenPositionsNode w -> checkWinWhenPositions(w);
             case DrawWhenGlobalNode d -> checkDrawWhenGlobal(d);
+            case GamerulesPositionPieceNode g -> checkGamerulesPositionPiece(g);
             default -> {}
         }
     }
@@ -109,6 +112,19 @@ public class TypeChecker {
         checkBexp(orNode.right);
     }
 
+    private void checkAexp(AexpNode aexp) {
+        switch (aexp) {
+            case CountNode c -> checkCountNode(c);
+            default -> {}
+        }
+    }
+
+    private void checkCountNode(CountNode countNode) {
+        if (!declaredPieces.contains(countNode.ident)) {
+            throw new TypeException("Cannot count undeclared piece: '" + countNode.ident + "'");
+        }
+    }
+
     private void checkWinWhenPositions(WinWhenPositionsNode w) {
         if (winWhenPositionsDeclared) {
             throw new TypeException("WinWhenPositionsGameRule already defined, redefine WinWhenPositions to add more win conditions");
@@ -123,6 +139,14 @@ public class TypeChecker {
         }
         drawWhenGlobalDeclared = true;
         checkBexp(d.bexp);
+    }
+
+    private void checkGamerulesPositionPiece(GamerulesPositionPieceNode g) {
+        if(gamerulesPositionPieceDeclared){
+            throw new TypeException("GamerulesPositionPiece already defined, redefine GamerulesPositionPiece to add more game rules.");
+        }
+        gamerulesPositionPieceDeclared = true;
+        checkBexp(g.bexp);
     }
 
     private void checkPlacePieceAt(PlacePieceAtNode node) {
@@ -154,6 +178,8 @@ public class TypeChecker {
         if (leftType != rightType) {
             throw new TypeException("Type mismatch in ==: cannot compare " + leftType + " with " + rightType);
         }
+        if (node.left  instanceof AexpNode l) checkAexp(l);
+        if (node.right instanceof AexpNode r) checkAexp(r);
     }
 
     private void checkNotNode(NotNode node) {
