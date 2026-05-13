@@ -28,6 +28,7 @@ import java.util.Set;
 public class TypeChecker {
     private final Set<String> declaredPieces = new HashSet<>();
     private final Map<String, String> pieceToPlayer = new HashMap<>();
+    private final Map<String, BexpNode> assertName = new HashMap<>();
     private boolean winWhenPositionsDeclared = false;
     private boolean drawWhenGlobalDeclared = false;
     private boolean gamerulesPositionPieceDeclared = false;
@@ -89,7 +90,7 @@ public class TypeChecker {
     private void checkStmt(StmtNode stmt) {
         switch (stmt) {
             case PlacePieceAtNode p -> checkPlacePieceAt(p);
-            case AssertNode a -> checkBexp(a.bexp);
+            case AssertNode a -> checkAssertName(a);
             default -> {}
         }
     }
@@ -163,6 +164,16 @@ public class TypeChecker {
             throw new TypeException("Piece '" + node.pieceIdent + "' is already assigned to player '" + pieceToPlayer.get(node.pieceIdent) + "'");
         }
         pieceToPlayer.put(node.pieceIdent, node.playerIdent);
+    }
+
+    private void checkAssertName(AssertNode a) {
+        if (assertName.containsKey(a.ident) &&
+                !assertName.get(a.ident).equals(a.ident)) {
+            throw new TypeException("Assert name '" + a.ident + "' is already declared");
+        }
+
+        checkBexp(a.bexp);
+        assertName.put(a.ident, a.bexp);
     }
 
     private Type getType(Node node) {

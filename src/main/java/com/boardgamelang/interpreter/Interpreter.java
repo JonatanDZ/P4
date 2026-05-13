@@ -279,8 +279,10 @@ public final class Interpreter {
                         .findFirst()
                         .orElseThrow(() -> new RuntimeException("No player owns piece: " + pieceName));
                 state.sigma.put("win", winner);
+                System.out.println("Winner is player " + state.sigma.get("win"));
             } else if(b3){
                 state.sigma.put("draw", true);
+                System.out.println("The game is a draw");
             }
         } finally {
             state.sigma.remove("position");
