@@ -1,0 +1,6 @@
+board(3,3);
+player X has 5 piece XP;
+gamerules position piece {!occupied(position)};
+
+place piece XP at (1,1);
+assert firstMove {occupied((1,1))};

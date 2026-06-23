@@ -1,0 +1,6 @@
+board(3,3);
+player X has 5 piece XP;
+player Y has 5 piece YP;
+gamerules position piece {position == count(XP)};
+place piece XP at (2,2);
+place piece YP at (2,3);

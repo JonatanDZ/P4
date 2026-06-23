@@ -1,0 +1,5 @@
+board(3,3);
+player X has 5 piece XP;
+gamerules position piece {!occupied(position)};
+
+place piece OP at (1,1);
